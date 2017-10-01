@@ -50,6 +50,7 @@ html, body {
 }
 
 .suggestions li {
+    position: relative;
     list-style: none;
     margin: 3px;
     padding: 4px;
@@ -74,4 +75,15 @@ html, body {
     width: 12px;
     height: 12px;
     background-color: #eeeeee;
+}
+
+.closeicon {
+    padding: 3px 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.count {
+    font-size: 0.8em;
 }

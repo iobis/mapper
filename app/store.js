@@ -59,7 +59,7 @@ export const store = {
 		}
 		api.geo(criteria, spec.precision).then(function(response) {
 			let layer = L.geoJSON(response, {
-				style: function(feature) {
+				style: function (feature) {
 					return {
 						fillColor: getColor(feature.properties.n, self.scales[spec.scale].colors),
 						weight: 0,
@@ -70,7 +70,16 @@ export const store = {
 			layer.addTo(self.group)
 			spec.layer = layer
 			spec.colors = self.scales[spec.scale].colors
+			spec.count = null
 			self.state.layers.push(spec)
+			api.count(criteria).then(function(response) {
+				spec.count = response
+			})
 		})
+	},
+	removeLayer: function(layer) {
+		layer.layer.removeFrom(this.group)
+		let i = this.state.layers.indexOf(layer)
+		this.state.layers.splice(i, 1)
 	}
 }
