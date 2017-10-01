@@ -11,6 +11,18 @@
 				<ul v-if="suggestions.length > 0" class="suggestions">
 					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select">{{ suggestion }}</li>
 				</ul>
+
+				<div class="form-group">
+					<label>Color scale</label>
+					<span v-for="(scale, name) in scales">
+						<br/>
+						<input type="radio" name="scale" v-model="selectedScale" v-bind:value="name">
+						<div class="colorsquares">
+							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
+						</div>
+					</span>
+				</div>
+
 				<button class="btn btn-success clickable" :disabled="name == ''" v-on:click="addLayer">Add layer</button>
 
 			</div>
@@ -26,7 +38,9 @@ export default {
 	data() {
 		return {
 			suggestions: [],
-			name: ""
+			name: "",
+			scales: store.scales,
+			selectedScale: "red"
 		}
 	},
 	methods: {
@@ -41,7 +55,12 @@ export default {
 			this.suggestions = []
 		},
 		addLayer: function() {
-			store.addLayer(this.name)
+			store.addLayer({
+				name: this.name,
+				precision: 3,
+				opacity: 0.7,
+				scale: this.selectedScale
+			})
 		}
 	}
 }

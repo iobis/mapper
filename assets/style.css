@@ -63,3 +63,15 @@ html, body {
 .clickable {
     cursor: pointer;
 }
+
+.colorsquares {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.colorsquare {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #eeeeee;
+}

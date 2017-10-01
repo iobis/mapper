@@ -10,8 +10,7 @@ import { store } from "../store"
 export default {
 	data() {
 		return {
-			map: null,
-			layers: null
+			map: null
 		}
 	},
 	mounted() {
@@ -21,7 +20,7 @@ export default {
 			attributionControl: false
 		}).setView([20, 0], 2)
 		L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png").addTo(this.map)
-		store.state.layers.addTo(this.map)
+		store.group.addTo(this.map)
 	},
 	methods: {
 	}
