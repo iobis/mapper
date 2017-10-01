@@ -1,0 +1,65 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+    font-size: 12px;
+}
+
+.sidebar {
+    overflow-y: auto;
+    position: fixed;
+    top: 0px;
+    width: 300px;
+    height: 100%;
+    background-color: #eeeeee;
+}
+
+.sidepanel {
+    background-color: #ffffff;
+}
+
+#map {
+    width: calc(100% - 300px);
+    float: right;
+    height: 100%;
+}
+
+#app {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.sideheader, .sideheader:active, .sideheader:hover, .sideheader:focus {
+    display: block;
+    width: 100%;
+    padding: 10px 10px;
+    background-color: #424B54;
+    color: #c9d0d6;
+    text-decoration: none;
+}
+
+.content {
+    padding: 10px 10px;
+}
+
+.suggestions {
+    list-style: none;
+    padding: 0px 4px;
+}
+
+.suggestions li {
+    list-style: none;
+    margin: 3px;
+    padding: 4px;
+    background-color: #eeeeee;
+}
+
+.suggestions li:hover {
+    background-color: #dddddd;
+}
+
+.clickable {
+    cursor: pointer;
+}
