@@ -12,6 +12,9 @@ module.exports = {
   plugins: [
     new Uglify()
   ],
+  externals: {
+    "jquery": "jQuery"
+  },
   module: {
     loaders: [
       {

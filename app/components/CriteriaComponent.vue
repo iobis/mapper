@@ -15,7 +15,15 @@
 					</li>
 				</ul>
 
-				<div class="form-group">
+                <div class="form-group">
+                    <label>Time range</label>
+                    <div class="sliderwrapper">
+                        <input id="slider">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
 					<label>Color scale</label>
 					<span v-for="(scale, name) in scales">
 						<br/>
@@ -46,6 +54,20 @@ export default {
 			selectedScale: "red"
 		}
 	},
+    mounted() {
+        $("#slider").ionRangeSlider({
+            type: "double",
+            grid: false,
+            min: 1900,
+            max: 2017,
+            from: 1900,
+            to: 2017,
+            prettify_enabled: true,
+            prettify: function (num) {
+                return num
+            }
+        })
+    },
 	methods: {
 		debounceInput: _.debounce(function(e) {
 			let self = this
@@ -58,6 +80,9 @@ export default {
 			this.suggestions = []
 		},
 		addLayer: function() {
+
+            console.log($("#slider").val())
+
 			store.addLayer({
 				name: this.name,
 				precision: 3,

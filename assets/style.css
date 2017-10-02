@@ -87,3 +87,8 @@ html, body {
 .count {
     font-size: 0.8em;
 }
+
+.sliderwrapper {
+    margin: 0px 5px;
+}
+
