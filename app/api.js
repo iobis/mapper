@@ -17,7 +17,7 @@ export default {
 			.catch((error) => Promise.reject(error))
 	},
 	complete(input) {
-		let url = "http://api2.iobis.org/taxon/complete/" + input
+		let url = "http://api2.iobis.org/taxon/complete/verbose/" + input
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))

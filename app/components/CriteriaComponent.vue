@@ -9,7 +9,10 @@
 					<input type="text" class="form-control" v-on:input="debounceInput" v-model="name">
 				</div>
 				<ul v-if="suggestions.length > 0" class="suggestions">
-					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select">{{ suggestion }}</li>
+					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion.scientificName)">
+						{{ suggestion.scientificName }} <span class="count">{{ suggestion.scientificNameAuthorship }}</span>
+                        <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
+					</li>
 				</ul>
 
 				<div class="form-group">
@@ -50,8 +53,8 @@ export default {
 				self.suggestions = response
 			})
 		}, 500),
-		select: function(event) {
-			this.name = event.target.innerHTML
+		select: function(name) {
+			this.name = name
 			this.suggestions = []
 		},
 		addLayer: function() {
