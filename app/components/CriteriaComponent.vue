@@ -22,7 +22,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
 					<label>Color scale</label>
 					<span v-for="(scale, name) in scales">
@@ -51,17 +50,19 @@ export default {
 			suggestions: [],
 			name: "",
 			scales: store.scales,
-			selectedScale: "red"
+			selectedScale: "red",
+			startYear: 1900,
+			currentYear: (new Date()).getFullYear()
 		}
 	},
     mounted() {
         $("#slider").ionRangeSlider({
             type: "double",
             grid: false,
-            min: 1900,
-            max: 2017,
-            from: 1900,
-            to: 2017,
+            min: this.startYear,
+            max: this.currentYear,
+            from: this.startYear,
+            to: this.currentYear,
             prettify_enabled: true,
             prettify: function (num) {
                 return num
@@ -80,11 +81,19 @@ export default {
 			this.suggestions = []
 		},
 		addLayer: function() {
-
-            console.log($("#slider").val())
-
+            let years = $("#slider").val().split(";")
+			let start = years[0]
+			let end = years[1]
+			if (start == this.startYear) {
+            	start = null
+			}
+			if (end == this.currentYear) {
+            	end = null
+			}
 			store.addLayer({
 				name: this.name,
+				startyear: start,
+				endyear: end,
 				precision: 3,
 				opacity: 0.7,
 				scale: this.selectedScale

@@ -9,6 +9,9 @@
 							<span class="oi oi-x clickable" v-on:click="removeLayer(layer)"></span>
 						</div>
 						{{ layer.name }}
+						<span v-if="layer.startyear != null || layer.endyear != null" class="count">
+							<br/>{{ layer.startyear }} - {{ layer.endyear }}
+						</span>
 						<br/><span class="count">{{ layer.count }} records</span>
 						<br/><div>
 							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>

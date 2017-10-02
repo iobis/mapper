@@ -3,6 +3,12 @@ const createQuery = function(criteria) {
 	if (criteria.name) {
 		map.push(["scientificname", criteria.name])
 	}
+	if (criteria.startyear) {
+		map.push(["startdate", criteria.startyear + "-01-01"])
+	}
+	if (criteria.endyear) {
+		map.push(["enddate", criteria.endyear + "-12-31"])
+	}
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")

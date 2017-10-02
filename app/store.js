@@ -55,7 +55,9 @@ export const store = {
 	addLayer: function(spec) {
 		let self = this
 		let criteria = {
-			name: spec.name
+			name: spec.name,
+			startyear: spec.startyear,
+			endyear: spec.endyear
 		}
 		api.geo(criteria, spec.precision).then(function(response) {
 			let layer = L.geoJSON(response, {
