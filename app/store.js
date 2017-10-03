@@ -23,7 +23,9 @@ const getColor = function(d, colors) {
 
 export const store = {
 	state: {
-		layers: []
+		layers: [],
+		mapmode: true,
+        data: []
 	},
 	group: new L.FeatureGroup(),
 	scales: {
@@ -79,9 +81,20 @@ export const store = {
 			})
 		})
 	},
-	removeLayer: function(layer) {
-		layer.layer.removeFrom(this.group)
-		let i = this.state.layers.indexOf(layer)
-		this.state.layers.splice(i, 1)
-	}
+    removeLayer: function(layer) {
+        layer.layer.removeFrom(this.group)
+        let i = this.state.layers.indexOf(layer)
+        this.state.layers.splice(i, 1)
+    },
+    viewData: function(layer) {
+        let self = this
+        this.state.mapmode = false
+        layer.size = 30
+        api.fetch(layer).then(function(response) {
+            self.state.data = response.results
+        })
+    },
+    showMap: function() {
+        this.state.mapmode = true
+    }
 }

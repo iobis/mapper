@@ -4,19 +4,29 @@
 			<layers-component></layers-component>
 			<criteria-component></criteria-component>
 		</div>
-		<map-component></map-component>
+        <map-component v-if="sharedState.mapmode == true"></map-component>
+        <data-component v-if="sharedState.mapmode == false"></data-component>
 	</div>
 </template>
 
 <script>
-	import LayersComponent from "./LayersComponent.vue"
-	import CriteriaComponent from "./CriteriaComponent.vue"
-	import MapComponent from "./MapComponent.vue"
-	export default {
-		components: {
-			LayersComponent,
-			CriteriaComponent,
-			MapComponent
-		}
+import LayersComponent from "./LayersComponent.vue"
+import CriteriaComponent from "./CriteriaComponent.vue"
+import MapComponent from "./MapComponent.vue"
+import DataComponent from "./DataComponent.vue"
+import { store } from "../store"
+
+export default {
+    data() {
+        return {
+            sharedState: store.state
+        }
+    },
+	components: {
+		LayersComponent,
+		CriteriaComponent,
+		MapComponent,
+        DataComponent
 	}
+}
 </script>
