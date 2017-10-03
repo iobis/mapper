@@ -12,6 +12,7 @@
 		"axios": "^0.16.2",
 		"bootstrap-slider": "^9.9.0",
 		"leaflet": "^1.2.0",
+		"moment": "^2.18.1",
 		"vue": "^2.4.4"
 	},
 	"devDependencies": {

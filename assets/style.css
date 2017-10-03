@@ -25,6 +25,12 @@ html, body {
     height: 100%;
 }
 
+#data {
+    width: calc(100% - 300px);
+    float: right;
+    padding: 20px;
+}
+
 #app {
     display: block;
     height: 100%;

@@ -7,6 +7,7 @@
 					<li v-for="layer in sharedState.layers">
 						<div class="closeicon pull-right">
 							<span class="oi oi-x clickable" v-on:click="removeLayer(layer)"></span>
+							<br/><span class="oi oi-grid-three-up clickable" v-on:click="viewData(layer)"></span>
 						</div>
 						{{ layer.name }}
 						<span v-if="layer.startyear != null || layer.endyear != null" class="count">
@@ -35,6 +36,9 @@ export default {
 	methods: {
 		removeLayer: function(layer) {
 			store.removeLayer(layer)
+		},
+		viewData: function(layer) {
+			store.viewData(layer)
 		}
 	}
 }

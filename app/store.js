@@ -23,7 +23,12 @@ const getColor = function(d, colors) {
 
 export const store = {
 	state: {
-		layers: []
+		layers: [],
+		mapmode: true,
+        data: [],
+		pageindex: 0,
+		after: [ -1 ],
+		selectedLayer: null
 	},
 	group: new L.FeatureGroup(),
 	scales: {
@@ -73,15 +78,46 @@ export const store = {
 			spec.layer = layer
 			spec.colors = self.scales[spec.scale].colors
 			spec.count = null
+			spec.size = 30
 			self.state.layers.push(spec)
 			api.count(criteria).then(function(response) {
 				spec.count = response
 			})
 		})
 	},
-	removeLayer: function(layer) {
-		layer.layer.removeFrom(this.group)
-		let i = this.state.layers.indexOf(layer)
-		this.state.layers.splice(i, 1)
+    removeLayer: function(layer) {
+        layer.layer.removeFrom(this.group)
+        let i = this.state.layers.indexOf(layer)
+        this.state.layers.splice(i, 1)
+    },
+	reset: function() {
+		this.state.after = [ -1 ]
+		this.state.pageindex = 0
+	},
+    viewData: function(layer) {
+		this.reset()
+		this.state.selectedLayer = layer
+        this.state.mapmode = false
+		this.fetch()
+    },
+	fetch: function() {
+		let self = this
+		this.state.selectedLayer.after = this.state.after.slice(-1)[0]
+		api.fetch(this.state.selectedLayer).then(function(response) {
+			self.state.data = response.results
+		})
+	},
+    showMap: function() {
+        this.state.mapmode = true
+    },
+	nextPage: function() {
+		this.state.pageindex += 1
+		this.state.after.push(this.state.data.slice(-1)[0].id)
+		this.fetch()
+	},
+	previousPage: function() {
+		this.state.pageindex -= 1
+		this.state.after.pop()
+		this.fetch()
 	}
 }

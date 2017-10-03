@@ -1,5 +1,11 @@
 const createQuery = function(criteria) {
 	let map = []
+	if (criteria.size) {
+		map.push(["size", criteria.size])
+	}
+	if (criteria.after && criteria.after > -1) {
+		map.push(["after", criteria.after])
+	}
 	if (criteria.name) {
 		map.push(["scientificname", criteria.name])
 	}
