@@ -2,23 +2,27 @@ import L from "leaflet"
 import api from "./api"
 
 const getColor = function(d, colors) {
-	if (d > 1000) {
-		return colors[7]
-	} else if (d > 500) {
-		return colors[6]
-	} else if (d > 200) {
-		return colors[5]
-	} else if (d > 100) {
-		return colors[4]
-	} else if (d > 50) {
-		return colors[3]
-	} else if (d > 20) {
-		return colors[2]
-	} else if (d > 10) {
-		return colors[1]
-	} else {
-		return colors[0]
-	}
+    if (colors.length == 1) {
+        return colors[0]
+    } else {
+        if (d > 1000) {
+            return colors[7]
+        } else if (d > 500) {
+            return colors[6]
+        } else if (d > 200) {
+            return colors[5]
+        } else if (d > 100) {
+            return colors[4]
+        } else if (d > 50) {
+            return colors[3]
+        } else if (d > 20) {
+            return colors[2]
+        } else if (d > 10) {
+            return colors[1]
+        } else {
+            return colors[0]
+        }
+    }
 }
 
 export const store = {
@@ -67,10 +71,16 @@ export const store = {
 			endyear: spec.endyear
 		}
 		api.geo(criteria, spec.precision).then(function(response) {
-			let layer = L.geoJSON(response, {
+		    let colors = null
+            if (spec.scale == "custom") {
+		        spec.colors = [ spec.customColor ]
+            } else {
+                spec.colors = self.scales[spec.scale].colors
+            }
+            let layer = L.geoJSON(response, {
 				style: function (feature) {
 					return {
-						fillColor: getColor(feature.properties.n, self.scales[spec.scale].colors),
+						fillColor: getColor(feature.properties.n, spec.colors),
 						weight: 0,
 						fillOpacity: spec.opacity
 					}
@@ -78,7 +88,6 @@ export const store = {
 			})
 			layer.addTo(self.group)
 			spec.layer = layer
-			spec.colors = self.scales[spec.scale].colors
 			spec.count = null
 			spec.size = 30
 			self.state.layers.push(spec)

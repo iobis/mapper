@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+				<div class="form-group">
 					<label>Color scale</label>
 					<span v-for="(scale, name) in scales">
 						<br/>
@@ -31,6 +31,16 @@
 							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
 						</div>
 					</span>
+
+                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom</label>
+
+                    {{ customColor }}
+
+                    <div id="colorpicker" class="input-group colorpicker-component">
+                        <input type="text" v-bind:value="customColor" class="form-control" />
+                        <span class="input-group-addon"><i></i></span>
+                    </div>
+
 				</div>
 
 				<button class="btn btn-success clickable" :disabled="name == ''" v-on:click="addLayer">Add layer</button>
@@ -52,7 +62,8 @@ export default {
 			scales: store.scales,
 			selectedScale: "red",
 			startYear: 1900,
-			currentYear: (new Date()).getFullYear()
+			currentYear: (new Date()).getFullYear(),
+            customColor: "#cc3300"
 		}
 	},
     mounted() {
@@ -68,6 +79,7 @@ export default {
                 return num
             }
         })
+        $("#colorpicker").colorpicker({})
     },
 	methods: {
 		debounceInput: _.debounce(function(e) {
@@ -96,7 +108,8 @@ export default {
 				endyear: end,
 				precision: 3,
 				opacity: 0.7,
-				scale: this.selectedScale
+				scale: this.selectedScale,
+                customColor: this.customColor
 			})
 		}
 	}
