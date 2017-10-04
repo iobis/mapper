@@ -28,9 +28,11 @@ export const store = {
         data: [],
 		pageindex: 0,
 		after: [ -1 ],
-		selectedLayer: null
+		selectedLayer: null,
+		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
 	},
-	group: new L.FeatureGroup(),
+    group: new L.FeatureGroup(),
+    baseGroup: new L.featureGroup(),
 	scales: {
 		red: {
 			colors: ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"]
@@ -119,5 +121,12 @@ export const store = {
 		this.state.pageindex -= 1
 		this.state.after.pop()
 		this.fetch()
-	}
+	},
+    updateBase: function() {
+	    this.baseGroup.clearLayers()
+
+        console.log(this.state.baseLayer)
+
+        L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
+    }
 }

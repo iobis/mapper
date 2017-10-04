@@ -19,8 +19,9 @@ export default {
 			minZoom: 1,
 			attributionControl: false
 		}).setView([20, 0], 2)
-		L.tileLayer("http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png").addTo(this.map)
 		store.group.addTo(this.map)
+		store.baseGroup.addTo(this.map)
+		store.updateBase()
 	},
 	methods: {
 	}
