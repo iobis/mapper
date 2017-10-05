@@ -31,14 +31,11 @@
 							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
 						</div>
 					</span>
-
-                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom</label>
-                    <color-picker v-model="customColor"></color-picker>
-
+                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom color</label>
+                    <color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
 				</div>
 
 				<button class="btn btn-success clickable" :disabled="name == ''" v-on:click="addLayer">Add layer</button>
-
 			</div>
 		</div>
 	</div>

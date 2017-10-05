@@ -11,7 +11,8 @@ export default {
     mounted() {
         let self = this
         $(this.$el).colorpicker({
-            color: self.value
+            color: self.value,
+            format: "hex"
         }).on("changeColor", function(e) {
             if (e.value) {
                 self.$emit("input", e.value)
