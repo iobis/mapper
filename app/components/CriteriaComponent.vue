@@ -31,8 +31,24 @@
 							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
 						</div>
 					</span>
-                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom color</label>
-                    <color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
+					<br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom color</label>
+					<color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
+				</div>
+
+				<div class="form-group">
+					<label>Opacity</label>
+					<select class="form-control" v-model="opacity">
+						<option>1</option>
+						<option>0.9</option>
+						<option>0.8</option>
+						<option>0.7</option>
+						<option>0.6</option>
+						<option>0.5</option>
+						<option>0.4</option>
+						<option>0.3</option>
+						<option>0.2</option>
+						<option>0.1</option>
+					</select>
 				</div>
 
 				<button class="btn btn-success clickable" :disabled="name == ''" v-on:click="addLayer">Add layer</button>
@@ -55,7 +71,8 @@ export default {
 			selectedScale: "red",
 			startYear: 1900,
 			currentYear: (new Date()).getFullYear(),
-            customColor: "#cc3300"
+            customColor: "#cc3300",
+			opacity: 0.7
 		}
 	},
     mounted() {
@@ -101,7 +118,7 @@ export default {
 				startyear: start,
 				endyear: end,
 				precision: 3,
-				opacity: 0.7,
+				opacity: this.opacity,
 				scale: this.selectedScale,
                 customColor: this.customColor
 			})
