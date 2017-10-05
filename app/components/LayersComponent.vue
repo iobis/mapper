@@ -16,7 +16,8 @@
 						</span>
 						<br/><span class="count">{{ layer.count }} records</span>
 						<br/><div>
-							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
+						<span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
+						<span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
 						</div>
 					</li>
 				</ul>

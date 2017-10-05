@@ -76,6 +76,13 @@ html, body {
     margin-left: 10px;
 }
 
+.colorsquarelong {
+    display: inline-block;
+    width: 96px;
+    height: 12px;
+    background-color: #eeeeee;
+}
+
 .colorsquare {
     display: inline-block;
     width: 12px;
