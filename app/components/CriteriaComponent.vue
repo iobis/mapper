@@ -33,13 +33,7 @@
 					</span>
 
                     <br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom</label>
-
-                    {{ customColor }}
-
-                    <div id="colorpicker" class="input-group colorpicker-component">
-                        <input type="text" v-bind:value="customColor" class="form-control" />
-                        <span class="input-group-addon"><i></i></span>
-                    </div>
+                    <color-picker v-model="customColor"></color-picker>
 
 				</div>
 
@@ -53,6 +47,7 @@
 <script>
 import api from "../api"
 import { store } from "../store"
+import ColorPicker from "./ColorPicker.vue"
 
 export default {
 	data() {
@@ -79,7 +74,9 @@ export default {
                 return num
             }
         })
-        $("#colorpicker").colorpicker({})
+    },
+    components: {
+        ColorPicker
     },
 	methods: {
 		debounceInput: _.debounce(function(e) {
