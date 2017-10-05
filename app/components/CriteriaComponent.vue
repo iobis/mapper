@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<a class="sideheader" data-toggle="collapse" href="#collapse2" aria-expanded="true" aria-controls="collapse2">Criteria</a>
+		<a class="sideheader" data-toggle="collapse" href="#collapse2" aria-expanded="true" aria-controls="collapse2">Create layer</a>
 		<div class="collapse show sidepanel" id="collapse2">
 			<div class="content">
 
