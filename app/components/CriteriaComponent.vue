@@ -15,7 +15,13 @@
 					</li>
 				</ul>
 
-                <div class="form-group">
+				<div class="form-group" v-if="sharedState.wkt != null">
+					<label>Geometry</label>
+					<p class="count">{{ sharedState.wkt }}</p>
+					<p><button class="btn btn-warning btn-sm clickable" v-on:click="sharedState.wkt = null">Clear</button></p>
+				</div>
+
+				<div class="form-group">
                     <label>Time range</label>
                     <div class="sliderwrapper">
                         <input id="slider">
@@ -72,7 +78,8 @@ export default {
 			startYear: 1900,
 			currentYear: (new Date()).getFullYear(),
             customColor: "#cc3300",
-			opacity: 0.7
+			opacity: 0.7,
+			sharedState: store.state
 		}
 	},
     mounted() {
@@ -118,6 +125,7 @@ export default {
 				startyear: start,
 				endyear: end,
 				precision: 3,
+				geometry: this.sharedState.wkt,
 				opacity: this.opacity,
 				scale: this.selectedScale,
                 customColor: this.customColor

@@ -33,6 +33,7 @@ export const store = {
 		pageindex: 0,
 		after: [ -1 ],
 		selectedLayer: null,
+		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
 	},
     group: new L.FeatureGroup(),
@@ -68,7 +69,8 @@ export const store = {
 		let criteria = {
 			name: spec.name,
 			startyear: spec.startyear,
-			endyear: spec.endyear
+			endyear: spec.endyear,
+			geometry: spec.geometry
 		}
 		api.geo(criteria, spec.precision).then(function(response) {
 		    let colors = null
@@ -133,9 +135,6 @@ export const store = {
 	},
     updateBase: function() {
 	    this.baseGroup.clearLayers()
-
-        console.log(this.state.baseLayer)
-
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
     }
 }

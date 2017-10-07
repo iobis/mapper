@@ -5,7 +5,7 @@
 			<div class="content">
                 <span v-if="sharedState.layers.length == 0"><i>No layers.</i></span>
 				<ul v-if="sharedState.layers.length > 0" class="suggestions">
-					<li v-for="layer in sharedState.layers">
+					<li v-for="layer in sharedState.layers" class="layerbox">
 						<div class="closeicon pull-right">
 							<span class="oi oi-x clickable" v-on:click="removeLayer(layer)"></span>
 							<br/><span class="oi oi-grid-three-up clickable" v-on:click="viewData(layer)"></span>
@@ -13,6 +13,9 @@
 						{{ layer.name }}
 						<span v-if="layer.startyear != null || layer.endyear != null" class="count">
 							<br/>{{ layer.startyear }} - {{ layer.endyear }}
+						</span>
+						<span v-if="layer.geometry != null" class="count">
+							<br/>{{ layer.geometry }}
 						</span>
 						<br/><span class="count">{{ layer.count }} records</span>
 						<br/><div>

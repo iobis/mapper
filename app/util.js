@@ -15,6 +15,9 @@ const createQuery = function(criteria) {
 	if (criteria.endyear) {
 		map.push(["enddate", criteria.endyear + "-12-31"])
 	}
+	if (criteria.geometry) {
+		map.push(["geometry", criteria.geometry])
+	}
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")
