@@ -10,7 +10,8 @@
         <table class="table table-sm">
             <thead>
                 <tr>
-                    <th>id</th>
+                    <th>ID</th>
+                    <th>dataset ID</th>
                     <th>scientificName</th>
                     <th>eventDate</th>
                     <th>decimalLongitude</th>
@@ -23,6 +24,7 @@
             <tbody>
                 <tr v-for="record in sharedState.data">
                     <td>{{ record.id }}</td>
+                    <td>{{ record.resource_id }}</td>
                     <td>{{ record.scientificName }}</td>
                     <td>{{ record.eventDate | eventdate }}</td>
                     <td>{{ record.decimalLongitude | coordinate }}</td>
