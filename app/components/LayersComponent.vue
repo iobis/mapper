@@ -15,7 +15,7 @@
 							<br/>{{ layer.startyear }} - {{ layer.endyear }}
 						</span>
 						<span v-if="layer.geometry != null" class="count">
-							<br/>{{ layer.geometry }}
+							<br/>polygon filter
 						</span>
 						<br/><span class="count">{{ layer.count }} records</span>
 						<br/><div>

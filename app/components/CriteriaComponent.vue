@@ -15,10 +15,14 @@
 					</li>
 				</ul>
 
-				<div class="form-group" v-if="sharedState.wkt != null">
+				<div class="form-group">
 					<label>Geometry</label>
-					<p class="count">{{ sharedState.wkt }}</p>
-					<p><button class="btn btn-warning btn-sm clickable" v-on:click="sharedState.wkt = null">Clear</button></p>
+                    <div  v-if="sharedState.wkt != null">
+                        <p class="count clickable" v-on:click="sharedState.wkt = null">{{ sharedState.wkt }}</p>
+                    </div>
+                    <div  v-if="sharedState.wkt == null">
+                        <p class="count">No geometry selected.</p>
+                    </div>
 				</div>
 
 				<div class="form-group">
@@ -37,7 +41,7 @@
 							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
 						</div>
 					</span>
-					<br><input type="radio" name="scale" v-model="selectedScale" value="custom"><label class="radiolabel">custom color</label>
+					<br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel" for="customcolor">custom color</label>
 					<color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
 				</div>
 
