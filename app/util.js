@@ -6,8 +6,8 @@ const createQuery = function(criteria) {
 	if (criteria.after && criteria.after > -1) {
 		map.push(["after", criteria.after])
 	}
-	if (criteria.name) {
-		map.push(["scientificname", criteria.name])
+	if (criteria.taxa) {
+		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
 	if (criteria.startyear) {
 		map.push(["startdate", criteria.startyear + "-01-01"])

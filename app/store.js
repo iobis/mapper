@@ -67,7 +67,7 @@ export const store = {
 	addLayer: function(spec) {
 		let self = this
 		let criteria = {
-			name: spec.name,
+			taxa: spec.taxa,
 			startyear: spec.startyear,
 			endyear: spec.endyear,
 			geometry: spec.geometry

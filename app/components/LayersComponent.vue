@@ -10,7 +10,11 @@
 							<span class="oi oi-x clickable" v-on:click="removeLayer(layer)"></span>
 							<br/><span class="oi oi-grid-three-up clickable" v-on:click="viewData(layer)"></span>
 						</div>
-						{{ layer.name }}
+
+						<span v-for="(taxon, index) in layer.taxa">
+							{{ taxon.scientificName }} <span class="count">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < layer.taxa.length - 1"><br/></span>
+						</span>
+
 						<span v-if="layer.startyear != null || layer.endyear != null" class="count">
 							<br/>{{ layer.startyear }} - {{ layer.endyear }}
 						</span>

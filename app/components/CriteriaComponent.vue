@@ -6,10 +6,13 @@
 
 				<div class="form-group">
 					<label>Scientific name</label>
-					<input type="text" class="form-control" v-on:input="debounceInput" v-model="name">
+					<input type="text" class="form-control" v-on:input="debounceInput" ref="nameInput">
+				</div>
+				<div>
+					<p><span class="count clickable" v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)">{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }} <br/></span></p>
 				</div>
 				<ul v-if="suggestions.length > 0" class="suggestions">
-					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion.scientificName)">
+					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion)">
 						{{ suggestion.scientificName }} <span class="count">{{ suggestion.scientificNameAuthorship }}</span>
                         <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
 					</li>
@@ -61,7 +64,7 @@
 					</select>
 				</div>
 
-				<button class="btn btn-success clickable" :disabled="name == ''" v-on:click="addLayer">Add layer</button>
+				<button class="btn btn-success clickable" :disabled="taxa.length <= 0" v-on:click="addLayer">Add layer</button>
 			</div>
 		</div>
 	</div>
@@ -76,7 +79,7 @@ export default {
 	data() {
 		return {
 			suggestions: [],
-			name: "",
+			taxa: [],
 			scales: store.scales,
 			selectedScale: "red",
 			startYear: 1900,
@@ -110,9 +113,17 @@ export default {
 				self.suggestions = response
 			})
 		}, 500),
-		select: function(name) {
-			this.name = name
+		select: function(taxon) {
+			this.taxa.push({
+				"scientificName": taxon.scientificName,
+				"acceptedNameUsageID": taxon.acceptedNameUsageID,
+				"scientificNameAuthorship": taxon.scientificNameAuthorship
+			})
 			this.suggestions = []
+			this.$refs.nameInput.value = ""
+		},
+		removeTaxon: function(index) {
+			this.taxa.splice(index, 1)
 		},
 		addLayer: function() {
             let years = $("#slider").val().split(";")
@@ -125,7 +136,7 @@ export default {
             	end = null
 			}
 			store.addLayer({
-				name: this.name,
+				taxa: JSON.parse(JSON.stringify(this.taxa)),
 				startyear: start,
 				endyear: end,
 				precision: 3,
