@@ -7,10 +7,11 @@ html, body {
 }
 
 .sidebar {
+    right: 0;
     overflow-y: auto;
     position: fixed;
     top: 0px;
-    width: 300px;
+    width: 400px;
     height: 100%;
     background-color: #eeeeee;
 }
@@ -19,9 +20,27 @@ html, body {
     background-color: #ffffff;
 }
 
+.menuicon {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 1.2em;
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.menuicon:hover {
+    text-decoration: none;
+    background-color: #000000;
+    color: #ffffff;
+}
+
 #map {
-    width: calc(100% - 300px);
-    float: right;
+    width: calc(100% - 400px);
+    float: left;
     height: 100%;
 }
 

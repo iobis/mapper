@@ -1,9 +1,18 @@
 <template>
 	<div>
 		<div class="sidebar">
-			<layers-component></layers-component>
-			<criteria-component></criteria-component>
-			<options-component></options-component>
+
+			<div id="menubar" class="sidepanel">
+                <div class="menuicon" v-on:click="currentView = 'layers-component'"><span class="oi oi-layers"></span></div>
+                <div class="menuicon" v-on:click="currentView = 'criteria-component'"><span class="oi oi-plus"></span></div>
+                <div class="menuicon" v-on:click="currentView = 'options-component'"><span class="oi oi-wrench"></span></div>
+                <div class="menuicon"><span class="oi oi-data-transfer-download"></span></div>
+                <div class="menuicon"><span class="oi oi-chevron-right"></span></div>
+            </div>
+
+            <component v-bind:is="currentView">
+            </component>
+
 		</div>
         <map-component v-if="sharedState.mapmode == true"></map-component>
         <data-component v-if="sharedState.mapmode == false"></data-component>
@@ -21,7 +30,8 @@ import { store } from "../store"
 export default {
     data() {
         return {
-            sharedState: store.state
+            sharedState: store.state,
+            currentView: "layers-component"
         }
     },
 	components: {
