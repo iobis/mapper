@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div id="sidebar" v-bind:class="{ slidein: sharedState.show, slideout: !sharedState.show }">
-            <div id="menubar" class="sidepanel">
+            <div id="menubar">
                 <div class="menuicon" v-if="!sharedState.show" v-on:click="sharedState.show = true"><span class="oi oi-chevron-left"></span></div>
                 <div class="menuicon" v-on:click="currentView = 'layers-component'"><span class="oi oi-layers"></span></div>
                 <div class="menuicon" v-on:click="currentView = 'criteria-component'"><span class="oi oi-plus"></span></div>

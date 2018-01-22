@@ -13,7 +13,7 @@ html, body {
     top: 0px;
     width: 400px;
     height: 100%;
-    background-color: #eeeeee;
+    background-color: #ffffff;
     box-shadow: 0 0 38px rgba(0,0,0,0.3);
     -webkit-box-shadow: 0 0 38px rgba(0,0,0,0.3);
     -moz-box-shadow: 0 0 38px rgba(0,0,0,0.3);
@@ -37,6 +37,7 @@ html, body {
 
 .sidepanel {
     background-color: #ffffff;
+    padding: 10px 10px;
 }
 
 .menuicon {
@@ -75,7 +76,7 @@ html, body {
     width: 100%;
 }
 
-.sideheader, .sideheader:active, .sideheader:hover, .sideheader:focus {
+.sideheader {
     display: block;
     width: 100%;
     padding: 10px 10px;
@@ -85,8 +86,14 @@ html, body {
     font-size: 1.2em;
 }
 
-.content {
+.sidesubheader {
+    display: block;
+    width: 100%;
     padding: 10px 10px;
+    background-color: #dddddd;
+    color: #000000;
+    text-decoration: none;
+    font-size: 1.1em;
 }
 
 .suggestions {

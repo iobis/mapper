@@ -1,72 +1,83 @@
 <template>
 	<div>
-		<a class="sideheader" data-toggle="collapse" href="#collapse2" aria-expanded="true" aria-controls="collapse2">Create layer</a>
-		<div class="collapse show sidepanel" id="collapse2">
-			<div class="content">
+		<div class="sideheader">Create layer</div>
 
-				<div class="form-group">
-					<label>Scientific name</label>
-					<input type="text" class="form-control" v-on:input="debounceInput" ref="nameInput">
-				</div>
-				<div>
-					<p><span class="count clickable" v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)">{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }} <br/></span></p>
-				</div>
-				<ul v-if="suggestions.length > 0" class="suggestions">
-					<li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion)">
-						{{ suggestion.scientificName }} <span class="count">{{ suggestion.scientificNameAuthorship }}</span>
-                        <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
-					</li>
-				</ul>
+        <div class="sidesubheader">Scientific name</div>
 
-				<div class="form-group">
-					<label>Geometry</label>
-                    <div  v-if="sharedState.wkt != null">
-                        <p class="count clickable" v-on:click="sharedState.wkt = null">{{ sharedState.wkt }}</p>
-                    </div>
-                    <div  v-if="sharedState.wkt == null">
-                        <p class="count">No geometry selected.</p>
-                    </div>
-				</div>
+        <div class="sidepanel">
+            <div class="form-group">
+                <label>Search</label>
+                <input type="text" class="form-control" v-on:input="debounceInput" ref="nameInput">
+            </div>
+            <div>
+                <p><span class="count clickable" v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)">{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }} <br/></span></p>
+            </div>
+            <ul v-if="suggestions.length > 0" class="suggestions">
+                <li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion)">
+                    {{ suggestion.scientificName }} <span class="count">{{ suggestion.scientificNameAuthorship }}</span>
+                    <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
+                </li>
+            </ul>
 
-				<div class="form-group">
-                    <label>Time range</label>
-                    <div class="sliderwrapper">
-                        <input id="slider">
-                    </div>
+        </div>
+
+        <div class="sidesubheader">Geometry</div>
+
+        <div class="sidepanel">
+            <div class="form-group">
+                <div  v-if="sharedState.wkt != null">
+                    <p class="count clickable" v-on:click="sharedState.wkt = null">{{ sharedState.wkt }}</p>
                 </div>
+                <div  v-if="sharedState.wkt == null">
+                    <p class="count">No geometry selected.</p>
+                </div>
+            </div>
+        </div>
 
-				<div class="form-group">
-					<label>Color scale</label>
-					<span v-for="(scale, name) in scales">
-						<br/>
-						<input type="radio" name="scale" v-model="selectedScale" v-bind:value="name">
-						<div class="colorsquares">
-							<span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
-						</div>
-					</span>
-					<br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel" for="customcolor">custom color</label>
-					<color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
-				</div>
+        <div class="sidesubheader">Time range</div>
 
-				<div class="form-group">
-					<label>Opacity</label>
-					<select class="form-control" v-model="opacity">
-						<option>1</option>
-						<option>0.9</option>
-						<option>0.8</option>
-						<option>0.7</option>
-						<option>0.6</option>
-						<option>0.5</option>
-						<option>0.4</option>
-						<option>0.3</option>
-						<option>0.2</option>
-						<option>0.1</option>
-					</select>
-				</div>
+        <div class="sidepanel">
+            <div class="form-group">
+                <div class="sliderwrapper">
+                    <input id="slider">
+                </div>
+            </div>
+        </div>
 
-				<button class="btn btn-success clickable" :disabled="taxa.length <= 0" v-on:click="addLayer">Add layer</button>
-			</div>
-		</div>
+        <div class="sidesubheader">Styling</div>
+
+        <div class="sidepanel">
+            <div class="form-group">
+                <label>Color scale</label>
+                <span v-for="(scale, name) in scales">
+                    <br/>
+                    <input type="radio" name="scale" v-model="selectedScale" v-bind:value="name">
+                    <div class="colorsquares">
+                        <span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
+                    </div>
+                </span>
+                <br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel" for="customcolor">custom color</label>
+                <color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
+            </div>
+
+            <div class="form-group">
+                <label>Opacity</label>
+                <select class="form-control" v-model="opacity">
+                    <option>1</option>
+                    <option>0.9</option>
+                    <option>0.8</option>
+                    <option>0.7</option>
+                    <option>0.6</option>
+                    <option>0.5</option>
+                    <option>0.4</option>
+                    <option>0.3</option>
+                    <option>0.2</option>
+                    <option>0.1</option>
+                </select>
+            </div>
+
+            <button class="btn btn-success clickable" :disabled="taxa.length <= 0" v-on:click="addLayer">Add layer</button>
+        </div>
 	</div>
 </template>
 

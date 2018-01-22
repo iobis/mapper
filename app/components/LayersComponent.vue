@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<a class="sideheader" data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">Layers</a>
-		<div class="collapse show sidepanel" id="collapse1">
+		<span class="sideheader">Layers</span>
+		<div class="sidepanel">
 			<div class="content">
                 <span v-if="sharedState.layers.length == 0"><i>No layers.</i></span>
 				<ul v-if="sharedState.layers.length > 0" class="suggestions">
