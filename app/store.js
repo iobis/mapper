@@ -34,7 +34,8 @@ export const store = {
 		after: [ -1 ],
 		selectedLayer: null,
 		wkt: null,
-		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+		show: true
 	},
     group: new L.FeatureGroup(),
     baseGroup: new L.featureGroup(),

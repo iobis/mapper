@@ -6,14 +6,33 @@ html, body {
     font-size: 12px;
 }
 
-.sidebar {
-    right: 0;
+#sidebar {
+    right: 0px;
     overflow-y: auto;
     position: fixed;
     top: 0px;
     width: 400px;
     height: 100%;
     background-color: #eeeeee;
+    box-shadow: 0 0 38px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 0 38px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 0 38px rgba(0,0,0,0.3);
+    z-index: 10000;
+}
+
+.slidein, .slideout {
+    -webkit-transition: right 1s;
+    -moz-transition: right 1s;
+    -o-transition: right 1s;
+    transition: right 1s;
+}
+
+.slidein {
+    right: 0px;
+}
+
+.slideout {
+    right: -360px !important;
 }
 
 .sidepanel {
@@ -39,7 +58,7 @@ html, body {
 }
 
 #map {
-    width: calc(100% - 400px);
+    width: 100%;
     float: left;
     height: 100%;
 }
@@ -60,9 +79,10 @@ html, body {
     display: block;
     width: 100%;
     padding: 10px 10px;
-    background-color: #424B54;
-    color: #c9d0d6;
+    background-color: #000000;
+    color: #ffffff;
     text-decoration: none;
+    font-size: 1.2em;
 }
 
 .content {
