@@ -5,6 +5,8 @@
         <div class="sidesubheader">Scientific name</div>
 
         <div class="sidepanel">
+
+            <!--
             <div class="form-group">
                 <label>Search</label>
                 <input type="text" class="form-control" v-on:input="debounceInput" ref="nameInput">
@@ -18,6 +20,12 @@
                     <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
                 </li>
             </ul>
+            -->
+
+            <div class="form-group">
+                <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name">
+                <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500" />
+            </div>
 
         </div>
 
@@ -85,6 +93,7 @@
 import api from "../api"
 import { store } from "../store"
 import ColorPicker from "./ColorPicker.vue"
+import { Typeahead } from "uiv"
 
 export default {
 	data() {
@@ -97,9 +106,17 @@ export default {
 			currentYear: (new Date()).getFullYear(),
             customColor: "#cc3300",
 			opacity: 0.7,
-			sharedState: store.state
+			sharedState: store.state,
+            selectedTaxon: null
 		}
 	},
+    watch: {
+	    selectedTaxon: function(taxon) {
+            if (taxon) {
+                this.select(taxon)
+            }
+        }
+    },
     mounted() {
         $("#slider").ionRangeSlider({
             type: "double",
@@ -115,23 +132,21 @@ export default {
         })
     },
     components: {
-        ColorPicker
+        "color-picker": ColorPicker,
+        "typeahead": Typeahead
     },
 	methods: {
-		debounceInput: _.debounce(function(e) {
-			let self = this
-			api.complete(e.target.value).then(function(response) {
-				self.suggestions = response
-			})
-		}, 500),
+        complete: function(input, done) {
+            api.complete(input).then(res => {
+                done(res)
+            })
+        },
 		select: function(taxon) {
 			this.taxa.push({
 				"scientificName": taxon.scientificName,
 				"acceptedNameUsageID": taxon.acceptedNameUsageID,
 				"scientificNameAuthorship": taxon.scientificNameAuthorship
 			})
-			this.suggestions = []
-			this.$refs.nameInput.value = ""
 		},
 		removeTaxon: function(index) {
 			this.taxa.splice(index, 1)
