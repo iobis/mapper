@@ -100,25 +100,21 @@ html, body {
     margin-bottom: 10px;
 }
 
-.smaller {
-    font-size: 0.8em;
-}
-
-.suggestions {
-    list-style: none;
-    padding: 0px 4px;
-}
-
-.suggestions li {
+.sidelayer {
     position: relative;
-    list-style: none;
-    margin: 3px;
-    padding: 4px;
+    display: block;
+    width: 100%;
+    padding: 10px 10px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #dddddd;
+}
+
+.sidelayer:hover {
     background-color: #eeeeee;
 }
 
-.suggestions li:hover {
-    background-color: #dddddd;
+.smaller {
+    font-size: 0.8em;
 }
 
 .clickable {
@@ -144,15 +140,20 @@ html, body {
     background-color: #eeeeee;
 }
 
-.closeicon {
-    padding: 3px 5px;
+.layericon {
     position: absolute;
+    display: block;
+    width: 30px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
     top: 0;
     right: 0;
+    color: #000000;
 }
 
-.count {
-    font-size: 0.8em;
+.layericon-2 {
+    top: 25px;
 }
 
 .sliderwrapper {
@@ -165,10 +166,6 @@ html, body {
 
 .leaflet-draw-actions {
     display: none !important;
-}
-
-.layerbox {
-    padding-right: 25px !important;
 }
 
 .no-bottom-margin {
