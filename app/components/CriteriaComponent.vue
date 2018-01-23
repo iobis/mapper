@@ -1,31 +1,43 @@
 <template>
 	<div>
-		<div class="sideheader">Create layer</div>
+		<div class="sideheader">Create layer
+            <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="taxa.length <= 0" v-on:click="addLayer">Add</button>
+        </div>
 
         <div class="sidesubheader">Scientific name</div>
 
         <div class="sidepanel">
-
-            <!--
-            <div class="form-group">
-                <label>Search</label>
-                <input type="text" class="form-control" v-on:input="debounceInput" ref="nameInput">
-            </div>
-            <div>
-                <p><span class="count clickable" v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)">{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }} <br/></span></p>
-            </div>
-            <ul v-if="suggestions.length > 0" class="suggestions">
-                <li class="clickable" v-for="suggestion in suggestions" v-on:click="select(suggestion)">
-                    {{ suggestion.scientificName }} <span class="count">{{ suggestion.scientificNameAuthorship }}</span>
-                    <br/><span class="count">{{suggestion.taxonRank}}</span><span class="count">, WoRMS ID: {{suggestion.acceptedNameUsageID}}</span>
-                </li>
-            </ul>
-            -->
-
             <div class="form-group">
                 <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name">
-                <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500" />
+                <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500">
+                    <template slot="item" scope="props">
+                        <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                            <a role="button" @click="props.select(item)">
+                                {{ item.scientificName }} <span class="smaller">{{ item.scientificNameAuthorship }}</span>
+                                <br/><span class="smaller">Taxon ID: {{ item.acceptedNameUsageID }}</span>
+                            </a>
+                        </li>
+                    </template>
+                </typeahead>
             </div>
+
+            <table class="table no-bottom-margin">
+                <thead>
+                    <tr>
+                        <th>Scientific name</th>
+                        <th>Taxon ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="!taxa || taxa.length == 0">
+                        <td class="no-results">No taxa selected.</td><td></td>
+                    </tr>
+                    <tr v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)" class="clickable">
+                        <td>{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }}</td>
+                        <td>{{ taxon.acceptedNameUsageID }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
         </div>
 
@@ -36,9 +48,7 @@
                 <div  v-if="sharedState.wkt != null">
                     <p class="count clickable" v-on:click="sharedState.wkt = null">{{ sharedState.wkt }}</p>
                 </div>
-                <div  v-if="sharedState.wkt == null">
-                    <p class="count">No geometry selected.</p>
-                </div>
+                <p v-if="sharedState.wkt == null" class="no-results">No geometry selected.</p>
             </div>
         </div>
 
@@ -84,7 +94,6 @@
                 </select>
             </div>
 
-            <button class="btn btn-success clickable" :disabled="taxa.length <= 0" v-on:click="addLayer">Add layer</button>
         </div>
 	</div>
 </template>

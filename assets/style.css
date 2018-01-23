@@ -77,13 +77,16 @@ html, body {
 }
 
 .sideheader {
+    position: relative;
     display: block;
     width: 100%;
-    padding: 10px 10px;
+    padding: 0px 10px;
     background-color: #000000;
     color: #ffffff;
     text-decoration: none;
     font-size: 1.2em;
+    height: 45px;
+    line-height: 45px;
 }
 
 .sidesubheader {
@@ -94,6 +97,11 @@ html, body {
     color: #000000;
     text-decoration: none;
     font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+.smaller {
+    font-size: 0.8em;
 }
 
 .suggestions {
@@ -161,4 +169,27 @@ html, body {
 
 .layerbox {
     padding-right: 25px !important;
+}
+
+.no-bottom-margin {
+    margin-bottom: 0px !important;
+}
+
+.no-results {
+    font-style: italic;
+}
+
+.pull-right-vertical {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.right-10 {
+    margin-right: 10px;
+}
+
+label {
+    font-weight: normal;
 }

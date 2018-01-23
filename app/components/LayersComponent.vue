@@ -3,7 +3,7 @@
 		<span class="sideheader">Layers</span>
 		<div class="sidepanel">
 			<div class="content">
-                <span v-if="sharedState.layers.length == 0"><i>No layers.</i></span>
+                <span v-if="sharedState.layers.length == 0" class="no-results">No layers.</span>
 				<ul v-if="sharedState.layers.length > 0" class="suggestions">
 					<li v-for="layer in sharedState.layers" class="layerbox">
 						<div class="closeicon pull-right">
