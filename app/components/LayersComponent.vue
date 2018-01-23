@@ -6,12 +6,11 @@
 
 		<div v-for="layer in sharedState.layers" class="sidelayer">
 
-			<div class="layericon pull-right clickable" v-on:click="removeLayer(layer)">
-                <span class="oi oi-x"></span>
+            <div class="layericons">
+                <div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-list"></span></div>
+                <div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-data-transfer-download"></span></div>
+                <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>
             </div>
-            <div class="layericon layericon-2 pull-right clickable" v-on:click="viewData(layer)">
-                <span class="oi oi-grid-three-up"></span>
-			</div>
 
 			<span v-for="(taxon, index) in layer.taxa">
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < layer.taxa.length - 1"><br/></span>
