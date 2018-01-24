@@ -27,6 +27,7 @@ import OptionsComponent from "./OptionsComponent.vue"
 import MapComponent from "./MapComponent.vue"
 import DataComponent from "./DataComponent.vue"
 import { store } from "../store"
+import util from "../util"
 
 export default {
     data() {
@@ -34,6 +35,14 @@ export default {
             sharedState: store.state,
             currentView: "layers-component"
         }
+    },
+    mounted: function() {
+        /*
+        let query = util.extractQuery(window.location.href)
+        if (query) {
+            this.store.populate(query)
+        }
+        */
     },
     methods: {
     },

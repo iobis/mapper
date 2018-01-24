@@ -77,8 +77,53 @@ const getColor = function(d, colors) {
     }
 }
 
+const extractQuery = function(url) {
+    let parts = url.split("?")
+    if (parts.length == 2 && parts[1].length > 0) {
+        return parts[1].split("&")
+            .reduce((params, param) => {
+                let [ key, value ] = param.split("=");
+                params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : ""
+                if (key == "taxonid") {
+                    params[key] = params[key].split(",")
+                }
+                return params
+            }, {})
+    } else {
+        return null
+    }
+}
+
+/*
+const createUrlQuery = function(criteria) {
+    console.log("Criteria: " + JSON.stringify(criteria))
+    let map = []
+    if (criteria.names.length > 0) map.push(["scientificname", criteria.names.join(",")])
+    if (criteria.datasets.length > 0) map.push(["datasetid", criteria.datasets.map(d => d.id).join(",")])
+    if (criteria.startdate.length > 0) map.push(["startdate", criteria.startdate])
+    if (criteria.enddate.length > 0) map.push(["enddate", criteria.enddate])
+    if (criteria.geometry.length > 0) map.push(["geometry", criteria.geometry])
+    if (criteria.area && criteria.area.id) {
+        map.push(["areaid", criteria.area.id])
+    }
+    if (criteria.depth) {
+        if (criteria.depth[0] != 11000) {
+            map.push(["enddepth", criteria.depth[0]])
+        }
+        if (criteria.depth[1] != 0) {
+            map.push(["startdepth", criteria.depth[1]])
+        }
+    }
+    let q = map.map(c => {
+        return c[0] + "=" + c[1]
+    }).join("&")
+    return q
+}
+*/
+
 module.exports = {
-	createQuery: createQuery,
+    createQuery: createQuery,
     makeScales: makeScales,
-    getColor: getColor
+    getColor: getColor,
+    extractQuery: extractQuery
 }

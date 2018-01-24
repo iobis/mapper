@@ -26,6 +26,9 @@ export const store = {
             geometry: spec.geometry
         }
     },
+    populate: function(query) {
+        console.log("Populate: " + JSON.stringify(query))
+    },
 	addLayer: function(spec) {
 		let self = this
 		let criteria = this.makeCriteria(spec)
@@ -53,6 +56,10 @@ export const store = {
 				spec.count = response
 			})
 		})
+
+        let q = util.createQuery(criteria)
+        window.history.pushState("", "", "?" + q)
+
 	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
@@ -111,14 +118,9 @@ export const store = {
     addDownload: function(layer) {
         let self = this
         let criteria = this.makeCriteria(layer)
-        console.log("Download criteria: " + JSON.stringify(criteria))
-
-        // call download API
 
         api.download(criteria).then(function(response) {
             let hash = response.hash
-
-            // save hash
 
             let download = {
                 criteria: criteria,
@@ -129,8 +131,6 @@ export const store = {
                 error: false
             }
             self.state.downloads.push(download)
-
-            // start polling
 
             api.downloadStatus(hash).then(function(status) {
                 self.updateDownloadStatus(download, status)
