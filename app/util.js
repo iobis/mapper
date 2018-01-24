@@ -1,3 +1,5 @@
+import api from "./api"
+
 const createQuery = function(criteria) {
 	let map = []
 	if (criteria.size) {
@@ -94,36 +96,34 @@ const extractQuery = function(url) {
     }
 }
 
-/*
-const createUrlQuery = function(criteria) {
-    console.log("Criteria: " + JSON.stringify(criteria))
-    let map = []
-    if (criteria.names.length > 0) map.push(["scientificname", criteria.names.join(",")])
-    if (criteria.datasets.length > 0) map.push(["datasetid", criteria.datasets.map(d => d.id).join(",")])
-    if (criteria.startdate.length > 0) map.push(["startdate", criteria.startdate])
-    if (criteria.enddate.length > 0) map.push(["enddate", criteria.enddate])
-    if (criteria.geometry.length > 0) map.push(["geometry", criteria.geometry])
-    if (criteria.area && criteria.area.id) {
-        map.push(["areaid", criteria.area.id])
+const specFromQuery = function(query) {
+    let spec = {
+        startdate: query.startdate,
+        enddate: query.enddate,
+        geometry: query.geometry,
+        precision: 3,
+        scale: "red",
+        opacity: 0.7,
+        taxa: []
     }
-    if (criteria.depth) {
-        if (criteria.depth[0] != 11000) {
-            map.push(["enddepth", criteria.depth[0]])
-        }
-        if (criteria.depth[1] != 0) {
-            map.push(["startdepth", criteria.depth[1]])
+
+    let promises = []
+    if (query.taxonid && query.taxonid.length > 0) {
+        for (let taxonid of query.taxonid) {
+            promises.push(api.taxon(taxonid))
         }
     }
-    let q = map.map(c => {
-        return c[0] + "=" + c[1]
-    }).join("&")
-    return q
+
+    return Promise.all(promises).then(function(taxa) {
+        spec.taxa = taxa
+        return spec
+    })
 }
-*/
 
 module.exports = {
     createQuery: createQuery,
     makeScales: makeScales,
     getColor: getColor,
-    extractQuery: extractQuery
+    extractQuery: extractQuery,
+    specFromQuery: specFromQuery
 }

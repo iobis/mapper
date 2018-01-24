@@ -41,5 +41,11 @@ export default {
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
+	},
+	taxon(id) {
+		let url = "http://api2.iobis.org/taxon/" + id
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data.results[0]))
+			.catch((error) => Promise.reject(error))
 	}
 }

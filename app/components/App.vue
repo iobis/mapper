@@ -37,12 +37,7 @@ export default {
         }
     },
     mounted: function() {
-        /*
-        let query = util.extractQuery(window.location.href)
-        if (query) {
-            this.store.populate(query)
-        }
-        */
+        store.populate()
     },
     methods: {
     },

@@ -26,12 +26,18 @@ export const store = {
             geometry: spec.geometry
         }
     },
-    populate: function(query) {
-        console.log("Populate: " + JSON.stringify(query))
+    populate: function() {
+        let query = util.extractQuery(window.location.href)
+        if (query) {
+            let spec = util.specFromQuery(query).then(spec => {
+                this.addLayer(spec)
+            })
+        }
     },
 	addLayer: function(spec) {
 		let self = this
 		let criteria = this.makeCriteria(spec)
+
 		api.geo(criteria, spec.precision).then(function(response) {
             if (spec.scale == "custom") {
 		        spec.colors = [ spec.customColor ]
@@ -56,10 +62,8 @@ export const store = {
 				spec.count = response
 			})
 		})
-
         let q = util.createQuery(criteria)
         window.history.pushState("", "", "?" + q)
-
 	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
