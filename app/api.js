@@ -28,5 +28,12 @@ export default {
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
+	},
+	download(criteria) {
+		let q = util.createQuery(criteria)
+		let url = "http://api2.iobis.org/download/occurrence?" + q
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data))
+			.catch((error) => Promise.reject(error))
 	}
 }

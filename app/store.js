@@ -94,10 +94,25 @@ export const store = {
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
     },
     addDownload: function(layer) {
+        let self = this
         let criteria = this.makeCriteria(layer)
         console.log("Download criteria: " + JSON.stringify(criteria))
+
         // call download API
-        // save hash
-        // start polling
+
+        api.download(criteria).then(function(response) {
+            console.log("Download response: " + JSON.stringify(response))
+
+            // save hash
+
+            self.state.downloads.push({
+                criteria: criteria,
+                hash: response.hash
+            })
+
+            // start polling
+
+        })
+
     }
 }

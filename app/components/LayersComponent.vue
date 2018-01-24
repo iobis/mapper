@@ -8,7 +8,7 @@
 
             <div class="layericons">
                 <div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-list"></span></div>
-                <div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-data-transfer-download"></span></div>
+                <div class="layericon" v-on:click="addDownload(layer)"><span class="oi oi-data-transfer-download"></span></div>
                 <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>
             </div>
 
@@ -47,7 +47,10 @@ export default {
 		},
 		viewData: function(layer) {
 			store.viewData(layer)
-		}
+		},
+        addDownload: function(layer) {
+		    store.addDownload(layer)
+        }
 	}
 }
 </script>
