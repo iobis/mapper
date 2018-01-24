@@ -12,19 +12,23 @@ export const store = {
 		selectedLayer: null,
 		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-		show: true
+		show: true,
+        downloads: []
 	},
     group: new L.FeatureGroup(),
     baseGroup: new L.featureGroup(),
 	scales: util.makeScales(),
+    makeCriteria: function(spec) {
+        return {
+            taxa: spec.taxa,
+            startyear: spec.startyear,
+            endyear: spec.endyear,
+            geometry: spec.geometry
+        }
+    },
 	addLayer: function(spec) {
 		let self = this
-		let criteria = {
-			taxa: spec.taxa,
-			startyear: spec.startyear,
-			endyear: spec.endyear,
-			geometry: spec.geometry
-		}
+		let criteria = this.makeCriteria(spec)
 		api.geo(criteria, spec.precision).then(function(response) {
             if (spec.scale == "custom") {
 		        spec.colors = [ spec.customColor ]
@@ -88,5 +92,12 @@ export const store = {
     updateBase: function() {
 	    this.baseGroup.clearLayers()
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
+    },
+    addDownload: function(layer) {
+        let criteria = this.makeCriteria(layer)
+        console.log("Download criteria: " + JSON.stringify(criteria))
+        // call download API
+        // save hash
+        // start polling
     }
 }
