@@ -11,6 +11,9 @@ const createQuery = function(criteria) {
 	if (criteria.taxa) {
 		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
+	if (criteria.datasets) {
+		map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
+	}
     if (criteria.startyear) {
         map.push(["startdate", criteria.startyear + "-01-01"])
     }
@@ -92,9 +95,12 @@ const extractQuery = function(url) {
             .reduce((params, param) => {
                 let [ key, value ] = param.split("=");
                 params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : ""
-                if (key == "taxonid") {
-                    params[key] = params[key].split(",")
-                }
+				if (key == "taxonid") {
+					params[key] = params[key].split(",")
+				}
+				if (key == "datasetid") {
+					params[key] = params[key].split(",")
+				}
                 return params
             }, {})
     } else {
@@ -104,7 +110,8 @@ const extractQuery = function(url) {
 
 const criteriaFromSpec = function(spec) {
     return {
-        taxa: spec.taxa,
+		taxa: spec.taxa,
+		datasets: spec.datasets,
         startyear: spec.startyear,
         endyear: spec.endyear,
         startdate: spec.startdate,
@@ -120,7 +127,8 @@ const specFromQuery = function(query) {
         precision: 3,
         scale: "red",
         opacity: 0.7,
-        taxa: []
+        taxa: [],
+		datasets: []
     }
 
     let promises = []
@@ -129,6 +137,8 @@ const specFromQuery = function(query) {
             promises.push(api.taxon(taxonid))
         }
     }
+
+    // todo: datasets
 
     return Promise.all(promises).then(function(taxa) {
         spec.taxa = taxa

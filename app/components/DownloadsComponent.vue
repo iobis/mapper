@@ -9,6 +9,10 @@
                 <span v-for="(taxon, index) in download.criteria.taxa">
                     {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < download.criteria.taxa.length - 1"><br/></span>
                 </span>
+                <br/>
+                <span v-for="(dataset, index) in download.criteria.datasets">
+                    {{ dataset.id }}<span v-if="index < download.criteria.datasets.length - 1"><br/></span>
+                </span>
                 <span v-if="download.criteria.startyear != null || download.criteria.endyear != null" class="smaller">
                     <br/>{{ download.criteria.startyear }} - {{ download.criteria.endyear }}
                 </span>

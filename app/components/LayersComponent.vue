@@ -13,6 +13,10 @@
 			<span v-for="(taxon, index) in layer.taxa">
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < layer.taxa.length - 1"><br/></span>
 			</span>
+			<br/>
+			<span v-for="(dataset, index) in layer.datasets">
+				{{ dataset.id }}<span v-if="index < layer.datasets.length - 1"><br/></span>
+			</span>
             <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
 				<br/>{{ layer.startyear }} - {{ layer.endyear }}
 			</span>
