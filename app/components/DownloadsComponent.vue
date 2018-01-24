@@ -5,13 +5,15 @@
         <div v-if="sharedState.downloads.length == 0" class="sidepanel"><div class="content"><p class="no-results">No downloads.</p></div></div>
 
         <div v-for="download in sharedState.downloads" class="sidelayer">
-
             <p>
                 <span v-for="(taxon, index) in download.criteria.taxa">
                     {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < download.criteria.taxa.length - 1"><br/></span>
                 </span>
                 <span v-if="download.criteria.startyear != null || download.criteria.endyear != null" class="smaller">
                     <br/>{{ download.criteria.startyear }} - {{ download.criteria.endyear }}
+                </span>
+                <span v-if="download.criteria.startdate != null || download.criteria.enddate != null" class="smaller">
+                    <br/>{{ download.criteria.startdate }} - {{ download.criteria.enddate }}
                 </span>
                 <span v-if="download.criteria.geometry != null" class="smaller">
                     <br/>polygon filter

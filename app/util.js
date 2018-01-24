@@ -11,12 +11,18 @@ const createQuery = function(criteria) {
 	if (criteria.taxa) {
 		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
-	if (criteria.startyear) {
-		map.push(["startdate", criteria.startyear + "-01-01"])
-	}
-	if (criteria.endyear) {
-		map.push(["enddate", criteria.endyear + "-12-31"])
-	}
+    if (criteria.startyear) {
+        map.push(["startdate", criteria.startyear + "-01-01"])
+    }
+    if (criteria.endyear) {
+        map.push(["enddate", criteria.endyear + "-12-31"])
+    }
+    if (criteria.startdate) {
+        map.push(["startdate", criteria.startdate])
+    }
+    if (criteria.enddate) {
+        map.push(["enddate", criteria.enddate])
+    }
 	if (criteria.geometry) {
 		map.push(["geometry", criteria.geometry])
 	}
@@ -96,6 +102,16 @@ const extractQuery = function(url) {
     }
 }
 
+const criteriaFromSpec = function(spec) {
+    return {
+        taxa: spec.taxa,
+        startyear: spec.startyear,
+        endyear: spec.endyear,
+        startdate: spec.startdate,
+        enddate: spec.enddate,
+        geometry: spec.geometry
+    }
+}
 const specFromQuery = function(query) {
     let spec = {
         startdate: query.startdate,
@@ -125,5 +141,6 @@ module.exports = {
     makeScales: makeScales,
     getColor: getColor,
     extractQuery: extractQuery,
-    specFromQuery: specFromQuery
+    specFromQuery: specFromQuery,
+    criteriaFromSpec: criteriaFromSpec
 }

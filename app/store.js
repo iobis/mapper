@@ -18,25 +18,17 @@ export const store = {
     group: new L.FeatureGroup(),
     baseGroup: new L.featureGroup(),
 	scales: util.makeScales(),
-    makeCriteria: function(spec) {
-        return {
-            taxa: spec.taxa,
-            startyear: spec.startyear,
-            endyear: spec.endyear,
-            geometry: spec.geometry
-        }
-    },
     populate: function() {
         let query = util.extractQuery(window.location.href)
         if (query) {
-            let spec = util.specFromQuery(query).then(spec => {
+            util.specFromQuery(query).then(spec => {
                 this.addLayer(spec)
             })
         }
     },
 	addLayer: function(spec) {
 		let self = this
-		let criteria = this.makeCriteria(spec)
+		let criteria = util.criteriaFromSpec(spec)
 
 		api.geo(criteria, spec.precision).then(function(response) {
             if (spec.scale == "custom") {
@@ -121,7 +113,7 @@ export const store = {
     },
     addDownload: function(layer) {
         let self = this
-        let criteria = this.makeCriteria(layer)
+        let criteria = util.criteriaFromSpec(layer)
 
         api.download(criteria).then(function(response) {
             let hash = response.hash
