@@ -16,7 +16,7 @@
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < layer.taxa.length - 1"><br/></span>
 			</span>
 
-			<span v-if="layer.startyear != null || layer.endyear != null" class="count">
+			<span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
 				<br/>{{ layer.startyear }} - {{ layer.endyear }}
 			</span>
 			<span v-if="layer.geometry != null" class="smaller">

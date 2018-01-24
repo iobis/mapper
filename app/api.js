@@ -35,5 +35,11 @@ export default {
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
+	},
+	downloadStatus(hash) {
+		let url = "http://api2.iobis.org/download/" + hash + "/status"
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data))
+			.catch((error) => Promise.reject(error))
 	}
 }

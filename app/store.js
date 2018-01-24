@@ -93,6 +93,21 @@ export const store = {
 	    this.baseGroup.clearLayers()
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
     },
+    updateDownloadStatus(download, status){
+        if (status.total) {
+            download.total = status.total
+        }
+        if (status.records) {
+            download.records = status.records
+        }
+        if (status.status == "busy") {
+        } else if (status.status == "ready") {
+            download.ready = true
+        } else if (status == "unknown") {
+            download.ready = true
+            download.error = true
+        }
+    },
     addDownload: function(layer) {
         let self = this
         let criteria = this.makeCriteria(layer)
@@ -101,18 +116,36 @@ export const store = {
         // call download API
 
         api.download(criteria).then(function(response) {
-            console.log("Download response: " + JSON.stringify(response))
+            let hash = response.hash
 
             // save hash
 
-            self.state.downloads.push({
+            let download = {
                 criteria: criteria,
-                hash: response.hash
-            })
+                hash: hash,
+                records: null,
+                total: null,
+                ready: false,
+                error: false
+            }
+            self.state.downloads.push(download)
 
             // start polling
 
-        })
+            api.downloadStatus(hash).then(function(status) {
+                self.updateDownloadStatus(download, status)
+                if (!download.ready) {
+                    let iid = setInterval(function() {
+                        api.downloadStatus(hash).then(function(status) {
+                            self.updateDownloadStatus(download, status)
+                            if (download.ready) {
+                                clearInterval(iid)
+                            }
+                        })
+                    }, 2000)
+                }
+            })
 
+        })
     }
 }
