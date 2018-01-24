@@ -20,25 +20,58 @@
                     </template>
                 </typeahead>
             </div>
-
             <table class="table no-bottom-margin">
                 <thead>
-                    <tr>
-                        <th>Scientific name</th>
-                        <th>Taxon ID</th>
-                    </tr>
+                <tr>
+                    <th>Scientific name</th>
+                    <th>Taxon ID</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="!taxa || taxa.length == 0">
-                        <td class="no-results">No taxa selected.</td><td></td>
-                    </tr>
-                    <tr v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)" class="clickable">
-                        <td>{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }}</td>
-                        <td>{{ taxon.acceptedNameUsageID }}</td>
-                    </tr>
+                <tr v-if="!taxa || taxa.length == 0">
+                    <td class="no-results">No taxa selected.</td><td></td>
+                </tr>
+                <tr v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)" class="clickable">
+                    <td>{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }}</td>
+                    <td>{{ taxon.acceptedNameUsageID }}</td>
+                </tr>
                 </tbody>
             </table>
+        </div>
 
+        <div class="sidesubheader">Datasets</div>
+
+        <div class="sidepanel">
+            <div class="form-group">
+                <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name">
+                <typeahead v-model="selectedDataset" target="#datasetInput" :async-function="completeDataset" item-key="resname" :force-select="true" :debounce="500">
+                    <template slot="item" scope="props">
+                        <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                            <a role="button" @click="props.select(item)">
+                                {{ item.resname }}
+                                <br/><span class="smaller">Dataset ID: {{ item.id }}</span>
+                            </a>
+                        </li>
+                    </template>
+                </typeahead>
+            </div>
+            <table class="table no-bottom-margin">
+                <thead>
+                <tr>
+                    <th>Dataset</th>
+                    <th>ID</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="!datasets || datasets.length == 0">
+                    <td class="no-results">No datasets selected.</td><td></td>
+                </tr>
+                <tr v-for="(dataset, index) in datasets" v-on:click="removeDataset(index)" class="clickable">
+                    <td>{{ dataset.resname }}</td>
+                    <td>{{ dataset.id }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="sidesubheader">Geometry</div>
@@ -109,6 +142,7 @@ export default {
 		return {
 			suggestions: [],
 			taxa: [],
+            datasets: [],
 			scales: store.scales,
 			selectedScale: "red",
 			startYear: 1900,
@@ -116,15 +150,21 @@ export default {
             customColor: "#cc3300",
 			opacity: 0.7,
 			sharedState: store.state,
-            selectedTaxon: null
+            selectedTaxon: null,
+            selectedDataset: null
 		}
 	},
     watch: {
-	    selectedTaxon: function(taxon) {
-            if (taxon) {
-                this.select(taxon)
-            }
-        }
+		selectedTaxon: function(taxon) {
+			if (taxon) {
+				this.select(taxon)
+			}
+		},
+		selectedDataset: function(dataset) {
+			if (dataset) {
+				this.selectDataset(dataset)
+			}
+		}
     },
     mounted() {
         $("#slider").ionRangeSlider({
@@ -145,11 +185,16 @@ export default {
         "typeahead": Typeahead
     },
 	methods: {
-        complete: function(input, done) {
-            api.complete(input).then(res => {
-                done(res)
-            })
-        },
+		complete: function(input, done) {
+			api.complete(input).then(res => {
+				done(res)
+			})
+		},
+		completeDataset: function(input, done) {
+			api.completeDataset(input).then(res => {
+				done(res)
+			})
+		},
 		select: function(taxon) {
 			this.taxa.push({
 				"scientificName": taxon.scientificName,
@@ -157,8 +202,17 @@ export default {
 				"scientificNameAuthorship": taxon.scientificNameAuthorship
 			})
 		},
+		selectDataset: function(dataset) {
+			this.datasets.push({
+				"id": dataset.id,
+				"resname": dataset.resname
+			})
+		},
 		removeTaxon: function(index) {
 			this.taxa.splice(index, 1)
+		},
+		removeDataset: function(index) {
+			this.datasets.splice(index, 1)
 		},
 		addLayer: function() {
             let years = $("#slider").val().split(";")
@@ -172,6 +226,7 @@ export default {
 			}
 			store.addLayer({
 				taxa: JSON.parse(JSON.stringify(this.taxa)),
+				datasets: JSON.parse(JSON.stringify(this.datasets)),
 				startyear: start,
 				endyear: end,
 				precision: 3,

@@ -22,6 +22,12 @@ export default {
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
+	completeDataset(input) {
+		let url = "http://api2.iobis.org/dataset/complete/" + input
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data))
+			.catch((error) => Promise.reject(error))
+	},
 	geo(criteria, precision) {
 		let q = util.createQuery(criteria)
 		let url = "http://api2.iobis.org/occurrence/grid/" + precision + "?" + q
