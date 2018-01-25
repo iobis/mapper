@@ -21,10 +21,10 @@ html, body {
 }
 
 .slidein, .slideout {
-    -webkit-transition: right 1s;
-    -moz-transition: right 1s;
-    -o-transition: right 1s;
-    transition: right 1s;
+    -webkit-transition: right 0.7s;
+    -moz-transition: right 0.7s;
+    -o-transition: right 0.7s;
+    transition: right 0.7s;
 }
 
 .slidein {
@@ -97,11 +97,11 @@ html, body {
     display: block;
     width: 100%;
     padding: 10px 10px;
-    background-color: #dddddd;
+    background-color: #eeeeee;
     color: #000000;
     text-decoration: none;
     font-size: 1.1em;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #dddddd;
 }
 
 .sidelayer {
