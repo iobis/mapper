@@ -7,20 +7,19 @@
         <div v-for="download in sharedState.downloads" class="sidelayer">
             <p>
                 <span v-for="(taxon, index) in download.criteria.taxa">
-                    {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < download.criteria.taxa.length - 1"><br/></span>
+                    {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
                 </span>
-                <br/>
                 <span v-for="(dataset, index) in download.criteria.datasets">
-                    {{ dataset.id }}<span v-if="index < download.criteria.datasets.length - 1"><br/></span>
+                    {{ dataset.id }}<br/>
                 </span>
                 <span v-if="download.criteria.startyear != null || download.criteria.endyear != null" class="smaller">
-                    <br/>{{ download.criteria.startyear }} - {{ download.criteria.endyear }}
+                    {{ download.criteria.startyear }} - {{ download.criteria.endyear }}<br/>
                 </span>
                 <span v-if="download.criteria.startdate != null || download.criteria.enddate != null" class="smaller">
-                    <br/>{{ download.criteria.startdate }} - {{ download.criteria.enddate }}
+                    {{ download.criteria.startdate }} - {{ download.criteria.enddate }}<br/>
                 </span>
                 <span v-if="download.criteria.geometry != null" class="smaller">
-                    <br/>polygon filter
+                    polygon filter<br/>
                 </span>
             </p>
             <p>
