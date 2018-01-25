@@ -56,6 +56,7 @@ export const store = {
 		})
         let q = util.createQuery(criteria)
         window.history.pushState("", "", "?" + q)
+		util.toast("Layer added")
 	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
@@ -141,7 +142,9 @@ export const store = {
                     }, 2000)
                 }
             })
-
         })
-    }
+
+		util.toast("Download added")
+
+	}
 }

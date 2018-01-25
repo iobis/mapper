@@ -1,4 +1,5 @@
 import api from "./api"
+import Vue from "vue"
 
 const createQuery = function(criteria) {
 	let map = []
@@ -146,11 +147,20 @@ const specFromQuery = function(query) {
     })
 }
 
+const toast = function(message) {
+	Vue.toasted.success(message, {
+		duration: 3000,
+		containerClass: "toastcontainer",
+		position: "top-center"
+	})
+}
+
 module.exports = {
     createQuery: createQuery,
     makeScales: makeScales,
     getColor: getColor,
     extractQuery: extractQuery,
     specFromQuery: specFromQuery,
-    criteriaFromSpec: criteriaFromSpec
+    criteriaFromSpec: criteriaFromSpec,
+	toast: toast
 }

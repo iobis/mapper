@@ -203,3 +203,7 @@ html, body {
 label {
     font-weight: normal;
 }
+
+.toastcontainer {
+    top: 0px !important;
+}
