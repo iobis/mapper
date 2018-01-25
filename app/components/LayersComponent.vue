@@ -11,25 +11,24 @@
                 <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>
             </div>
 			<span v-for="(taxon, index) in layer.taxa">
-				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><span v-if="index < layer.taxa.length - 1"><br/></span>
+				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
 			</span>
-			<br/>
 			<span v-for="(dataset, index) in layer.datasets">
-				{{ dataset.id }}<span v-if="index < layer.datasets.length - 1"><br/></span>
+				dataset {{ dataset.id }}<br/>
 			</span>
             <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
-				<br/>{{ layer.startyear }} - {{ layer.endyear }}
+				{{ layer.startyear }} - {{ layer.endyear }}<br/>
 			</span>
             <span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
-				<br/>{{ layer.startdate }} - {{ layer.enddate }}
+				{{ layer.startdate }} - {{ layer.enddate }}<br/>
 			</span>
 			<span v-if="layer.geometry != null" class="smaller">
-				<br/>polygon filter
+				polygon filter<br/>
 			</span>
-			<br/><span class="smaller">{{ layer.count }} records</span>
-			<br/><div>
-			<span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
-			<span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
+			<span class="smaller">{{ layer.count }} records</span><br/>
+			<div>
+				<span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
+				<span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
 			</div>
 		</div>
 
