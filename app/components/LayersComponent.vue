@@ -14,16 +14,16 @@
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
 			</span>
 			<span v-for="(dataset, index) in layer.datasets">
-				dataset {{ dataset.id }}<br/>
+				dataset {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
 			</span>
             <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
-				{{ layer.startyear }} - {{ layer.endyear }}<br/>
+				{{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
 			</span>
             <span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
-				{{ layer.startdate }} - {{ layer.enddate }}<br/>
+				{{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
 			</span>
 			<span v-if="layer.geometry != null" class="smaller">
-				polygon filter<br/>
+				polygon filter set<br/>
 			</span>
 			<span class="smaller">{{ layer.count }} records</span><br/>
 			<div class="layerlegend">

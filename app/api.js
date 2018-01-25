@@ -53,5 +53,11 @@ export default {
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data.results[0]))
 			.catch((error) => Promise.reject(error))
+	},
+	dataset(id) {
+		let url = "http://api2.iobis.org/dataset/" + id
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data.results[0]))
+			.catch((error) => Promise.reject(error))
 	}
 }

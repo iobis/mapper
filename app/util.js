@@ -132,19 +132,30 @@ const specFromQuery = function(query) {
 		datasets: []
     }
 
-    let promises = []
-    if (query.taxonid && query.taxonid.length > 0) {
-        for (let taxonid of query.taxonid) {
-            promises.push(api.taxon(taxonid))
-        }
-    }
+	let taxonPromises = []
+	if (query.taxonid && query.taxonid.length > 0) {
+		for (let taxonid of query.taxonid) {
+			taxonPromises.push(api.taxon(taxonid))
+		}
+	}
 
-    // todo: datasets
+	let datasetPromises = []
+	if (query.datasetid && query.datasetid.length > 0) {
+		for (let datasetid of query.datasetid) {
+			datasetPromises.push(api.dataset(datasetid))
+		}
+	}
 
-    return Promise.all(promises).then(function(taxa) {
-        spec.taxa = taxa
+	let promises = []
+	promises.push(Promise.all(taxonPromises))
+	promises.push(Promise.all(datasetPromises))
+
+	return Promise.all(promises).then(function(results) {
+		spec.taxa = results[0]
+		spec.datasets = results[1]
         return spec
     })
+
 }
 
 const toast = function(message) {

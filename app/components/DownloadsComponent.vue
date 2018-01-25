@@ -10,16 +10,16 @@
                     {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
                 </span>
                 <span v-for="(dataset, index) in download.criteria.datasets">
-                    {{ dataset.id }}<br/>
+                    {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
                 </span>
                 <span v-if="download.criteria.startyear != null || download.criteria.endyear != null" class="smaller">
-                    {{ download.criteria.startyear }} - {{ download.criteria.endyear }}<br/>
+                    {{ download.criteria.startyear }} &rarr; {{ download.criteria.endyear }}<br/>
                 </span>
                 <span v-if="download.criteria.startdate != null || download.criteria.enddate != null" class="smaller">
-                    {{ download.criteria.startdate }} - {{ download.criteria.enddate }}<br/>
+                    {{ download.criteria.startdate }} &rarr; {{ download.criteria.enddate }}<br/>
                 </span>
                 <span v-if="download.criteria.geometry != null" class="smaller">
-                    polygon filter<br/>
+                    polygon filter set<br/>
                 </span>
             </p>
             <p>
