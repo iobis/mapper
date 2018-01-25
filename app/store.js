@@ -29,7 +29,6 @@ export const store = {
 	addLayer: function(spec) {
 		let self = this
 		let criteria = util.criteriaFromSpec(spec)
-
 		api.geo(criteria, spec.precision).then(function(response) {
             if (spec.scale == "custom") {
 		        spec.colors = [ spec.customColor ]

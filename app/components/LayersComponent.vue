@@ -27,7 +27,7 @@
 			<span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
 				{{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
 			</span>
-			<span v-if="layer.startdepth != null || layer.enddepth != null" class="smaller">
+			<span v-if="layer.startdepth || layer.enddepth" class="smaller">
 				{{ layer.startdepth }} &rarr; {{ layer.enddepth }}<br/>
 			</span>
 			<span v-if="layer.geometry != null" class="smaller">
