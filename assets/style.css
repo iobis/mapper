@@ -65,8 +65,8 @@ html, body {
 }
 
 #data {
-    width: calc(100% - 300px);
-    float: right;
+    width: calc(100% - 30px);
+    float: left;
     padding: 20px;
 }
 
