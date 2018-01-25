@@ -309,8 +309,8 @@ export default {
 			let start = years[0]
 			let end = years[1]
 			let depths = $("#depthslider").val().split(";")
-			let startdepth = depths[0]
-			let enddepth = depths[1]
+			let startdepth = parseInt(depths[0])
+			let enddepth = parseInt(depths[1])
 			if (start == this.startYear) {
 				start = null
 			}
