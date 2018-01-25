@@ -137,10 +137,13 @@ export const store = {
                             self.updateDownloadStatus(download, status)
                             if (download.ready) {
                                 clearInterval(iid)
+								util.toast("Download finished")
                             }
                         })
                     }, 2000)
-                }
+                } else {
+					util.toast("Download finished")
+				}
             })
         })
 
