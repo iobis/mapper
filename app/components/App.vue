@@ -8,6 +8,7 @@
                 <div class="menuicon" v-on:click="currentView = 'criteria-component'"><span class="oi oi-plus"></span></div>
                 <div class="menuicon" v-on:click="currentView = 'downloads-component'"><span class="oi oi-data-transfer-download"></span></div>
                 <div class="menuicon" v-on:click="currentView = 'options-component'"><span class="oi oi-wrench"></span></div>
+                <div class="menuicon" v-on:click="currentView = 'help-component'"><span class="oi oi-info"></span></div>
             </div>
             <keep-alive>
                 <component v-bind:is="currentView">
@@ -26,6 +27,7 @@ import CriteriaComponent from "./CriteriaComponent.vue"
 import OptionsComponent from "./OptionsComponent.vue"
 import MapComponent from "./MapComponent.vue"
 import DataComponent from "./DataComponent.vue"
+import HelpComponent from "./HelpComponent.vue"
 import { store } from "../store"
 import util from "../util"
 
@@ -47,7 +49,8 @@ export default {
 		CriteriaComponent,
 		OptionsComponent,
 		MapComponent,
-        DataComponent
+        DataComponent,
+        HelpComponent
 	}
 }
 </script>
