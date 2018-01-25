@@ -74,6 +74,41 @@
             </table>
         </div>
 
+        <div class="sidesubheader">Area</div>
+
+        <div class="sidepanel">
+            <div class="form-group">
+                <input id="areaInput" class="form-control" type="text" placeholder="Enter area name">
+                <typeahead v-model="selectedArea" target="#areaInput" :async-function="completeArea" item-key="name" :force-select="true" :debounce="500">
+                    <template slot="item" scope="props">
+                        <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                            <a role="button" @click="props.select(item)">
+                                {{ item.name }}
+                                <br/><span class="smaller">Area ID: {{ item.id }}</span>
+                            </a>
+                        </li>
+                    </template>
+                </typeahead>
+            </div>
+            <table class="table no-bottom-margin">
+                <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>ID</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="!areas || areas.length == 0">
+                    <td class="no-results">No areas selected.</td><td></td>
+                </tr>
+                <tr v-for="(area, index) in areas" v-on:click="removeArea(index)" class="clickable">
+                    <td>{{ area.name }}</td>
+                    <td>{{ area.id }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="sidesubheader">Geometry</div>
 
         <div class="sidepanel">
@@ -143,6 +178,7 @@ export default {
 			suggestions: [],
 			taxa: [],
             datasets: [],
+            areas: [],
 			scales: store.scales,
 			selectedScale: "red",
 			startYear: 1900,
@@ -151,7 +187,8 @@ export default {
 			opacity: 0.7,
 			sharedState: store.state,
             selectedTaxon: null,
-            selectedDataset: null
+            selectedDataset: null,
+            selectedArea: null
 		}
 	},
     watch: {
@@ -163,6 +200,11 @@ export default {
 		selectedDataset: function(dataset) {
 			if (dataset) {
 				this.selectDataset(dataset)
+			}
+		},
+		selectedArea: function(area) {
+			if (area) {
+				this.selectArea(area)
 			}
 		}
     },
@@ -195,6 +237,11 @@ export default {
 				done(res)
 			})
 		},
+		completeArea: function(input, done) {
+			api.completeArea(input).then(res => {
+				done(res)
+			})
+		},
 		select: function(taxon) {
 			this.taxa.push({
 				"scientificName": taxon.scientificName,
@@ -208,11 +255,20 @@ export default {
 				"resname": dataset.resname
 			})
 		},
+		selectArea: function(area) {
+			this.areas.push({
+				"id": area.id,
+				"name": area.name
+			})
+		},
 		removeTaxon: function(index) {
 			this.taxa.splice(index, 1)
 		},
 		removeDataset: function(index) {
 			this.datasets.splice(index, 1)
+		},
+		removeArea: function(index) {
+			this.areas.splice(index, 1)
 		},
 		addLayer: function() {
             let years = $("#slider").val().split(";")
@@ -227,6 +283,7 @@ export default {
 			store.addLayer({
 				taxa: JSON.parse(JSON.stringify(this.taxa)),
 				datasets: JSON.parse(JSON.stringify(this.datasets)),
+				areas: JSON.parse(JSON.stringify(this.areas)),
 				startyear: start,
 				endyear: end,
 				precision: 3,

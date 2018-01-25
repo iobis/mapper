@@ -28,6 +28,12 @@ export default {
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
+	completeArea(input) {
+		let url = "http://api2.iobis.org/area/complete/" + input
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data))
+			.catch((error) => Promise.reject(error))
+	},
 	geo(criteria, precision) {
 		let q = util.createQuery(criteria)
 		let url = "http://api2.iobis.org/occurrence/grid/" + precision + "?" + q
@@ -50,6 +56,12 @@ export default {
 	},
 	taxon(id) {
 		let url = "http://api2.iobis.org/taxon/" + id
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data.results[0]))
+			.catch((error) => Promise.reject(error))
+	},
+	area(id) {
+		let url = "http://api2.iobis.org/area/" + id
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data.results[0]))
 			.catch((error) => Promise.reject(error))

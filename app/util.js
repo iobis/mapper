@@ -15,6 +15,9 @@ const createQuery = function(criteria) {
 	if (criteria.datasets && criteria.datasets.length > 0) {
 		map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
 	}
+	if (criteria.areas && criteria.areas.length > 0) {
+		map.push(["areaid", criteria.areas.map(function(x) { return(x.id) }).join(",")])
+	}
     if (criteria.startyear) {
         map.push(["startdate", criteria.startyear + "-01-01"])
     }
@@ -96,10 +99,16 @@ const extractQuery = function(url) {
             .reduce((params, param) => {
                 let [ key, value ] = param.split("=");
                 params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : ""
+
+				// todo: shorter
+
 				if (key == "taxonid") {
 					params[key] = params[key].split(",")
 				}
 				if (key == "datasetid") {
+					params[key] = params[key].split(",")
+				}
+				if (key == "areaid") {
 					params[key] = params[key].split(",")
 				}
                 return params
@@ -113,6 +122,7 @@ const criteriaFromSpec = function(spec) {
     return {
 		taxa: spec.taxa,
 		datasets: spec.datasets,
+		areas: spec.areas,
         startyear: spec.startyear,
         endyear: spec.endyear,
         startdate: spec.startdate,
@@ -129,7 +139,8 @@ const specFromQuery = function(query) {
         scale: "red",
         opacity: 0.7,
         taxa: [],
-		datasets: []
+		datasets: [],
+		areas: []
     }
 
 	let taxonPromises = []
@@ -146,13 +157,22 @@ const specFromQuery = function(query) {
 		}
 	}
 
+	let areaPromises = []
+	if (query.areaid && query.areaid.length > 0) {
+		for (let areaid of query.areaid) {
+			areaPromises.push(api.area(areaid))
+		}
+	}
+
 	let promises = []
 	promises.push(Promise.all(taxonPromises))
 	promises.push(Promise.all(datasetPromises))
+	promises.push(Promise.all(areaPromises))
 
 	return Promise.all(promises).then(function(results) {
 		spec.taxa = results[0]
 		spec.datasets = results[1]
+		spec.areas = results[2]
         return spec
     })
 

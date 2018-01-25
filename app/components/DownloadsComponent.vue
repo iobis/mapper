@@ -10,7 +10,10 @@
                     {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
                 </span>
                 <span v-for="(dataset, index) in download.criteria.datasets">
-                    {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
+                    dataset {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
+                </span>
+                <span v-for="(area, index) in download.criteria.areas">
+                    area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
                 </span>
                 <span v-if="download.criteria.startyear != null || download.criteria.endyear != null" class="smaller">
                     {{ download.criteria.startyear }} &rarr; {{ download.criteria.endyear }}<br/>

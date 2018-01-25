@@ -16,6 +16,9 @@
 			<span v-for="(dataset, index) in layer.datasets">
 				dataset {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
 			</span>
+			<span v-for="(area, index) in layer.areas">
+				area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
+			</span>
             <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
 				{{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
 			</span>
