@@ -2,7 +2,9 @@
 	<div>
 		<span class="sideheader">Layers</span>
 
-		<div v-if="sharedState.layers.length == 0" class="sidepanel"><div class="content"><p class="no-results">No layers.</p></div></div>
+		<div v-if="sharedState.layers.length == 0" class="sidepanel">
+			<div class="panelcontent"><p class="no-results">No layers.</p></div>
+		</div>
 
 		<div v-for="layer in sharedState.layers" class="sidelayer">
             <div class="layericons">

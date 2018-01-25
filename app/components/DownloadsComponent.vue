@@ -2,7 +2,9 @@
     <div>
         <span class="sideheader">Downloads</span>
 
-        <div v-if="sharedState.downloads.length == 0" class="sidepanel"><div class="content"><p class="no-results">No downloads.</p></div></div>
+        <div v-if="sharedState.downloads.length == 0" class="sidepanel">
+            <div class="panelcontent"><p class="no-results">No downloads.</p></div>
+        </div>
 
         <div v-for="download in sharedState.downloads" class="sidelayer">
             <p>

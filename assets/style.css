@@ -37,7 +37,11 @@ html, body {
 
 .sidepanel {
     background-color: #ffffff;
-    padding: 10px 10px;
+    padding: 0px;
+}
+
+.panelcontent {
+    padding: 15px 10px 10px 10px;
 }
 
 .menuicon {
@@ -97,7 +101,7 @@ html, body {
     color: #000000;
     text-decoration: none;
     font-size: 1.1em;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
 }
 
 .sidelayer {
