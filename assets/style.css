@@ -207,3 +207,7 @@ label {
 .toastcontainer {
     top: 0px !important;
 }
+
+.layerlegend {
+    margin-top: 5px;
+}
