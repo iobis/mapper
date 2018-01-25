@@ -140,6 +140,18 @@
             </div>
         </div>
 
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse7" aria-expanded="true" aria-controls="collapse7">Depth range</div>
+
+        <div class="sidepanel collapse" id="collapse7">
+            <div class="panelcontent">
+                <div class="form-group">
+                    <div class="sliderwrapper">
+                        <input id="depthslider">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse6" aria-expanded="true" aria-controls="collapse6">Styling</div>
 
         <div class="sidepanel collapse in" id="collapse6">
@@ -220,18 +232,29 @@ export default {
 		}
     },
     mounted() {
-        $("#slider").ionRangeSlider({
-            type: "double",
-            grid: false,
-            min: this.startYear,
-            max: this.currentYear,
-            from: this.startYear,
-            to: this.currentYear,
-            prettify_enabled: true,
-            prettify: function (num) {
-                return num
-            }
-        })
+		$("#slider").ionRangeSlider({
+			type: "double",
+			grid: false,
+			min: this.startYear,
+			max: this.currentYear,
+			from: this.startYear,
+			to: this.currentYear,
+			prettify_enabled: true,
+			prettify: function (num) {
+				return num
+			}
+		})
+		$("#depthslider").ionRangeSlider({
+			type: "double",
+			grid: false,
+			from: 0,
+			to: 11000,
+            values: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+			prettify_enabled: true,
+			prettify: function (num) {
+				return num
+			}
+		})
     },
     components: {
         "color-picker": ColorPicker,
@@ -282,14 +305,23 @@ export default {
 			this.areas.splice(index, 1)
 		},
 		addLayer: function() {
-            let years = $("#slider").val().split(";")
+			let years = $("#slider").val().split(";")
 			let start = years[0]
 			let end = years[1]
+			let depths = $("#depthslider").val().split(";")
+			let startdepth = depths[0]
+			let enddepth = depths[1]
 			if (start == this.startYear) {
-            	start = null
+				start = null
 			}
 			if (end == this.currentYear) {
-            	end = null
+				end = null
+			}
+			if (startdepth == 0) {
+				startdepth = null
+			}
+			if (enddepth == 11000) {
+				enddepth = null
 			}
 			store.addLayer({
 				taxa: JSON.parse(JSON.stringify(this.taxa)),
@@ -297,6 +329,8 @@ export default {
 				areas: JSON.parse(JSON.stringify(this.areas)),
 				startyear: start,
 				endyear: end,
+                startdepth: startdepth,
+                enddepth: enddepth,
 				precision: 3,
 				geometry: this.sharedState.wkt,
 				opacity: this.opacity,

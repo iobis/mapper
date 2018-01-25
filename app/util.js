@@ -24,12 +24,18 @@ const createQuery = function(criteria) {
     if (criteria.endyear) {
         map.push(["enddate", criteria.endyear + "-12-31"])
     }
-    if (criteria.startdate) {
-        map.push(["startdate", criteria.startdate])
-    }
-    if (criteria.enddate) {
-        map.push(["enddate", criteria.enddate])
-    }
+	if (criteria.startdate) {
+		map.push(["startdate", criteria.startdate])
+	}
+	if (criteria.enddate) {
+		map.push(["enddate", criteria.enddate])
+	}
+	if (criteria.startdepth) {
+		map.push(["startdepth", criteria.startdepth])
+	}
+	if (criteria.enddepth) {
+		map.push(["enddepth", criteria.enddepth])
+	}
 	if (criteria.geometry) {
 		map.push(["geometry", criteria.geometry])
 	}
@@ -125,15 +131,19 @@ const criteriaFromSpec = function(spec) {
 		areas: spec.areas,
         startyear: spec.startyear,
         endyear: spec.endyear,
-        startdate: spec.startdate,
-        enddate: spec.enddate,
+		startdate: spec.startdate,
+		enddate: spec.enddate,
+		startdepth: spec.startdepth,
+		enddepth: spec.enddepth,
         geometry: spec.geometry
     }
 }
 const specFromQuery = function(query) {
     let spec = {
-        startdate: query.startdate,
-        enddate: query.enddate,
+		startdate: query.startdate,
+		enddate: query.enddate,
+		startdepth: query.startdepth,
+		enddepth: query.enddepth,
         geometry: query.geometry,
         precision: 3,
         scale: "red",

@@ -24,8 +24,11 @@
             <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
 				{{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
 			</span>
-            <span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
+			<span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
 				{{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
+			</span>
+			<span v-if="layer.startdepth != null || layer.enddepth != null" class="smaller">
+				{{ layer.startdepth }} &rarr; {{ layer.enddepth }}<br/>
 			</span>
 			<span v-if="layer.geometry != null" class="smaller">
 				polygon filter set<br/>

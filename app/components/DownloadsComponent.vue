@@ -23,6 +23,9 @@
                 <span v-if="download.criteria.startdate != null || download.criteria.enddate != null" class="smaller">
                     {{ download.criteria.startdate }} &rarr; {{ download.criteria.enddate }}<br/>
                 </span>
+                <span v-if="download.criteria.startdepth != null || download.criteria.enddepth != null" class="smaller">
+                    {{ download.criteria.startdepth }} &rarr; {{ download.criteria.enddepth }}<br/>
+                </span>
                 <span v-if="download.criteria.geometry != null" class="smaller">
                     polygon filter set<br/>
                 </span>
