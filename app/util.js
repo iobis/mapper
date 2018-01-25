@@ -9,10 +9,10 @@ const createQuery = function(criteria) {
 	if (criteria.after && criteria.after > -1) {
 		map.push(["after", criteria.after])
 	}
-	if (criteria.taxa) {
+	if (criteria.taxa && criteria.taxa.length > 0) {
 		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
-	if (criteria.datasets) {
+	if (criteria.datasets && criteria.datasets.length > 0) {
 		map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
 	}
     if (criteria.startyear) {
