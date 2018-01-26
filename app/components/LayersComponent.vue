@@ -21,10 +21,10 @@
 			<span v-for="(area, index) in layer.areas">
 				area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
 			</span>
-            <span v-if="layer.startyear != null || layer.endyear != null" class="smaller">
+            <span v-if="layer.startyear || layer.endyear" class="smaller">
 				{{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
 			</span>
-			<span v-if="layer.startdate != null || layer.enddate != null" class="smaller">
+			<span v-if="layer.startdate || layer.enddate" class="smaller">
 				{{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
 			</span>
 			<span v-if="layer.startdepth || layer.enddepth" class="smaller">
