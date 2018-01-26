@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="sideheader">Create layer
-            <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="taxa.length <= 0" v-on:click="addLayer">Add</button>
+            <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="disableAdd" v-on:click="addLayer">Add</button>
         </div>
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">Scientific name</div>
@@ -259,6 +259,11 @@ export default {
     components: {
         "color-picker": ColorPicker,
         "typeahead": Typeahead
+    },
+    computed: {
+	    disableAdd: function() {
+			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt
+        }
     },
 	methods: {
 		complete: function(input, done) {
