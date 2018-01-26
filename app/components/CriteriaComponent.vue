@@ -9,7 +9,7 @@
         <div class="sidepanel collapse in" id="collapse1">
             <div class="panelcontent">
                 <div class="form-group">
-                    <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name">
+                    <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name" ref="nameInput">
                     <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500">
                         <template slot="item" scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
@@ -46,7 +46,7 @@
         <div class="sidepanel collapse" id="collapse2">
             <div class="panelcontent">
                 <div class="form-group">
-                    <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name">
+                    <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name" ref="datasetInput">
                     <typeahead v-model="selectedDataset" target="#datasetInput" :async-function="completeDataset" item-key="resname" :force-select="true" :debounce="500">
                         <template slot="item" scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
@@ -83,7 +83,7 @@
         <div class="sidepanel collapse" id="collapse3">
             <div class="panelcontent">
                 <div class="form-group">
-                    <input id="areaInput" class="form-control" type="text" placeholder="Enter area name">
+                    <input id="areaInput" class="form-control" type="text" placeholder="Enter area name" ref="areaInput">
                     <typeahead v-model="selectedArea" target="#areaInput" :async-function="completeArea" item-key="name" :force-select="true" :debounce="500">
                         <template slot="item" scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
@@ -282,17 +282,26 @@ export default {
 				"acceptedNameUsageID": taxon.acceptedNameUsageID,
 				"scientificNameAuthorship": taxon.scientificNameAuthorship
 			})
+            this.$nextTick(function() {
+				this.$refs.nameInput.value = ""
+            })
 		},
 		selectDataset: function(dataset) {
 			this.datasets.push({
 				"id": dataset.id,
 				"resname": dataset.resname
 			})
+			this.$nextTick(function() {
+				this.$refs.datasetInput.value = ""
+			})
 		},
 		selectArea: function(area) {
 			this.areas.push({
 				"id": area.id,
 				"name": area.name
+			})
+			this.$nextTick(function() {
+				this.$refs.areaInput.value = ""
 			})
 		},
 		removeTaxon: function(index) {
