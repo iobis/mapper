@@ -23,6 +23,9 @@ export const store = {
         if (query) {
             util.specFromQuery(query).then(spec => {
                 this.addLayer(spec)
+				if (spec.download) {
+                	this.addDownload(spec)
+				}
             })
         }
     },
