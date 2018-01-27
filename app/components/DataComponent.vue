@@ -1,11 +1,20 @@
 <template>
     <div id="data">
 
-        <p>
-            <button class="btn btn-primary clickable" v-on:click="previousPage()" :disabled="sharedState.pageindex == 0">Previous</button>
-            <button class="btn btn-primary clickable" v-on:click="nextPage()">Next</button>
-            <button class="btn btn-success clickable" v-on:click="close()">Close</button>
-        </p>
+        <nav>
+            <ul class="pagination">
+                <li v-bind:class="{ disabled: sharedState.pageindex == 0 }">
+                    <a v-on:click="previousPage()" href="#"><span aria-hidden="true">&laquo;</span></a>
+                </li>
+                <li><a>{{ sharedState.pageindex + 1 }}</a></li>
+                <li>
+                    <a class="clickable" v-on:click="nextPage()" href="#"><span aria-hidden="true">&raquo;</span></a>
+                </li>
+            </ul>
+            <ul class="pagination back">
+                <li><a href="#" v-on:click="close()">back</a></li>
+            </ul>
+        </nav>
 
         <table class="table table-sm">
             <thead>
@@ -57,7 +66,9 @@ export default {
             store.nextPage()
         },
         previousPage: function() {
-        	store.previousPage()
+        	if (store.state.pageindex > 0) {
+        		store.previousPage()
+			}
         }
     },
 	filters: {
