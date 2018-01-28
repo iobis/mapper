@@ -12,7 +12,7 @@
                 </li>
             </ul>
             <ul class="pagination back">
-                <li><a href="#" v-on:click="close()">back</a></li>
+                <li><a href="#" v-on:click="close()">Close</a></li>
             </ul>
         </nav>
 
