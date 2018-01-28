@@ -73,6 +73,7 @@ export const store = {
 		this.reset()
 		this.state.selectedLayer = layer
         this.state.mapmode = false
+		this.state.show = false
 		this.fetch()
     },
 	fetch: function() {
@@ -83,6 +84,7 @@ export const store = {
 		})
 	},
     showMap: function() {
+		this.state.show = true
         this.state.mapmode = true
     },
 	nextPage: function() {
