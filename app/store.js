@@ -13,8 +13,9 @@ export const store = {
 		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
 		show: true,
-        downloads: []
-	},
+        downloads: [],
+        currentView: "layers-component"
+    },
     group: new L.FeatureGroup(),
     baseGroup: new L.featureGroup(),
 	scales: util.makeScales(),
@@ -58,7 +59,8 @@ export const store = {
 		})
         let q = util.createQuery(criteria)
         window.history.pushState("", "", "?" + q)
-		util.toast("Layer added")
+        this.state.currentView = "layers-component"
+        util.toast("Layer added")
 	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
@@ -151,6 +153,7 @@ export const store = {
             })
         })
 
+        this.state.currentView = "downloads-component"
 		util.toast("Download added")
 
 	}

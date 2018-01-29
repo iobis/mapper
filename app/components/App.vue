@@ -4,14 +4,14 @@
             <div id="menubar">
                 <div class="menuicon" v-if="sharedState.show" v-on:click="sharedState.show = false"><span class="oi oi-chevron-right"></span></div>
                 <div class="menuicon" v-if="!sharedState.show" v-on:click="sharedState.show = true"><span class="oi oi-chevron-left"></span></div>
-                <div class="menuicon" v-on:click="currentView = 'layers-component'"><span class="oi oi-layers"></span></div>
-                <div class="menuicon" v-on:click="currentView = 'criteria-component'"><span class="oi oi-plus"></span></div>
-                <div class="menuicon" v-on:click="currentView = 'downloads-component'"><span class="oi oi-data-transfer-download"></span></div>
-                <div class="menuicon" v-on:click="currentView = 'options-component'"><span class="oi oi-wrench"></span></div>
-                <div class="menuicon" v-on:click="currentView = 'help-component'"><span class="oi oi-info"></span></div>
+                <div class="menuicon" v-on:click="sharedState.currentView = 'layers-component'"><span class="oi oi-layers"></span></div>
+                <div class="menuicon" v-on:click="sharedState.currentView = 'criteria-component'"><span class="oi oi-plus"></span></div>
+                <div class="menuicon" v-on:click="sharedState.currentView = 'downloads-component'"><span class="oi oi-data-transfer-download"></span></div>
+                <div class="menuicon" v-on:click="sharedState.currentView = 'options-component'"><span class="oi oi-wrench"></span></div>
+                <div class="menuicon" v-on:click="sharedState.currentView = 'help-component'"><span class="oi oi-info"></span></div>
             </div>
             <keep-alive>
-                <component v-bind:is="currentView">
+                <component v-bind:is="sharedState.currentView">
                 </component>
             </keep-alive>
         </div>
@@ -34,8 +34,7 @@ import util from "../util"
 export default {
     data() {
         return {
-            sharedState: store.state,
-            currentView: "layers-component"
+            sharedState: store.state
         }
     },
     mounted: function() {

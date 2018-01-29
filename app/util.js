@@ -36,9 +36,9 @@ const createQuery = function(criteria) {
 	if (criteria.enddepth) {
 		map.push(["enddepth", criteria.enddepth])
 	}
-	if (criteria.geometry) {
-		map.push(["geometry", criteria.geometry])
-	}
+    if (criteria.geometry) {
+        map.push(["geometry", criteria.geometry])
+    }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")
