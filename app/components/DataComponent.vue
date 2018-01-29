@@ -7,7 +7,7 @@
                     <a v-on:click="previousPage()" href="#"><span aria-hidden="true">&laquo;</span></a>
                 </li>
                 <li><a>{{ sharedState.pageindex + 1 }}</a></li>
-                <li>
+                <li v-bind:class="{ disabled: sharedState.data.length < config.pagesize }">
                     <a class="clickable" v-on:click="nextPage()" href="#"><span aria-hidden="true">&raquo;</span></a>
                 </li>
             </ul>
@@ -50,12 +50,14 @@
 
 <script>
 import { store } from "../store"
+import config from "../config"
 let moment = require("moment")
 
 export default {
     data() {
         return {
-            sharedState: store.state
+            sharedState: store.state,
+            config: config
         }
     },
     methods: {
@@ -63,7 +65,9 @@ export default {
             store.showMap()
         },
         nextPage: function() {
-            store.nextPage()
+            if (store.state.data.length == config.pagesize) {
+                store.nextPage()
+            }
         },
         previousPage: function() {
         	if (store.state.pageindex > 0) {

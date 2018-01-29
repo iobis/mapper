@@ -1,6 +1,7 @@
 import L from "leaflet"
 import api from "./api"
 import util from "./util"
+import config from "./config"
 
 export const store = {
 	state: {
@@ -51,7 +52,7 @@ export const store = {
 			layer.addTo(self.group)
 			spec.layer = layer
 			spec.count = null
-			spec.size = 30
+			spec.size = config.pagesize
 			self.state.layers.push(spec)
 			api.count(criteria).then(function(response) {
 				spec.count = response
