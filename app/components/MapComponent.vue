@@ -7,6 +7,7 @@ import api from "../api"
 import L from "leaflet"
 import { store } from "../store"
 import Wkt from "wicket/wicket"
+import util from "../util"
 require("leaflet-draw")
 
 export default {
@@ -54,6 +55,7 @@ export default {
 		this.map.on(L.Draw.Event.CREATED, function(e) {
 			let layer = e.layer
 			store.state.wkt = wkt(layer)
+			util.toast("Geometry set")
 		})
 		store.updateBase()
 	},
