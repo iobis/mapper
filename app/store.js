@@ -52,6 +52,7 @@ export const store = {
 			layer.addTo(self.group)
 			spec.layer = layer
 			spec.count = null
+			spec.pointsmode = false
 			spec.size = config.pagesize
 			self.state.layers.push(spec)
 			api.count(criteria).then(function(response) {
@@ -63,37 +64,49 @@ export const store = {
         this.state.currentView = "layers-component"
         util.toast("Layer added")
 	},
-	viewPoints: function(layer) {
+	togglePoints: function(layer) {
 		let self = this
-		layer.layer.removeFrom(this.group)
-
-
-		let criteria = util.criteriaFromSpec(layer)
-
-		api.geoPoints(criteria).then(function(response) {
-			let pointsLayer = L.geoJSON(response, {
-				pointToLayer: function (feature, latlng) {
-					return new L.CircleMarker(latlng, {
-						radius: 4,
-						fillOpacity: 1,
-						opacity: 1,
-						color: "white",
-						fillColor: "#cc3300",
-						weight: 2,
-						clickable: true
+		if (layer.pointsmode) {
+			layer.pointsLayer.removeFrom(this.group)
+			layer.layer.addTo(this.group)
+		} else {
+			layer.layer.removeFrom(this.group)
+			if (!layer.pointsLayer) {
+				let criteria = util.criteriaFromSpec(layer)
+				api.geoPoints(criteria).then(function(response) {
+					let color
+					if (layer.colors.length > 1) {
+						color = layer.colors[5]
+					} else {
+						color = layer.colors[0]
+					}
+					let pointsLayer = L.geoJSON(response, {
+						pointToLayer: function (feature, latlng) {
+							return new L.CircleMarker(latlng, {
+								radius: 4,
+								fillOpacity: 1,
+								opacity: 1,
+								color: "white",
+								fillColor: color,
+								weight: 1.5,
+								clickable: true
+							})
+						}
 					})
-				}
-			})
-			pointsLayer.addTo(self.group)
-			layer.pointsLayer = pointsLayer
-		})
-
-
-
-
+					pointsLayer.addTo(self.group)
+					layer.pointsLayer = pointsLayer
+				})
+			} else {
+				layer.pointsLayer.addTo(self.group)
+			}
+		}
+		layer.pointsmode = !layer.pointsmode
 	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
+		if (layer.pointsLayer) {
+			layer.pointsLayer.removeFrom(this.group)
+		}
         let i = this.state.layers.indexOf(layer)
         this.state.layers.splice(i, 1)
     },
