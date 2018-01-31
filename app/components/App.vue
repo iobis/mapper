@@ -15,7 +15,9 @@
                 </component>
             </keep-alive>
         </div>
-        <map-component v-if="sharedState.mapmode == true"></map-component>
+        <keep-alive>
+            <map-component v-if="sharedState.mapmode == true"></map-component>
+        </keep-alive>
         <data-component v-if="sharedState.mapmode == false"></data-component>
     </div>
 </template>
