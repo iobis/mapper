@@ -160,12 +160,14 @@
                     <label>Color scale</label>
                     <span v-for="(scale, name) in scales">
                         <br/>
+                        <label class="colorlabel">
                         <input type="radio" name="scale" v-model="selectedScale" v-bind:value="name">
                         <div class="colorsquares">
                             <span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
                         </div>
+                        </label>
                     </span>
-                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel" for="customcolor">custom color</label>
+                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel clickable" for="customcolor">custom color</label>
                     <color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
                 </div>
 
