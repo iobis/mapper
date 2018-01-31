@@ -63,6 +63,35 @@ export const store = {
         this.state.currentView = "layers-component"
         util.toast("Layer added")
 	},
+	viewPoints: function(layer) {
+		let self = this
+		layer.layer.removeFrom(this.group)
+
+
+		let criteria = util.criteriaFromSpec(layer)
+
+		api.geoPoints(criteria).then(function(response) {
+			let pointsLayer = L.geoJSON(response, {
+				pointToLayer: function (feature, latlng) {
+					return new L.CircleMarker(latlng, {
+						radius: 4,
+						fillOpacity: 1,
+						opacity: 1,
+						color: "white",
+						fillColor: "#cc3300",
+						weight: 2,
+						clickable: true
+					})
+				}
+			})
+			pointsLayer.addTo(self.group)
+			layer.pointsLayer = pointsLayer
+		})
+
+
+
+
+	},
     removeLayer: function(layer) {
         layer.layer.removeFrom(this.group)
         let i = this.state.layers.indexOf(layer)
