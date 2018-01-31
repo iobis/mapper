@@ -18,6 +18,7 @@ export const store = {
         currentView: "layers-component"
     },
     group: new L.FeatureGroup(),
+	map: null,
     baseGroup: new L.featureGroup(),
 	scales: util.makeScales(),
     populate: function() {
@@ -82,7 +83,7 @@ export const store = {
 					}
 					let pointsLayer = L.geoJSON(response, {
 						pointToLayer: function (feature, latlng) {
-							return new L.CircleMarker(latlng, {
+							let marker = new L.CircleMarker(latlng, {
 								radius: 4,
 								fillOpacity: 1,
 								opacity: 1,
@@ -91,6 +92,16 @@ export const store = {
 								weight: 1.5,
 								clickable: true
 							})
+							marker.on("click", function(e) {
+								let { lat, lng } = e.latlng
+								let criteria = util.criteriaFromSpec(layer)
+								api.geoPoint(criteria, lng, lat).then(function (res) {
+									let popup = L.popup({
+										maxWidth: 500
+									}).setLatLng(e.latlng).setContent(util.generatePopup(res)).openOn(self.map)
+								})
+							})
+							return marker
 						}
 					})
 					pointsLayer.addTo(self.group)

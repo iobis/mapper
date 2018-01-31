@@ -223,3 +223,13 @@ label {
 .pagination {
     margin: 15px 0px 10px 0px;
 }
+
+.popupcontainer {
+    width: 500px;
+    max-height: 300px;
+}
+
+.popupcontent {
+    overflow: auto;
+    max-height: 300px;
+}

@@ -29,6 +29,7 @@ export default {
 			minZoom: 1,
 			attributionControl: false
 		}).setView([20, 0], 2)
+		store.map = this.map
 		store.group.addTo(this.map)
 		store.baseGroup.addTo(this.map)
 		let drawControl = new L.Control.Draw({

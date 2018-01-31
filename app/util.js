@@ -197,6 +197,18 @@ const toast = function(message) {
 	})
 }
 
+const generatePopup = function(res) {
+	let tables = res.results.map(function(record) {
+		let output = "<p><table class=\"table table-condensed\"><thead><tr><th colspan=\"2\">Record " + record.id + "</th></tr></thead><tbody>"
+		for (let [k, v] of Object.entries(record)) {
+			output = output + "<tr><td>" + k + "</td><td>" + v + "</td></tr>"
+		}
+		output = output + "</tbody></table></p>"
+		return output
+	}).join("")
+	return "<div class=\"popupcontainer\"><div class=\"popupcontent\">" + tables + "</div></div>"
+}
+
 module.exports = {
     createQuery: createQuery,
     makeScales: makeScales,
@@ -204,5 +216,6 @@ module.exports = {
     extractQuery: extractQuery,
     specFromQuery: specFromQuery,
     criteriaFromSpec: criteriaFromSpec,
-	toast: toast
+	toast: toast,
+	generatePopup: generatePopup
 }
