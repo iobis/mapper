@@ -244,3 +244,13 @@ label {
 .colorlabel {
     margin: 0px !important;
 }
+
+.tooltip-inner {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #ffffff;
+    color: #000000;
+}

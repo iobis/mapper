@@ -12,3 +12,9 @@ new Vue({
 	mounted() {
 	}
 })
+
+$(document).ready(function() {
+	$('[data-toggle="tooltip"]').tooltip({
+		"delay": { show: 600, hide: 0 }
+	});
+});
