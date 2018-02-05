@@ -15,7 +15,7 @@ export const store = {
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
 		show: true,
         downloads: [],
-        currentView: "layers-component"
+        currentView: "criteria-component"
     },
     group: new L.FeatureGroup(),
 	map: null,
