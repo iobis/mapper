@@ -48,9 +48,13 @@ export default {
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
-	geoPoint(criteria, x, y) {
+	geoPoint(criteria, x, y, z) {
 		let q = util.createQuery(criteria)
-		let url = "http://api2.iobis.org/occurrence/point/" + x + "/" + y + "?" + q
+		let url = "http://api2.iobis.org/occurrence/point/" + x + "/" + y
+		if (z) {
+			url = url + "/" + z
+		}
+		url = url + "?" + q
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))

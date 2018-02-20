@@ -1,6 +1,7 @@
 import L from "leaflet"
 import api from "./api"
 import util from "./util"
+import MultiPoint from "./multipoint"
 import config from "./config"
 
 export const store = {
@@ -35,6 +36,7 @@ export const store = {
 	addLayer: function(spec) {
 		let self = this
 		let criteria = util.criteriaFromSpec(spec)
+
 		api.geo(criteria, spec.precision).then(function(response) {
             if (spec.scale == "custom") {
 		        spec.colors = [ spec.customColor ]
@@ -60,6 +62,7 @@ export const store = {
 				spec.count = response
 			})
 		})
+
         let q = util.createQuery(criteria)
         window.history.pushState("", "", "?" + q)
         this.state.currentView = "layers-component"
@@ -74,6 +77,30 @@ export const store = {
 			layer.layer.removeFrom(this.group)
 			if (!layer.pointsLayer) {
 				let criteria = util.criteriaFromSpec(layer)
+				let url = util.tileUrl(criteria)
+				let color
+				if (layer.colors.length > 1) {
+					color = layer.colors[5]
+				} else {
+					color = layer.colors[0]
+				}
+				let pointsLayer = new MultiPoint(url, {
+					fill: color,
+					radius: 3.5,
+					onClick: function(e) {
+						let [lng, lat] = e
+						let criteria = util.criteriaFromSpec(layer)
+						api.geoPoint(criteria, lng, lat, self.map.getZoom()).then(function(res) {
+							let popup = L.popup({
+								maxWidth: 500
+							}).setLatLng({ lat: lat, lng: lng}).setContent(util.generatePopup(res)).openOn(self.map)
+						})
+					}
+				})
+				pointsLayer.addTo(self.group)
+				layer.pointsLayer = pointsLayer
+
+				/*
 				api.geoPoints(criteria).then(function(response) {
 					let color
 					if (layer.colors.length > 1) {
@@ -107,6 +134,8 @@ export const store = {
 					pointsLayer.addTo(self.group)
 					layer.pointsLayer = pointsLayer
 				})
+				*/
+
 			} else {
 				layer.pointsLayer.addTo(self.group)
 			}

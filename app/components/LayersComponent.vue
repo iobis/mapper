@@ -8,7 +8,7 @@
 
 		<div v-for="layer in sharedState.layers" class="sidelayer">
             <div class="layericons">
-				<div class="layericon" v-on:click="togglePoints(layer)" v-if="layer.count <= 10000"><span class="oi oi-map-marker"></span></div>
+				<div class="layericon" v-on:click="togglePoints(layer)"><span class="oi oi-map-marker"></span></div>
 				<div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-justify-left"></span></div>
                 <div class="layericon" v-on:click="addDownload(layer)"><span class="oi oi-data-transfer-download"></span></div>
                 <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>

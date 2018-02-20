@@ -209,6 +209,11 @@ const generatePopup = function(res) {
 	return "<div class=\"popupcontainer\"><div class=\"popupcontent\">" + tables + "</div></div>"
 }
 
+const tileUrl = function(criteria) {
+	let q = createQuery(criteria)
+	let url = "http://api2.iobis.org/occurrence/tile/{x}/{y}/{z}?" + q
+	return url
+}
 module.exports = {
     createQuery: createQuery,
     makeScales: makeScales,
@@ -217,5 +222,6 @@ module.exports = {
     specFromQuery: specFromQuery,
     criteriaFromSpec: criteriaFromSpec,
 	toast: toast,
-	generatePopup: generatePopup
+	generatePopup: generatePopup,
+	tileUrl: tileUrl
 }
