@@ -68,6 +68,19 @@ export const store = {
         this.state.currentView = "layers-component"
         util.toast("Layer added")
 	},
+	pointsExceeded: function() {
+		let self = this
+		if (!this.pointToast) {
+			util.toast("Tile exceeded maximum of 10,000 locations, consider narrowing down data selection", {
+				type: "error",
+				duration: 2000
+			})
+		}
+		this.pointToast = true
+		setTimeout(function() {
+			self.pointToast = false
+		}, 3000)
+	},
 	togglePoints: function(layer) {
 		let self = this
 		if (layer.pointsmode) {
@@ -87,6 +100,11 @@ export const store = {
 				let pointsLayer = new MultiPoint(url, {
 					fill: color,
 					radius: 3.5,
+					onTileCounted: function(count) {
+						if (count >= 10000) {
+							self.pointsExceeded()
+						}
+					},
 					onClick: function(e) {
 						let [lng, lat] = e
 						let criteria = util.criteriaFromSpec(layer)

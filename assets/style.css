@@ -254,3 +254,7 @@ label {
     border-bottom-color: #ffffff;
     color: #000000;
 }
+
+.colorpicker {
+    z-index: 999999;
+}

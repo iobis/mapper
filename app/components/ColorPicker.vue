@@ -13,7 +13,7 @@ export default {
         $(this.$el).colorpicker({
             color: self.value,
             format: "hex"
-        }).on("changeColor", function(e) {
+        }).on("colorpickerChange", function(e) {
             if (e.value) {
                 self.$emit("input", e.value)
             }

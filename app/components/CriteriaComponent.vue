@@ -168,7 +168,7 @@
                         </label>
                     </span>
                     <br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel clickable" for="customcolor">custom color</label>
-                    <color-picker v-model="customColor" v-if="selectedScale == 'custom'"></color-picker>
+                    <color-picker v-model="customColor" v-if="selectedScale == 'custom'" id="cp"></color-picker>
                 </div>
 
                 <div class="form-group">

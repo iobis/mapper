@@ -7,7 +7,8 @@ module.exports = L.GridLayer.extend({
 		fill: "#cc3300",
 		stroke: "#ffffff",
 		strokeWidth: 1.3,
-		onClick: null
+		onClick: null,
+		onTileCounted: null
 	},
 	initialize: function(url, options) {
 		this._url = url;
@@ -59,6 +60,9 @@ module.exports = L.GridLayer.extend({
 						.attr("cx", function(d) { return d[2]; })
 						.attr("cy", function(d) { return d[3]; })
 						.attr("r", self.options.radius )
+					if (self.options.onTileCounted) {
+						self.options.onTileCounted(res.coordinates.length)
+					}
 					if (self.options.onClick) {
 						self._tiles[key].el.on("click", self.options.onClick);
 					}

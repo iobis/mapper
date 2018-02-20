@@ -189,12 +189,15 @@ const specFromQuery = function(query) {
 
 }
 
-const toast = function(message) {
-	Vue.toasted.success(message, {
+const toast = function(message, options) {
+	var defaultOptions = {
+		type: "success",
 		duration: 3000,
 		containerClass: "toastcontainer",
 		position: "top-center"
-	})
+	}
+	Object.assign(defaultOptions, options);
+	Vue.toasted.show(message, defaultOptions)
 }
 
 const generatePopup = function(res) {
