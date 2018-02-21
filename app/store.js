@@ -117,43 +117,6 @@ export const store = {
 				})
 				pointsLayer.addTo(self.group)
 				layer.pointsLayer = pointsLayer
-
-				/*
-				api.geoPoints(criteria).then(function(response) {
-					let color
-					if (layer.colors.length > 1) {
-						color = layer.colors[5]
-					} else {
-						color = layer.colors[0]
-					}
-					let pointsLayer = L.geoJSON(response, {
-						pointToLayer: function (feature, latlng) {
-							let marker = new L.CircleMarker(latlng, {
-								radius: 4,
-								fillOpacity: 1,
-								opacity: 1,
-								color: "white",
-								fillColor: color,
-								weight: 1.5,
-								clickable: true
-							})
-							marker.on("click", function(e) {
-								let { lat, lng } = e.latlng
-								let criteria = util.criteriaFromSpec(layer)
-								api.geoPoint(criteria, lng, lat).then(function (res) {
-									let popup = L.popup({
-										maxWidth: 500
-									}).setLatLng(e.latlng).setContent(util.generatePopup(res)).openOn(self.map)
-								})
-							})
-							return marker
-						}
-					})
-					pointsLayer.addTo(self.group)
-					layer.pointsLayer = pointsLayer
-				})
-				*/
-
 			} else {
 				layer.pointsLayer.addTo(self.group)
 			}

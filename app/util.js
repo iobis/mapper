@@ -209,7 +209,15 @@ const generatePopup = function(res) {
 		output = output + "</tbody></table></p>"
 		return output
 	}).join("")
-	return "<div class=\"popupcontainer\"><div class=\"popupcontent\">" + tables + "</div></div>"
+	let preamble = "<p>Found " + res.total + " record"
+	if (res.total > 1) {
+		preamble = preamble + "s"
+	}
+	if (res.total > 10) {
+		preamble = preamble + ", displaying first 10"
+	}
+	preamble = preamble + ".</p>"
+	return "<div class=\"popupcontainer\"><div class=\"popupcontent\">" + preamble + tables + "</div></div>"
 }
 
 const tileUrl = function(criteria) {
