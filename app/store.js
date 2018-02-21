@@ -42,6 +42,9 @@ export const store = {
 		        spec.colors = [ spec.customColor ]
             } else {
                 spec.colors = self.scales[spec.scale].colors
+				if (self.scales[spec.scale].pointColor) {
+                	spec.pointColor = self.scales[spec.scale].pointColor
+				}
             }
             let layer = L.geoJSON(response, {
 				style: function (feature) {
@@ -92,7 +95,9 @@ export const store = {
 				let criteria = util.criteriaFromSpec(layer)
 				let url = util.tileUrl(criteria)
 				let color
-				if (layer.colors.length > 1) {
+				if (layer.pointColor) {
+					color = layer.pointColor
+				} else if (layer.colors.length > 1) {
 					color = layer.colors[5]
 				} else {
 					color = layer.colors[0]
