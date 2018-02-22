@@ -143,7 +143,9 @@ export const store = {
 		layer.pointsMode = !layer.pointsMode
 	},
     removeLayer: function(layer) {
-        layer.gridLayer.removeFrom(this.group)
+		if (layer.gridLayer) {
+			layer.gridLayer.removeFrom(this.group)
+		}
 		if (layer.pointsLayer) {
 			layer.pointsLayer.removeFrom(this.group)
 		}
