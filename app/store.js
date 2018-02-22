@@ -33,43 +33,93 @@ export const store = {
             })
         }
     },
+	addGridLayer: function(spec) {
+		let self = this
+		if (spec.pointsLayer) {
+			spec.pointsLayer.removeFrom(this.group)
+		}
+		if (spec.gridLayer) {
+			spec.gridLayer.addTo(this.group)
+		} else {
+			let criteria = util.criteriaFromSpec(spec)
+			api.geo(criteria, spec.precision).then(function(response) {
+				spec.gridLayer = L.geoJSON(response, {
+					style: function (feature) {
+						return {
+							fillColor: util.getColor(feature.properties.n, spec.colors),
+							weight: 0,
+							fillOpacity: spec.opacity
+						}
+					}
+				})
+				spec.gridLayer.addTo(self.group)
+				spec.size = config.pagesize
+			})
+			let q = util.createQuery(criteria)
+			window.history.pushState("", "", "?" + q)
+		}
+	},
+	addPointsLayer: function(layer) {
+		let self = this
+		if (layer.gridLayer) {
+			layer.gridLayer.removeFrom(this.group)
+		}
+		if (layer.pointsLayer) {
+			layer.pointsLayer.addTo(self.group)
+		} else {
+			let criteria = util.criteriaFromSpec(layer)
+			let url = util.tileUrl(criteria)
+			let color
+			if (layer.pointColor) {
+				color = layer.pointColor
+			} else if (layer.colors.length > 1) {
+				color = layer.colors[5]
+			} else {
+				color = layer.colors[0]
+			}
+			layer.pointsLayer = new MultiPoint(url, {
+				fill: color,
+				radius: 3.5,
+				onTileCounted: function(count) {
+					if (count >= 10000) {
+						self.pointsExceeded()
+					}
+				},
+				onClick: function(e) {
+					let [lng, lat] = e
+					let criteria = util.criteriaFromSpec(layer)
+					api.geoPoint(criteria, lng, lat, self.map.getZoom()).then(function(res) {
+						let popup = L.popup({
+							maxWidth: 500
+						}).setLatLng({ lat: lat, lng: lng}).setContent(util.generatePopup(res)).openOn(self.map)
+					})
+				}
+			})
+			layer.pointsLayer.addTo(self.group)
+		}
+	},
 	addLayer: function(spec) {
 		let self = this
+		if (spec.scale == "custom") {
+			spec.colors = [ spec.customColor ]
+		} else {
+			spec.colors = this.scales[spec.scale].colors
+			if (this.scales[spec.scale].pointColor) {
+				spec.pointColor = this.scales[spec.scale].pointColor
+			}
+		}
+		if (spec.pointsMode) {
+			this.addPointsLayer(spec)
+		} else {
+			this.addGridLayer(spec)
+		}
 		let criteria = util.criteriaFromSpec(spec)
-
-		api.geo(criteria, spec.precision).then(function(response) {
-            if (spec.scale == "custom") {
-		        spec.colors = [ spec.customColor ]
-            } else {
-                spec.colors = self.scales[spec.scale].colors
-				if (self.scales[spec.scale].pointColor) {
-                	spec.pointColor = self.scales[spec.scale].pointColor
-				}
-            }
-            let layer = L.geoJSON(response, {
-				style: function (feature) {
-					return {
-						fillColor: util.getColor(feature.properties.n, spec.colors),
-						weight: 0,
-						fillOpacity: spec.opacity
-					}
-				}
-			})
-			layer.addTo(self.group)
-			spec.layer = layer
-			spec.count = null
-			spec.pointsmode = false
-			spec.size = config.pagesize
+		api.count(criteria).then(function(response) {
+			spec.count = response
 			self.state.layers.push(spec)
-			api.count(criteria).then(function(response) {
-				spec.count = response
-			})
+			self.state.currentView = "layers-component"
+			util.toast("Layer added")
 		})
-
-        let q = util.createQuery(criteria)
-        window.history.pushState("", "", "?" + q)
-        this.state.currentView = "layers-component"
-        util.toast("Layer added")
 	},
 	pointsExceeded: function() {
 		let self = this
@@ -85,51 +135,15 @@ export const store = {
 		}, 3000)
 	},
 	togglePoints: function(layer) {
-		let self = this
-		if (layer.pointsmode) {
-			layer.pointsLayer.removeFrom(this.group)
-			layer.layer.addTo(this.group)
+		if (layer.pointsMode) {
+			this.addGridLayer(layer)
 		} else {
-			layer.layer.removeFrom(this.group)
-			if (!layer.pointsLayer) {
-				let criteria = util.criteriaFromSpec(layer)
-				let url = util.tileUrl(criteria)
-				let color
-				if (layer.pointColor) {
-					color = layer.pointColor
-				} else if (layer.colors.length > 1) {
-					color = layer.colors[5]
-				} else {
-					color = layer.colors[0]
-				}
-				let pointsLayer = new MultiPoint(url, {
-					fill: color,
-					radius: 3.5,
-					onTileCounted: function(count) {
-						if (count >= 10000) {
-							self.pointsExceeded()
-						}
-					},
-					onClick: function(e) {
-						let [lng, lat] = e
-						let criteria = util.criteriaFromSpec(layer)
-						api.geoPoint(criteria, lng, lat, self.map.getZoom()).then(function(res) {
-							let popup = L.popup({
-								maxWidth: 500
-							}).setLatLng({ lat: lat, lng: lng}).setContent(util.generatePopup(res)).openOn(self.map)
-						})
-					}
-				})
-				pointsLayer.addTo(self.group)
-				layer.pointsLayer = pointsLayer
-			} else {
-				layer.pointsLayer.addTo(self.group)
-			}
+			this.addPointsLayer(layer)
 		}
-		layer.pointsmode = !layer.pointsmode
+		layer.pointsMode = !layer.pointsMode
 	},
     removeLayer: function(layer) {
-        layer.layer.removeFrom(this.group)
+        layer.gridLayer.removeFrom(this.group)
 		if (layer.pointsLayer) {
 			layer.pointsLayer.removeFrom(this.group)
 		}

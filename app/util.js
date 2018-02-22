@@ -151,6 +151,7 @@ const specFromQuery = function(query) {
 		enddepth: query.enddepth,
         geometry: query.geometry,
 		download: query.download,
+		pointsMode: query.points,
         precision: 3,
         scale: "red",
         opacity: 0.7,

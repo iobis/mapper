@@ -351,7 +351,8 @@ export default {
 				geometry: this.sharedState.wkt,
 				opacity: this.opacity,
 				scale: this.selectedScale,
-                customColor: this.customColor
+                customColor: this.customColor,
+                count: null
 			})
 		}
 	}
