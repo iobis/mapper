@@ -1,5 +1,6 @@
 import api from "./api"
 import Vue from "vue"
+const config = require("./config.js")
 
 const createQuery = function(criteria) {
 	let map = []
@@ -228,7 +229,7 @@ const generatePopup = function(res) {
 
 const tileUrl = function(criteria) {
 	let q = createQuery(criteria)
-	let url = "http://api2.iobis.org/occurrence/tile/{x}/{y}/{z}?" + q
+	let url = config.api + "occurrence/tile/{x}/{y}/{z}?" + q
 	return url
 }
 module.exports = {
