@@ -79,9 +79,9 @@ export const store = {
 			}
 			layer.pointsLayer = new MultiPoint(url, {
 				fill: color,
+                updateWhenZooming: false,
 				radius: 3.5,
 				onTileCounted: function(count) {
-					//console.log("Tile point count: " + count)
 					if (count >= 10000) {
 						self.pointsExceeded()
 					}

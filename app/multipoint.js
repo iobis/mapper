@@ -31,6 +31,7 @@ module.exports = L.GridLayer.extend({
 	_removeTile: function(key) {
 		var tile = this._tiles[key];
 		if (!tile) { return; }
+		tile.request.abort();
 		if (tile.el) tile.el.remove();
 		delete this._tiles[key];
 	},
@@ -38,36 +39,40 @@ module.exports = L.GridLayer.extend({
 		var self = this;
 		var key = this._tileCoordsToKey(coords);
 		this._tiles[key] = {
-			coords: coords,
-			current: true
-		};
-		d3.json(this.getTileUrl(this._wrapCoords(coords)), function(res) {
-			setTimeout(function() {
-				if (self._tiles[key]) {
-					for (var i = 0; i < res.coordinates.length; i++) {
-						res.coordinates[i] = res.coordinates[i].concat(self._transform(res.coordinates[i]));
-					}
-					var g = d3.select("#map").select("svg").append("g").attr("class", "leaflet-zoom-hide");
-					self._tiles[key].el = g.selectAll("circle")
-						.data(res.coordinates)
-						.enter()
-						.append("circle")
-						.style("pointer-events", "visible")
-						.style("cursor", "pointer")
-						.attr("fill", self.options.fill)
-						.style("stroke-width", self.options.strokeWidth)
-						.style("stroke", self.options.stroke)
-						.attr("cx", function(d) { return d[2]; })
-						.attr("cy", function(d) { return d[3]; })
-						.attr("r", self.options.radius )
-					if (self.options.onTileCounted) {
-						self.options.onTileCounted(res.coordinates.length)
-					}
-					if (self.options.onClick) {
-						self._tiles[key].el.on("click", self.options.onClick);
-					}
-				}
-			}, 300);
-		});
+            coords: coords,
+            current: true,
+            request: d3.json(this.getTileUrl(this._wrapCoords(coords)), function (res) {
+                setTimeout(function () {
+                    if (self._tiles[key]) {
+                        for (var i = 0; i < res.coordinates.length; i++) {
+                            res.coordinates[i] = res.coordinates[i].concat(self._transform(res.coordinates[i]));
+                        }
+                        var g = d3.select("#map").select("svg").append("g").attr("class", "leaflet-zoom-hide");
+                        self._tiles[key].el = g.selectAll("circle")
+                            .data(res.coordinates)
+                            .enter()
+                            .append("circle")
+                            .style("pointer-events", "visible")
+                            .style("cursor", "pointer")
+                            .attr("fill", self.options.fill)
+                            .style("stroke-width", self.options.strokeWidth)
+                            .style("stroke", self.options.stroke)
+                            .attr("cx", function (d) {
+                                return d[2];
+                            })
+                            .attr("cy", function (d) {
+                                return d[3];
+                            })
+                            .attr("r", self.options.radius)
+                        if (self.options.onTileCounted) {
+                            self.options.onTileCounted(res.coordinates.length)
+                        }
+                        if (self.options.onClick) {
+                            self._tiles[key].el.on("click", self.options.onClick);
+                        }
+                    }
+                }, 400);
+            })
+        };
 	}
 });
