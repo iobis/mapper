@@ -47,6 +47,7 @@
 
 <script>
     import { store } from "../store"
+    const config = require("../config.js")
 
     export default {
         data() {
@@ -57,7 +58,7 @@
         methods: {
             getFile: function(download) {
                 if (download.ready) {
-                    window.open("http://download.iobis.org/files/" + download.hash + ".zip");
+                    window.open(config["files"] + download.hash + ".zip");
                 }
             }
         }
