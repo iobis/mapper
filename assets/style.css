@@ -258,3 +258,23 @@ label {
 .colorpicker {
     z-index: 999999;
 }
+
+#banner {
+    height: 100px;
+    line-height: 100px;
+    width: 100%;
+    background-color: #e54c40;
+    position: absolute;
+    color: #ffffff;
+    z-index: 9999999;
+    font-size: 1.3em;
+    text-align: center;
+    font-decoration: none;
+    cursor: pointer;
+}
+
+#banner p {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
