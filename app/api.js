@@ -3,13 +3,20 @@ const util = require("./util.js")
 const config = require("./config.js")
 
 export default {
-	fetch(criteria) {
-		let q = util.createQuery(criteria)
-		let url = config.api + "occurrence?" + q
-		return axios.get(url)
-			.then((response) => Promise.resolve(response.data))
-			.catch((error) => Promise.reject(error))
-	},
+    fetch(criteria) {
+        let q = util.createQuery(criteria)
+        let url = config.api + "occurrence?" + q
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error))
+    },
+    fetchChecklist(criteria) {
+        let q = util.createQuery(criteria)
+        let url = config.api + "checklist?" + q
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error))
+    },
 	count(criteria) {
 		let q = util.createQuery(criteria)
 		let url = config.api + "occurrence?" + q + "&size=0"

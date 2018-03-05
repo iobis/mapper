@@ -1,47 +1,89 @@
 <template>
     <div id="data">
 
+        <p class="top-20"><a href="#" v-on:click="close()">Back</a></p>
+
+        <h3>Occurrences</h3>
+
         <nav>
             <ul class="pagination">
                 <li v-bind:class="{ disabled: sharedState.dataTable.pageIndex == 0 }">
-                    <a v-on:click="previousPage()" href="#"><span aria-hidden="true">&laquo;</span></a>
+                    <span class="clickable" v-on:click="previousPageData()">&laquo;</span>
                 </li>
-                <li><a>{{ sharedState.dataTable.pageIndex + 1 }}</a></li>
-                <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.pagesize }">
-                    <a class="clickable" v-on:click="nextPage()" href="#"><span aria-hidden="true">&raquo;</span></a>
+                <li><span>{{ sharedState.dataTable.pageIndex + 1 }}</span></li>
+                <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.dataTable.pageSize }">
+                    <span class="clickable" v-on:click="nextPageData()">&raquo;</span>
                 </li>
-            </ul>
-            <ul class="pagination back">
-                <li><a href="#" v-on:click="close()">Close</a></li>
             </ul>
         </nav>
 
-        <table class="table table-sm">
+        <table class="table table-sm table-condensed">
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>dataset ID</th>
-                    <th>scientificName</th>
-                    <th>eventDate</th>
-                    <th>decimalLongitude</th>
-                    <th>decimalLatitude</th>
-                    <th>institutionCode</th>
-                    <th>collectionCode</th>
-                    <th>catalogNumber</th>
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>dataset ID</th>
+                <th>scientificName</th>
+                <th>eventDate</th>
+                <th>decimalLongitude</th>
+                <th>decimalLatitude</th>
+                <th>institutionCode</th>
+                <th>collectionCode</th>
+                <th>catalogNumber</th>
+            </tr>
             </thead>
             <tbody>
-                <tr v-for="record in sharedState.dataTable.data">
-                    <td>{{ record.id }}</td>
-                    <td>{{ record.resource_id }}</td>
-                    <td>{{ record.scientificName }}</td>
-                    <td>{{ record.eventDate | eventdate }}</td>
-                    <td>{{ record.decimalLongitude | coordinate }}</td>
-                    <td>{{ record.decimalLatitude | coordinate }}</td>
-                    <td>{{ record.institutionCode }}</td>
-                    <td>{{ record.collectionCode }}</td>
-                    <td>{{ record.catalogNumber }}</td>
-                </tr>
+            <tr v-for="record in sharedState.dataTable.data">
+                <td>{{ record.id }}</td>
+                <td>{{ record.resource_id }}</td>
+                <td>{{ record.scientificName }}</td>
+                <td>{{ record.eventDate | eventdate }}</td>
+                <td>{{ record.decimalLongitude | coordinate }}</td>
+                <td>{{ record.decimalLatitude | coordinate }}</td>
+                <td>{{ record.institutionCode }}</td>
+                <td>{{ record.collectionCode }}</td>
+                <td>{{ record.catalogNumber }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Checklist</h3>
+
+        <nav>
+            <ul class="pagination">
+                <li v-bind:class="{ disabled: sharedState.checklistTable.pageIndex == 0 }">
+                    <span class="clickable" v-on:click="previousPageChecklist()">&laquo;</span>
+                </li>
+                <li><span>{{ sharedState.checklistTable.pageIndex + 1 }}</span></li>
+                <li v-bind:class="{ disabled: sharedState.checklistTable.data.length < config.checklistTable.pageSize }">
+                    <span class="clickable" v-on:click="nextPageChecklist()">&raquo;</span>
+                </li>
+            </ul>
+        </nav>
+
+        <table class="table table-sm table-condensed">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>scientificName</th>
+                <th>records</th>
+                <th>phylum</th>
+                <th>class</th>
+                <th>order</th>
+                <th>family</th>
+                <th>genus</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="record in sharedState.checklistTable.data">
+                <td>{{ record.taxonID }}</td>
+                <td>{{ record.scientificName }}</td>
+                <td>{{ record.records }}</td>
+                <td>{{ record.phylum }}</td>
+                <td>{{ record.class }}</td>
+                <td>{{ record.order }}</td>
+                <td>{{ record.family }}</td>
+                <td>{{ record.genus }}</td>
+            </tr>
             </tbody>
         </table>
 
@@ -64,15 +106,25 @@ export default {
         close: function() {
             store.showMap()
         },
-        nextPage: function() {
-            if (store.state.dataTable.data.length == config.pagesize) {
-                store.nextPage()
+        nextPageData: function() {
+            if (store.state.dataTable.data.length == config.dataTable.pageSize) {
+                store.nextPageData()
             }
         },
-        previousPage: function() {
-        	if (store.state.dataTable.pageIndex > 0) {
-        		store.previousPage()
-			}
+        previousPageData: function() {
+            if (store.state.dataTable.pageIndex > 0) {
+                store.previousPageData()
+            }
+        },
+        nextPageChecklist: function() {
+            if (store.state.checklistTable.data.length == config.checklistTable.pageSize) {
+                store.nextPageChecklist()
+            }
+        },
+        previousPageChecklist: function() {
+            if (store.state.checklistTable.pageIndex > 0) {
+                store.previousPageChecklist()
+            }
         }
     },
 	filters: {

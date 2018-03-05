@@ -4,9 +4,15 @@ const config = require("./config.js")
 
 const createQuery = function(criteria) {
 	let map = []
-	if (criteria.size) {
-		map.push(["size", criteria.size])
-	}
+    if (criteria.size) {
+        map.push(["size", criteria.size])
+    }
+    // todo: only skip when checklist and skip > 0
+    if (criteria.skip) {
+        map.push(["skip", criteria.skip])
+    } else {
+        map.push(["skip", 0])
+    }
 	if (criteria.after && criteria.after > -1) {
 		map.push(["after", criteria.after])
 	}

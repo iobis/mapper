@@ -15,7 +15,8 @@ export const store = {
         },
         checklistTable: {
             data: [],
-            pageIndex: 0
+            pageIndex: 0,
+            skip: 0
         },
 		selectedLayer: null,
 		wkt: null,
@@ -59,7 +60,7 @@ export const store = {
 					}
 				})
 				spec.gridLayer.addTo(self.group)
-				spec.size = config.pagesize
+				spec.size = config.dataTable.pageSize
 			})
 			let q = util.createQuery(criteria)
 			window.history.pushState("", "", "?" + q)
@@ -168,29 +169,47 @@ export const store = {
 		this.state.selectedLayer = layer
         this.state.mapMode = false
 		this.state.show = false
-		this.fetch()
+        this.fetch()
+        this.fetchChecklist()
     },
-	fetch: function() {
-		let self = this
-		this.state.selectedLayer.after = this.state.dataTable.after.slice(-1)[0]
-		api.fetch(this.state.selectedLayer).then(function(response) {
-			self.state.dataTable.data = response.results
-		})
-	},
+    fetch: function() {
+        let self = this
+        this.state.selectedLayer.after = this.state.dataTable.after.slice(-1)[0]
+        api.fetch(this.state.selectedLayer).then(function(response) {
+            self.state.dataTable.data = response.results
+        })
+    },
+    fetchChecklist: function() {
+        let self = this
+        this.state.selectedLayer.skip = this.state.checklistTable.skip
+        api.fetchChecklist(this.state.selectedLayer).then(function(response) {
+            self.state.checklistTable.data = response.results
+        })
+    },
     showMap: function() {
 		this.state.show = true
         this.state.mapMode = true
     },
-	nextPage: function() {
-		this.state.dataTable.pageIndex += 1
-		this.state.dataTable.after.push(this.state.dataTable.data.slice(-1)[0].id)
-		this.fetch()
-	},
-	previousPage: function() {
-		this.state.dataTable.pageIndex -= 1
-		this.state.dataTable.after.pop()
-		this.fetch()
-	},
+    nextPageData: function() {
+        this.state.dataTable.pageIndex += 1
+        this.state.dataTable.after.push(this.state.dataTable.data.slice(-1)[0].id)
+        this.fetch()
+    },
+    previousPageData: function() {
+        this.state.dataTable.pageIndex -= 1
+        this.state.dataTable.after.pop()
+        this.fetch()
+    },
+    nextPageChecklist: function() {
+        this.state.checklistTable.pageIndex += 1
+        this.state.checklistTable.skip += config.checklistTable.pageSize
+        this.fetchChecklist()
+    },
+    previousPageChecklist: function() {
+        this.state.checklistTable.pageIndex -= 1
+        this.state.checklistTable.skip -= config.checklistTable.pageSize
+        this.fetchChecklist()
+    },
     updateBase: function() {
 	    this.baseGroup.clearLayers()
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)

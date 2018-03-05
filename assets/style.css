@@ -128,6 +128,7 @@ html, body {
 
 .clickable {
     cursor: pointer;
+    user-select: none;
 }
 
 .colorsquares {
@@ -277,4 +278,8 @@ label {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
+}
+
+.top-20 {
+    margin-top: 20px;
 }
