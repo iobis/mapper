@@ -121,9 +121,10 @@ export default {
             }
         },
         nextPageChecklist: function() {
-            if (store.state.checklistTable.data.length == config.checklistTable.pageSize) {
+            // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
+            // if (store.state.checklistTable.data.length == config.checklistTable.pageSize) {
                 store.nextPageChecklist()
-            }
+            // }
         },
         previousPageChecklist: function() {
             if (store.state.checklistTable.pageIndex > 0) {
