@@ -54,7 +54,11 @@
                     <span class="clickable" v-on:click="previousPageChecklist()">&laquo;</span>
                 </li>
                 <li><span>{{ sharedState.checklistTable.pageIndex + 1 }}</span></li>
+                <!--
+                // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
                 <li v-bind:class="{ disabled: sharedState.checklistTable.data.length < config.checklistTable.pageSize }">
+                -->
+                <li>
                     <span class="clickable" v-on:click="nextPageChecklist()">&raquo;</span>
                 </li>
             </ul>
