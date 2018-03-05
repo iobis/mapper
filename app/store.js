@@ -7,10 +7,16 @@ import config from "./config"
 export const store = {
 	state: {
 		layers: [],
-		mapmode: true,
-        data: [],
-		pageindex: 0,
-		after: [ -1 ],
+		mapMode: true,
+        dataTable: {
+            data: [],
+            pageIndex: 0,
+            after: [ -1 ]
+        },
+        checklistTable: {
+            data: [],
+            pageIndex: 0
+        },
 		selectedLayer: null,
 		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -154,35 +160,35 @@ export const store = {
         this.state.layers.splice(i, 1)
     },
 	reset: function() {
-		this.state.after = [ -1 ]
-		this.state.pageindex = 0
+		this.state.dataTable.after = [ -1 ]
+		this.state.dataTable.pageIndex = 0
 	},
     viewData: function(layer) {
 		this.reset()
 		this.state.selectedLayer = layer
-        this.state.mapmode = false
+        this.state.mapMode = false
 		this.state.show = false
 		this.fetch()
     },
 	fetch: function() {
 		let self = this
-		this.state.selectedLayer.after = this.state.after.slice(-1)[0]
+		this.state.selectedLayer.after = this.state.dataTable.after.slice(-1)[0]
 		api.fetch(this.state.selectedLayer).then(function(response) {
-			self.state.data = response.results
+			self.state.dataTable.data = response.results
 		})
 	},
     showMap: function() {
 		this.state.show = true
-        this.state.mapmode = true
+        this.state.mapMode = true
     },
 	nextPage: function() {
-		this.state.pageindex += 1
-		this.state.after.push(this.state.data.slice(-1)[0].id)
+		this.state.dataTable.pageIndex += 1
+		this.state.dataTable.after.push(this.state.dataTable.data.slice(-1)[0].id)
 		this.fetch()
 	},
 	previousPage: function() {
-		this.state.pageindex -= 1
-		this.state.after.pop()
+		this.state.dataTable.pageIndex -= 1
+		this.state.dataTable.after.pop()
 		this.fetch()
 	},
     updateBase: function() {

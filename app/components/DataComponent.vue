@@ -3,11 +3,11 @@
 
         <nav>
             <ul class="pagination">
-                <li v-bind:class="{ disabled: sharedState.pageindex == 0 }">
+                <li v-bind:class="{ disabled: sharedState.dataTable.pageIndex == 0 }">
                     <a v-on:click="previousPage()" href="#"><span aria-hidden="true">&laquo;</span></a>
                 </li>
-                <li><a>{{ sharedState.pageindex + 1 }}</a></li>
-                <li v-bind:class="{ disabled: sharedState.data.length < config.pagesize }">
+                <li><a>{{ sharedState.dataTable.pageIndex + 1 }}</a></li>
+                <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.pagesize }">
                     <a class="clickable" v-on:click="nextPage()" href="#"><span aria-hidden="true">&raquo;</span></a>
                 </li>
             </ul>
@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="record in sharedState.data">
+                <tr v-for="record in sharedState.dataTable.data">
                     <td>{{ record.id }}</td>
                     <td>{{ record.resource_id }}</td>
                     <td>{{ record.scientificName }}</td>
@@ -65,12 +65,12 @@ export default {
             store.showMap()
         },
         nextPage: function() {
-            if (store.state.data.length == config.pagesize) {
+            if (store.state.dataTable.data.length == config.pagesize) {
                 store.nextPage()
             }
         },
         previousPage: function() {
-        	if (store.state.pageindex > 0) {
+        	if (store.state.dataTable.pageIndex > 0) {
         		store.previousPage()
 			}
         }
