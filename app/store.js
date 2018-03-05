@@ -162,7 +162,9 @@ export const store = {
     },
 	reset: function() {
 		this.state.dataTable.after = [ -1 ]
-		this.state.dataTable.pageIndex = 0
+        this.state.dataTable.pageIndex = 0
+        this.state.checklistTable.pageIndex = 0
+        this.state.checklistTable.skip = 0
 	},
     viewData: function(layer) {
 		this.reset()
