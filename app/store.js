@@ -33,10 +33,12 @@ export const store = {
         let query = util.extractQuery(window.location.href)
         if (query) {
             util.specFromQuery(query).then(spec => {
-                this.addLayer(spec)
 				if (spec.download) {
                 	this.addDownload(spec)
-				}
+                    this.addLayer(spec, false)
+				} else {
+                    this.addLayer(spec)
+                }
             })
         }
     },
@@ -106,7 +108,7 @@ export const store = {
 			layer.pointsLayer.addTo(self.group)
 		}
 	},
-	addLayer: function(spec) {
+	addLayer: function(spec, navigate = true) {
 		let self = this
 		if (spec.scale == "custom") {
 			spec.colors = [ spec.customColor ]
@@ -125,7 +127,9 @@ export const store = {
 		api.count(criteria).then(function(response) {
 			spec.count = response
 			self.state.layers.push(spec)
-			self.state.currentView = "layers-component"
+			if (navigate) {
+			    self.state.currentView = "layers-component"
+            }
 			util.toast("Layer added")
 		})
 	},
@@ -265,7 +269,6 @@ export const store = {
 				}
             })
         })
-
         this.state.currentView = "downloads-component"
 		util.toast("Download added")
 
