@@ -92,10 +92,19 @@ export default {
 			.then((response) => Promise.resolve(response.data.results[0]))
 			.catch((error) => Promise.reject(error))
 	},
-	dataset(id) {
-		let url = config.api + "dataset/" + id
-		return axios.get(url)
-			.then((response) => Promise.resolve(response.data.results[0]))
-			.catch((error) => Promise.reject(error))
-	}
+    dataset(id) {
+        let url = config.api + "dataset/" + id
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data.results[0]))
+            .catch((error) => Promise.reject(error))
+    },
+    email(email, message) {
+        let url = config.api + "email"
+        return axios.post(url, {
+        	"email": email,
+			"message": message
+		})
+			.then((response) => Promise.resolve(response))
+            .catch((error) => Promise.reject(error))
+    }
 }
