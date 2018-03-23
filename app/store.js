@@ -13,11 +13,16 @@ export const store = {
             pageIndex: 0,
             after: [ -1 ]
         },
-        checklistTable: {
-            data: [],
-            pageIndex: 0,
-            skip: 0
-        },
+		checklistTable: {
+			data: [],
+			pageIndex: 0,
+			skip: 0
+		},
+		datasetTable: {
+			data: [],
+			pageIndex: 0,
+			skip: 0
+		},
 		selectedLayer: null,
 		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -165,10 +170,13 @@ export const store = {
         this.state.layers.splice(i, 1)
     },
 	reset: function() {
+        // todo: combine reset functionality
 		this.state.dataTable.after = [ -1 ]
         this.state.dataTable.pageIndex = 0
         this.state.checklistTable.pageIndex = 0
         this.state.checklistTable.skip = 0
+        this.state.datasetTable.pageIndex = 0
+        this.state.datasetTable.skip = 0
 	},
     viewData: function(layer) {
 		this.reset()
@@ -177,6 +185,7 @@ export const store = {
 		this.state.show = false
         this.fetch()
         this.fetchChecklist()
+        this.fetchDatasets()
     },
     fetch: function() {
         let self = this
@@ -192,10 +201,18 @@ export const store = {
             self.state.checklistTable.data = response.results
         })
     },
+    fetchDatasets: function() {
+        let self = this
+        this.state.selectedLayer.skip = this.state.datasetTable.skip // todo: better way?
+        api.fetchDatasets(this.state.selectedLayer).then(function(response) {
+            self.state.datasetTable.data = response.results
+        })
+    },
     showMap: function() {
 		this.state.show = true
         this.state.mapMode = true
     },
+	// todo: combine pagination functionality
     nextPageData: function() {
         this.state.dataTable.pageIndex += 1
         this.state.dataTable.after.push(this.state.dataTable.data.slice(-1)[0].id)
@@ -206,16 +223,26 @@ export const store = {
         this.state.dataTable.after.pop()
         this.fetch()
     },
-    nextPageChecklist: function() {
-        this.state.checklistTable.pageIndex += 1
-        this.state.checklistTable.skip += config.checklistTable.pageSize
-        this.fetchChecklist()
-    },
-    previousPageChecklist: function() {
-        this.state.checklistTable.pageIndex -= 1
-        this.state.checklistTable.skip -= config.checklistTable.pageSize
-        this.fetchChecklist()
-    },
+	nextPageChecklist: function() {
+		this.state.checklistTable.pageIndex += 1
+		this.state.checklistTable.skip += config.checklistTable.pageSize
+		this.fetchChecklist()
+	},
+	previousPageChecklist: function() {
+		this.state.checklistTable.pageIndex -= 1
+		this.state.checklistTable.skip -= config.checklistTable.pageSize
+		this.fetchChecklist()
+	},
+	nextPageDataset: function() {
+		this.state.datasetTable.pageIndex += 1
+		this.state.datasetTable.skip += config.datasetTable.pageSize
+		this.fetchDatasets()
+	},
+	previousPageDataset: function() {
+		this.state.datasetTable.pageIndex -= 1
+		this.state.datasetTable.skip -= config.datasetTable.pageSize
+		this.fetchDatasets()
+	},
     updateBase: function() {
 	    this.baseGroup.clearLayers()
         L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)

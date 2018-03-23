@@ -91,6 +91,41 @@
             </tbody>
         </table>
 
+        <h3>Datasets</h3>
+
+        <nav>
+            <ul class="pagination">
+                <li v-bind:class="{ disabled: sharedState.datasetTable.pageIndex == 0 }">
+                    <span class="clickable" v-on:click="previousPageDataset()">&laquo;</span>
+                </li>
+                <li><span>{{ sharedState.datasetTable.pageIndex + 1 }}</span></li>
+                <li>
+                    <span class="clickable" v-on:click="nextPageDataset()">&raquo;</span>
+                </li>
+            </ul>
+        </nav>
+
+        <table class="table table-sm table-condensed">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>name</th>
+                <th>records</th>
+                <th>URL</th>
+                <th>abstract</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="record in sharedState.datasetTable.data">
+                <td>{{ record.id }}</td>
+                <td>{{ record.resname }}</td>
+                <td>{{ record.records }}</td>
+                <td><a v-bind:href="record.digirurl" target="_blank">{{ record.digirurl }}</a></td>
+                <td>{{ record.abstract }}</td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </template>
 
@@ -123,12 +158,20 @@ export default {
         nextPageChecklist: function() {
             // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
             // if (store.state.checklistTable.data.length == config.checklistTable.pageSize) {
-                store.nextPageChecklist()
+            store.nextPageChecklist()
             // }
         },
         previousPageChecklist: function() {
             if (store.state.checklistTable.pageIndex > 0) {
                 store.previousPageChecklist()
+            }
+        },
+        nextPageDataset: function() {
+            store.nextPageDataset()
+        },
+        previousPageDataset: function() {
+            if (store.state.datasetTable.pageIndex > 0) {
+                store.previousPageDataset()
             }
         }
     },
