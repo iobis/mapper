@@ -42,8 +42,10 @@ export const store = {
 				if (spec.download) {
                 	this.addDownload(spec)
                     this.addLayer(spec, false)
+                    util.toast("Layer added")
 				} else {
-                    this.addLayer(spec)
+                    this.addLayer(spec, true)
+                    util.toast("Layer added")
                 }
             })
         }
@@ -114,7 +116,7 @@ export const store = {
 			layer.pointsLayer.addTo(self.group)
 		}
 	},
-	addLayer: function(layer) {
+	addLayer: function(layer, navigate = false) {
 		let self = this
         if (this.state.editLayer) {
 		    this.removeLayer(this.state.editLayer)
@@ -137,6 +139,9 @@ export const store = {
 		api.count(criteria).then(function(response) {
 			layer.count = response
 			self.state.layers.push(layer)
+			if (navigate) {
+                self.state.currentView = "layers-component"
+            }
 		})
 	},
     saveLayer: function() {

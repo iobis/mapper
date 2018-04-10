@@ -219,7 +219,11 @@ export default {
             suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,
-            selectedArea: null
+            selectedArea: null,
+            timeValues: null,
+            depthValues: null,
+            timeSlider: null,
+            depthSlider: null
         }
         Object.assign(d, getDefaults())
         return d
@@ -240,36 +244,14 @@ export default {
 				this.selectArea(area)
 			}
 		},
-        filters: function() {
+        filters: function(filters) {
             if (!this.disableAdd) {
                 this.addLayer()
             }
         }
     },
     mounted() {
-		$("#slider").ionRangeSlider({
-			type: "double",
-			grid: false,
-			min: this.startYear,
-			max: this.currentYear,
-			from: this.startYear,
-			to: this.currentYear,
-			prettify_enabled: true,
-			prettify: function (num) {
-				return num
-			}
-		})
-		$("#depthslider").ionRangeSlider({
-			type: "double",
-			grid: false,
-			from: 0,
-			to: 11000,
-            values: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
-			prettify_enabled: true,
-			prettify: function (num) {
-				return num
-			}
-		})
+	    this.initSliders()
     },
     components: {
         "color-picker": ColorPicker,
@@ -280,12 +262,51 @@ export default {
 			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt
         },
         filters: function() {
-            return [ this.taxa, this.datasets, this.areas ]
+            return [ this.taxa, this.datasets, this.areas, this.timeValues, this.depthValues, this.selectedScale, this.customColor, this.opacity ]
         }
     },
 	methods: {
         reset: function() {
             Object.assign(this.$data, getDefaults())
+            this.resetSliders()
+        },
+        resetSliders: function() {
+            this.timeSlider.reset()
+            this.depthSlider.reset()
+        },
+        initSliders: function() {
+            let self = this
+            $("#slider").ionRangeSlider({
+                type: "double",
+                grid: false,
+                min: this.startYear,
+                max: this.currentYear,
+                from: this.startYear,
+                to: this.currentYear,
+                prettify_enabled: true,
+                prettify: function (num) {
+                    return num
+                },
+                onFinish: function(e) {
+                    self.timeValues = [e.from_value, e.to_value]
+                }
+            })
+            this.timeSlider = $("#slider").data("ionRangeSlider")
+            $("#depthslider").ionRangeSlider({
+                type: "double",
+                grid: false,
+                from: 0,
+                to: 11000,
+                values: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+                prettify_enabled: true,
+                prettify: function (num) {
+                    return num
+                },
+                onFinish: function(e) {
+                    self.depthValues = [e.from_value, e.to_value]
+                }
+            })
+            this.depthSlider = $("#depthslider").data("ionRangeSlider")
         },
         complete: function(input, done) {
 			api.complete(input).then(res => {
@@ -363,20 +384,20 @@ export default {
 				enddepth = null
 			}
 			store.addLayer({
-				taxa: JSON.parse(JSON.stringify(this.taxa)),
-				datasets: JSON.parse(JSON.stringify(this.datasets)),
-				areas: JSON.parse(JSON.stringify(this.areas)),
-				startyear: start,
-				endyear: end,
+                taxa: JSON.parse(JSON.stringify(this.taxa)),
+                datasets: JSON.parse(JSON.stringify(this.datasets)),
+                areas: JSON.parse(JSON.stringify(this.areas)),
+                startyear: start,
+                endyear: end,
                 startdepth: startdepth,
                 enddepth: enddepth,
-				precision: 3,
-				geometry: this.sharedState.wkt,
-				opacity: this.opacity,
-				scale: this.selectedScale,
+                precision: 3,
+                geometry: this.sharedState.wkt,
+                opacity: this.opacity,
+                scale: this.selectedScale,
                 customColor: this.customColor,
                 count: null
-			}, false)
+            })
 		}
 	}
 }

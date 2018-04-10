@@ -11,7 +11,7 @@ const createQuery = function(criteria) {
     if (criteria.skip) {
         map.push(["skip", criteria.skip])
     } else {
-        map.push(["skip", 0])
+        //map.push(["skip", 0])
     }
 	if (criteria.after && criteria.after > -1) {
 		map.push(["after", criteria.after])
