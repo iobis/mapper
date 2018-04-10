@@ -24,6 +24,7 @@ export const store = {
 			skip: 0
 		},
 		selectedLayer: null,
+		editLayer: null,
 		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
 		show: true,
@@ -113,31 +114,36 @@ export const store = {
 			layer.pointsLayer.addTo(self.group)
 		}
 	},
-	addLayer: function(spec, navigate = true) {
+	addLayer: function(layer) {
 		let self = this
-		if (spec.scale == "custom") {
-			spec.colors = [ spec.customColor ]
+        if (this.state.editLayer) {
+		    this.removeLayer(this.state.editLayer)
+        }
+        this.state.editLayer = layer
+		if (layer.scale == "custom") {
+			layer.colors = [ layer.customColor ]
 		} else {
-			spec.colors = this.scales[spec.scale].colors
-			if (this.scales[spec.scale].pointColor) {
-				spec.pointColor = this.scales[spec.scale].pointColor
+			layer.colors = this.scales[layer.scale].colors
+			if (this.scales[layer.scale].pointColor) {
+				layer.pointColor = this.scales[layer.scale].pointColor
 			}
 		}
-		if (spec.pointsMode) {
-			this.addPointsLayer(spec)
+		if (layer.pointsMode) {
+			this.addPointsLayer(layer)
 		} else {
-			this.addGridLayer(spec)
+			this.addGridLayer(layer)
 		}
-		let criteria = util.criteriaFromSpec(spec)
+		let criteria = util.criteriaFromSpec(layer)
 		api.count(criteria).then(function(response) {
-			spec.count = response
-			self.state.layers.push(spec)
-			if (navigate) {
-			    self.state.currentView = "layers-component"
-            }
-			util.toast("Layer added")
+			layer.count = response
+			self.state.layers.push(layer)
 		})
 	},
+    saveLayer: function() {
+	    this.state.editLayer = null
+        this.state.currentView = "layers-component"
+        util.toast("Layer saved")
+    },
 	pointsExceeded: function() {
 		let self = this
 		if (!this.pointToast) {

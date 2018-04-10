@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="sideheader">Create layer
-            <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="disableAdd" v-on:click="addLayer">Add</button>
+            <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="disableAdd" v-on:click="saveLayer">Save</button>
         </div>
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse1" aria-expanded="true" aria-controls="collapse1">Scientific name</div>
@@ -196,26 +196,34 @@ import api from "../api"
 import { store } from "../store"
 import ColorPicker from "./ColorPicker.vue"
 import { Typeahead } from "uiv"
+import Vue from "vue"
+
+let getDefaults = function() {
+    return {
+        taxa: [],
+        datasets: [],
+        areas: [],
+        selectedScale: "red",
+        startYear: 1900,
+        currentYear: (new Date()).getFullYear(),
+        customColor: "#cc3300",
+        opacity: 0.7
+    }
+}
 
 export default {
 	data() {
-		return {
-			suggestions: [],
-			taxa: [],
-            datasets: [],
-            areas: [],
-			scales: store.scales,
-			selectedScale: "red",
-			startYear: 1900,
-			currentYear: (new Date()).getFullYear(),
-            customColor: "#cc3300",
-			opacity: 0.7,
-			sharedState: store.state,
+	    let d = {
+            scales: store.scales,
+            sharedState: store.state,
+            suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,
             selectedArea: null
-		}
-	},
+        }
+        Object.assign(d, getDefaults())
+        return d
+    },
     watch: {
 		selectedTaxon: function(taxon) {
 			if (taxon) {
@@ -231,7 +239,12 @@ export default {
 			if (area) {
 				this.selectArea(area)
 			}
-		}
+		},
+        filters: function() {
+            if (!this.disableAdd) {
+                this.addLayer()
+            }
+        }
     },
     mounted() {
 		$("#slider").ionRangeSlider({
@@ -265,10 +278,16 @@ export default {
     computed: {
 	    disableAdd: function() {
 			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt
+        },
+        filters: function() {
+            return [ this.taxa, this.datasets, this.areas ]
         }
     },
 	methods: {
-		complete: function(input, done) {
+        reset: function() {
+            Object.assign(this.$data, getDefaults())
+        },
+        complete: function(input, done) {
 			api.complete(input).then(res => {
 				done(res)
 			})
@@ -320,6 +339,10 @@ export default {
 		removeArea: function(index) {
 			this.areas.splice(index, 1)
 		},
+        saveLayer: function() {
+		    store.saveLayer()
+            this.reset()
+        },
 		addLayer: function() {
 			let years = $("#slider").val().split(";")
 			let start = years[0]
@@ -353,7 +376,7 @@ export default {
 				scale: this.selectedScale,
                 customColor: this.customColor,
                 count: null
-			})
+			}, false)
 		}
 	}
 }
