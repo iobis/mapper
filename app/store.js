@@ -29,7 +29,8 @@ export const store = {
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
 		show: true,
         downloads: [],
-        currentView: "criteria-component"
+        currentView: "criteria-component",
+		statistics: null
     },
     group: new L.FeatureGroup(),
 	map: null,
@@ -197,6 +198,7 @@ export const store = {
         this.fetch()
         this.fetchChecklist()
         this.fetchDatasets()
+		this.fetchStatistics()
     },
     fetch: function() {
         let self = this
@@ -205,13 +207,19 @@ export const store = {
             self.state.dataTable.data = response.results
         })
     },
-    fetchChecklist: function() {
-        let self = this
-        this.state.selectedLayer.skip = this.state.checklistTable.skip
-        api.fetchChecklist(this.state.selectedLayer).then(function(response) {
-            self.state.checklistTable.data = response.results
-        })
-    },
+	fetchChecklist: function() {
+		let self = this
+		this.state.selectedLayer.skip = this.state.checklistTable.skip
+		api.fetchChecklist(this.state.selectedLayer).then(function(response) {
+			self.state.checklistTable.data = response.results
+		})
+	},
+	fetchStatistics: function() {
+		let self = this
+		api.fetchStatistics(this.state.selectedLayer).then(function(response) {
+			self.state.statistics = response
+		})
+	},
     fetchDatasets: function() {
         let self = this
         this.state.selectedLayer.skip = this.state.datasetTable.skip // todo: better way?

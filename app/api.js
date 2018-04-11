@@ -17,6 +17,13 @@ export default {
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
+	fetchStatistics(criteria) {
+		let q = util.createQuery(criteria)
+		let url = config.api + "statistics?" + q
+		return axios.get(url)
+			.then((response) => Promise.resolve(response.data))
+			.catch((error) => Promise.reject(error))
+	},
 	fetchDatasets(criteria) {
 		let q = util.createQuery(criteria)
 		let url = config.api + "dataset?" + q

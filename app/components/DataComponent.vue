@@ -3,19 +3,38 @@
 
         <p class="top-20"><a href="#" v-on:click="close()">Back</a></p>
 
+        <h3>Summary</h3>
+
+        <table class="table table-sm table-condensed table-nonfluid" v-if="sharedState.statistics">
+            <thead>
+                <tr>
+                    <th>records</th>
+                    <th>species</th>
+                    <th>taxa</th>
+                    <th>years</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ sharedState.statistics.records }}</td>
+                    <td>{{ sharedState.statistics.species }}</td>
+                    <td>{{ sharedState.statistics.taxa }}</td>
+                    <td>{{ sharedState.statistics.year_range[0] }} - {{ sharedState.statistics.year_range[1] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
         <h3>Occurrences</h3>
 
-        <nav>
-            <ul class="pagination">
-                <li v-bind:class="{ disabled: sharedState.dataTable.pageIndex == 0 }">
-                    <span class="clickable" v-on:click="previousPageData()">&laquo;</span>
-                </li>
-                <li><span>{{ sharedState.dataTable.pageIndex + 1 }}</span></li>
-                <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.dataTable.pageSize }">
-                    <span class="clickable" v-on:click="nextPageData()">&raquo;</span>
-                </li>
-            </ul>
-        </nav>
+        <ul class="pagination">
+            <li v-bind:class="{ disabled: sharedState.dataTable.pageIndex == 0 }">
+                <span class="clickable" v-on:click="previousPageData()">&laquo;</span>
+            </li>
+            <li><span>{{ sharedState.dataTable.pageIndex + 1 }}</span></li>
+            <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.dataTable.pageSize }">
+                <span class="clickable" v-on:click="nextPageData()">&raquo;</span>
+            </li>
+        </ul>
 
         <table class="table table-sm table-condensed">
             <thead>
@@ -48,21 +67,19 @@
 
         <h3>Checklist</h3>
 
-        <nav>
-            <ul class="pagination">
-                <li v-bind:class="{ disabled: sharedState.checklistTable.pageIndex == 0 }">
-                    <span class="clickable" v-on:click="previousPageChecklist()">&laquo;</span>
-                </li>
-                <li><span>{{ sharedState.checklistTable.pageIndex + 1 }}</span></li>
-                <!--
-                // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
-                <li v-bind:class="{ disabled: sharedState.checklistTable.data.length < config.checklistTable.pageSize }">
-                -->
-                <li>
-                    <span class="clickable" v-on:click="nextPageChecklist()">&raquo;</span>
-                </li>
-            </ul>
-        </nav>
+        <ul class="pagination pagination-sm">
+            <li v-bind:class="{ disabled: sharedState.checklistTable.pageIndex == 0 }">
+                <span class="clickable" v-on:click="previousPageChecklist()">&laquo;</span>
+            </li>
+            <li><span>{{ sharedState.checklistTable.pageIndex + 1 }}</span></li>
+            <!--
+            // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
+            <li v-bind:class="{ disabled: sharedState.checklistTable.data.length < config.checklistTable.pageSize }">
+            -->
+            <li>
+                <span class="clickable" v-on:click="nextPageChecklist()">&raquo;</span>
+            </li>
+        </ul>
 
         <table class="table table-sm table-condensed">
             <thead>
@@ -93,17 +110,15 @@
 
         <h3>Datasets</h3>
 
-        <nav>
-            <ul class="pagination">
-                <li v-bind:class="{ disabled: sharedState.datasetTable.pageIndex == 0 }">
-                    <span class="clickable" v-on:click="previousPageDataset()">&laquo;</span>
-                </li>
-                <li><span>{{ sharedState.datasetTable.pageIndex + 1 }}</span></li>
-                <li>
-                    <span class="clickable" v-on:click="nextPageDataset()">&raquo;</span>
-                </li>
-            </ul>
-        </nav>
+        <ul class="pagination pagination-sm">
+            <li v-bind:class="{ disabled: sharedState.datasetTable.pageIndex == 0 }">
+                <span class="clickable" v-on:click="previousPageDataset()">&laquo;</span>
+            </li>
+            <li><span>{{ sharedState.datasetTable.pageIndex + 1 }}</span></li>
+            <li>
+                <span class="clickable" v-on:click="nextPageDataset()">&raquo;</span>
+            </li>
+        </ul>
 
         <table class="table table-sm table-condensed">
             <thead>
@@ -140,6 +155,8 @@ export default {
             sharedState: store.state,
             config: config
         }
+    },
+    mounted() {
     },
     methods: {
         close: function() {

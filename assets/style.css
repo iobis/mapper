@@ -287,3 +287,24 @@ label {
 textarea {
     resize: none;
 }
+
+#data {
+    font-size: 0.9em;
+}
+
+#data h3 {
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+
+.pagination li span {
+    background-color: #fafafa !important;
+}
+
+.pagination li span {
+    padding: 3px 10px;
+}
+
+.table-nonfluid {
+    width: auto !important;
+}

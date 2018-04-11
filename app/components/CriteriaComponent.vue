@@ -262,13 +262,14 @@ export default {
 			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt
         },
         filters: function() {
-            return [ this.taxa, this.datasets, this.areas, this.timeValues, this.depthValues, this.selectedScale, this.customColor, this.opacity ]
+            return [ this.taxa, this.datasets, this.areas, this.timeValues, this.depthValues, this.selectedScale, this.customColor, this.opacity, this.sharedState.wkt ]
         }
     },
 	methods: {
         reset: function() {
             Object.assign(this.$data, getDefaults())
             this.resetSliders()
+            this.sharedState.wkt = null
         },
         resetSliders: function() {
             this.timeSlider.reset()
