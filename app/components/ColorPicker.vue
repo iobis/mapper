@@ -6,18 +6,19 @@
 </template>
 
 <script>
+import _ from "lodash"
+
 export default {
     props: ["value"],
     mounted() {
         let self = this
         $(this.$el).colorpicker({
             color: self.value,
+            useAlpha: false,
             format: "hex"
-        }).on("colorpickerChange", function(e) {
-            if (e.value) {
-                self.$emit("input", e.value)
-            }
-        })
+        }).on("colorpickerChange", _.debounce((e) => {
+            self.$emit("input", e.value)
+        }, 1000))
     },
     beforeDestroy: function() {
         $(this.$el).colorpicker("hide").colorpicker("destroy")
