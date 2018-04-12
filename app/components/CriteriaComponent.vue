@@ -203,6 +203,8 @@ let getDefaults = function() {
         taxa: [],
         datasets: [],
         areas: [],
+        timeValues: [ null, null ],
+        depthValues: [ null, null ],
         selectedScale: "red",
         startYear: 1900,
         currentYear: (new Date()).getFullYear(),
@@ -220,8 +222,6 @@ export default {
             selectedTaxon: null,
             selectedDataset: null,
             selectedArea: null,
-            timeValues: null,
-            depthValues: null,
             timeSlider: null,
             depthSlider: null
         }
@@ -245,6 +245,7 @@ export default {
 			}
 		},
         filters: function(filters) {
+		    console.log(JSON.stringify(filters, null, 2))
             if (!this.disableAdd) {
                 this.addLayer()
             }
@@ -259,7 +260,7 @@ export default {
     },
     computed: {
 	    disableAdd: function() {
-			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt
+			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt && this.timeValues.every(function(x) { return x == null }) && this.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
             return [ this.taxa, this.datasets, this.areas, this.timeValues, this.depthValues, this.selectedScale, this.customColor, this.opacity, this.sharedState.wkt ]
@@ -289,7 +290,15 @@ export default {
                     return num
                 },
                 onFinish: function(e) {
-                    self.timeValues = [e.from_value, e.to_value]
+                    let start = e.from_pretty
+                    let end = e.to_pretty
+                    if (start == self.startYear) {
+                        start = null
+                    }
+                    if (end == self.currentYear) {
+                        end = null
+                    }
+                    self.timeValues = [start, end]
                 }
             })
             this.timeSlider = $("#slider").data("ionRangeSlider")
@@ -304,7 +313,15 @@ export default {
                     return num
                 },
                 onFinish: function(e) {
-                    self.depthValues = [e.from_value, e.to_value]
+                    let start = e.from_value
+                    let end = e.to_value
+                    if (start == 0) {
+                        start = null
+                    }
+                    if (end == 11000) {
+                        end = null
+                    }
+                    self.depthValues = [start, end]
                 }
             })
             this.depthSlider = $("#depthslider").data("ionRangeSlider")
@@ -366,32 +383,14 @@ export default {
             this.reset()
         },
 		addLayer: function() {
-			let years = $("#slider").val().split(";")
-			let start = years[0]
-			let end = years[1]
-			let depths = $("#depthslider").val().split(";")
-			let startdepth = parseInt(depths[0])
-			let enddepth = parseInt(depths[1])
-			if (start == this.startYear) {
-				start = null
-			}
-			if (end == this.currentYear) {
-				end = null
-			}
-			if (startdepth == 0) {
-				startdepth = null
-			}
-			if (enddepth == 11000) {
-				enddepth = null
-			}
 			store.addLayer({
                 taxa: JSON.parse(JSON.stringify(this.taxa)),
                 datasets: JSON.parse(JSON.stringify(this.datasets)),
                 areas: JSON.parse(JSON.stringify(this.areas)),
-                startyear: start,
-                endyear: end,
-                startdepth: startdepth,
-                enddepth: enddepth,
+                startyear: this.timeValues[0],
+                endyear: this.timeValues[1],
+                startdepth: this.depthValues[0],
+                enddepth: this.depthValues[1],
                 precision: 3,
                 geometry: this.sharedState.wkt,
                 opacity: this.opacity,
