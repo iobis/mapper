@@ -173,13 +173,17 @@ export const store = {
 		}
 		layer.pointsMode = !layer.pointsMode
 	},
+    clearLayer: function() {
+	    this.removeLayer(this.state.editLayer)
+        this.state.editLayer = null
+    },
     removeLayer: function(layer) {
-		if (layer.gridLayer) {
-			layer.gridLayer.removeFrom(this.group)
-		}
-		if (layer.pointsLayer) {
-			layer.pointsLayer.removeFrom(this.group)
-		}
+        if (layer.gridLayer) {
+            layer.gridLayer.removeFrom(this.group)
+        }
+        if (layer.pointsLayer) {
+            layer.pointsLayer.removeFrom(this.group)
+        }
         let i = this.state.layers.indexOf(layer)
         this.state.layers.splice(i, 1)
     },

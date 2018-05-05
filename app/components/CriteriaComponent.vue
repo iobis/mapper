@@ -245,10 +245,11 @@ export default {
 			}
 		},
         filters: function(filters) {
-		    console.log(JSON.stringify(filters, null, 2))
-            if (!this.disableAdd) {
+			if (this.disableAdd) {
+				this.clearLayer()
+            } else {
                 this.addLayer()
-            }
+			}
         }
     },
     mounted() {
@@ -379,8 +380,11 @@ export default {
 			this.areas.splice(index, 1)
 		},
         saveLayer: function() {
-		    store.saveLayer()
+            store.saveLayer()
             this.reset()
+        },
+        clearLayer: function() {
+            store.clearLayer()
         },
 		addLayer: function() {
 			store.addLayer({
