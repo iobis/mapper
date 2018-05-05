@@ -43,7 +43,7 @@
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse2" aria-expanded="true" aria-controls="collapse2">Datasets</div>
 
-        <div class="sidepanel collapse" id="collapse2">
+        <div class="sidepanel collapse defaultclosed" id="collapse2">
             <div class="panelcontent">
                 <div class="form-group">
                     <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name" ref="datasetInput">
@@ -80,7 +80,7 @@
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse3" aria-expanded="true" aria-controls="collapse3">Area</div>
 
-        <div class="sidepanel collapse" id="collapse3">
+        <div class="sidepanel collapse defaultclosed" id="collapse3">
             <div class="panelcontent">
                 <div class="form-group">
                     <input id="areaInput" class="form-control" type="text" placeholder="Enter area name" ref="areaInput">
@@ -117,7 +117,7 @@
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse4" aria-expanded="true" aria-controls="collapse4">Geometry</div>
 
-        <div class="sidepanel collapse" id="collapse4">
+        <div class="sidepanel collapse defaultclosed" id="collapse4">
             <div class="panelcontent">
                 <div class="form-group">
                     <div  v-if="sharedState.wkt != null">
@@ -130,7 +130,7 @@
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse5" aria-expanded="true" aria-controls="collapse5">Time range</div>
 
-        <div class="sidepanel collapse" id="collapse5">
+        <div class="sidepanel collapse defaultclosed" id="collapse5">
             <div class="panelcontent">
                 <div class="form-group">
                     <div class="sliderwrapper">
@@ -142,7 +142,7 @@
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse7" aria-expanded="true" aria-controls="collapse7">Depth range</div>
 
-        <div class="sidepanel collapse" id="collapse7">
+        <div class="sidepanel collapse defaultclosed" id="collapse7">
             <div class="panelcontent">
                 <div class="form-group">
                     <div class="sliderwrapper">
@@ -382,6 +382,7 @@ export default {
         saveLayer: function() {
             store.saveLayer()
             this.reset()
+            $(".defaultclosed").collapse("hide")
         },
         clearLayer: function() {
             store.clearLayer()
