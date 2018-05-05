@@ -42,10 +42,10 @@ export const store = {
             util.specFromQuery(query).then(spec => {
 				if (spec.download) {
                 	this.addDownload(spec)
-                    this.addLayer(spec, false)
+                    this.addLayer(spec, false, false)
                     util.toast("Layer added")
 				} else {
-                    this.addLayer(spec, true)
+                    this.addLayer(spec, true, false)
                     util.toast("Layer added")
                 }
             })
@@ -117,12 +117,14 @@ export const store = {
 			layer.pointsLayer.addTo(self.group)
 		}
 	},
-	addLayer: function(layer, navigate = false) {
+	addLayer: function(layer, navigate = false, edit = true) {
 		let self = this
         if (this.state.editLayer) {
 		    this.removeLayer(this.state.editLayer)
         }
-        this.state.editLayer = layer
+        if (edit) {
+		    this.state.editLayer = layer
+        }
 		if (layer.scale == "custom") {
 			layer.colors = [ layer.customColor ]
 		} else {
