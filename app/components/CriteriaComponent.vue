@@ -244,7 +244,7 @@ export default {
 				this.selectArea(area)
 			}
 		},
-        filters: function(filters) {
+        filters: function() {
 			if (this.disableAdd) {
 				this.clearLayer()
             } else {
@@ -287,7 +287,7 @@ export default {
                 from: this.startYear,
                 to: this.currentYear,
                 prettify_enabled: true,
-                prettify: function (num) {
+                prettify: function(num) {
                     return num
                 },
                 onFinish: function(e) {

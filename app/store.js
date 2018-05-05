@@ -155,7 +155,7 @@ export const store = {
 	pointsExceeded: function() {
 		let self = this
 		if (!this.pointToast) {
-			util.toast("Tile exceeded maximum of 10,000 locations, consider narrowing down data selection", {
+			util.toast("Tile exceeded maximum of 10,000 locations, try narrowing down data selection", {
 				type: "error",
 				duration: 2000
 			})
@@ -174,8 +174,10 @@ export const store = {
 		layer.pointsMode = !layer.pointsMode
 	},
     clearLayer: function() {
-	    this.removeLayer(this.state.editLayer)
-        this.state.editLayer = null
+	    if (this.state.editLayer != null) {
+            this.removeLayer(this.state.editLayer)
+            this.state.editLayer = null
+        }
     },
     removeLayer: function(layer) {
         if (layer.gridLayer) {
