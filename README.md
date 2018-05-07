@@ -1,5 +1,8 @@
 # mapper-prototype
+## deploy
 
-Occurrence mapper prototype.
-
-![screenshot](https://github.com/iobis/mapper-prototype/blob/master/mapper.png?raw=true)
+```
+scp -r assets ubuntu@obisportal:/obis/portal/new/mapper2/
+scp bundle.js ubuntu@obisportal:/obis/portal/new/mapper2/
+scp index.html ubuntu@obisportal:/obis/portal/new/mapper2/
+```
