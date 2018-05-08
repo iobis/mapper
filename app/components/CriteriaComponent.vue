@@ -202,7 +202,7 @@ export default {
 	data() {
 	    return {
             scales: store.scales,
-            criteria: store.state.criteria,
+            criteria: store.criteria,
             suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,

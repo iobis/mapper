@@ -21,33 +21,31 @@ let defaultCriteria = function() {
 }
 
 export const store = {
-	state: {
-		layers: [],
-		mapMode: true,
-        dataTable: {
-            data: [],
-            pageIndex: 0,
-            after: [ -1 ]
-        },
-		checklistTable: {
-			data: [],
-			pageIndex: 0,
-			skip: 0
-		},
-		datasetTable: {
-			data: [],
-			pageIndex: 0,
-			skip: 0
-		},
-		criteria: defaultCriteria(),
-		selectedLayer: null,
-		editLayer: null,
-		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
-		show: true,
-        downloads: [],
-        currentView: "criteria-component",
-		statistics: null
+    layers: [],
+    mapMode: true,
+    dataTable: {
+        data: [],
+        pageIndex: 0,
+        after: [ -1 ]
     },
+    checklistTable: {
+        data: [],
+        pageIndex: 0,
+        skip: 0
+    },
+    datasetTable: {
+        data: [],
+        pageIndex: 0,
+        skip: 0
+    },
+    criteria: defaultCriteria(),
+    selectedLayer: null,
+    editLayer: null,
+    baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    show: true,
+    downloads: [],
+    currentView: "criteria-component",
+    statistics: null,
     group: new L.FeatureGroup(),
 	map: null,
     baseGroup: new L.featureGroup(),
@@ -68,7 +66,7 @@ export const store = {
         }
     },
     resetCriteria: function() {
-        Object.assign(this.state.criteria, defaultCriteria())
+        Object.assign(this.criteria, defaultCriteria())
     },
 	addGridLayer: function(spec) {
 		let self = this
@@ -138,29 +136,29 @@ export const store = {
 	},
     addLayerTemp: function() {
         let spec = {
-            taxa: JSON.parse(JSON.stringify(this.state.criteria.taxa)),
-            datasets: JSON.parse(JSON.stringify(this.state.criteria.datasets)),
-            areas: JSON.parse(JSON.stringify(this.state.criteria.areas)),
-            startyear: this.state.criteria.timeValues[0],
-            endyear: this.state.criteria.timeValues[1],
-            startdepth: this.state.criteria.depthValues[0],
-            enddepth: this.state.criteria.depthValues[1],
+            taxa: JSON.parse(JSON.stringify(this.criteria.taxa)),
+            datasets: JSON.parse(JSON.stringify(this.criteria.datasets)),
+            areas: JSON.parse(JSON.stringify(this.criteria.areas)),
+            startyear: this.criteria.timeValues[0],
+            endyear: this.criteria.timeValues[1],
+            startdepth: this.criteria.depthValues[0],
+            enddepth: this.criteria.depthValues[1],
             precision: 3,
-            geometry: this.state.criteria.wkt,
-            opacity: this.state.criteria.opacity,
-            scale: this.state.criteria.selectedScale,
-            customColor: this.state.criteria.customColor,
+            geometry: this.criteria.wkt,
+            opacity: this.criteria.opacity,
+            scale: this.criteria.selectedScale,
+            customColor: this.criteria.customColor,
             count: null
         }
         this.addLayer(spec)
     },
 	addLayer: function(layer, navigate = false, edit = true) {
 		let self = this
-        if (this.state.editLayer) {
-		    this.removeLayer(this.state.editLayer)
+        if (this.editLayer) {
+		    this.removeLayer(this.editLayer)
         }
         if (edit) {
-		    this.state.editLayer = layer
+		    this.editLayer = layer
         }
 		if (layer.scale == "custom") {
 			layer.colors = [ layer.customColor ]
@@ -178,15 +176,15 @@ export const store = {
 		let criteria = util.criteriaFromSpec(layer)
 		api.count(criteria).then(function(response) {
 			layer.count = response
-			self.state.layers.push(layer)
+			self.layers.push(layer)
 			if (navigate) {
-                self.state.currentView = "layers-component"
+                self.currentView = "layers-component"
             }
 		})
 	},
     saveLayer: function() {
-	    this.state.editLayer = null
-        this.state.currentView = "layers-component"
+	    this.editLayer = null
+        this.currentView = "layers-component"
         util.toast("Layer saved")
     },
 	pointsExceeded: function() {
@@ -211,9 +209,9 @@ export const store = {
 		layer.pointsMode = !layer.pointsMode
 	},
     clearLayer: function() {
-	    if (this.state.editLayer != null) {
-            this.removeLayer(this.state.editLayer)
-            this.state.editLayer = null
+	    if (this.editLayer != null) {
+            this.removeLayer(this.editLayer)
+            this.editLayer = null
         }
     },
     removeLayer: function(layer) {
@@ -223,23 +221,23 @@ export const store = {
         if (layer.pointsLayer) {
             layer.pointsLayer.removeFrom(this.group)
         }
-        let i = this.state.layers.indexOf(layer)
-        this.state.layers.splice(i, 1)
+        let i = this.layers.indexOf(layer)
+        this.layers.splice(i, 1)
     },
 	reset: function() {
         // todo: combine reset functionality
-		this.state.dataTable.after = [ -1 ]
-        this.state.dataTable.pageIndex = 0
-        this.state.checklistTable.pageIndex = 0
-        this.state.checklistTable.skip = 0
-        this.state.datasetTable.pageIndex = 0
-        this.state.datasetTable.skip = 0
+		this.dataTable.after = [ -1 ]
+        this.dataTable.pageIndex = 0
+        this.checklistTable.pageIndex = 0
+        this.checklistTable.skip = 0
+        this.datasetTable.pageIndex = 0
+        this.datasetTable.skip = 0
 	},
     viewData: function(layer) {
 		this.reset()
-		this.state.selectedLayer = layer
-        this.state.mapMode = false
-		this.state.show = false
+		this.selectedLayer = layer
+        this.mapMode = false
+		this.show = false
         this.fetch()
         this.fetchChecklist()
         this.fetchDatasets()
@@ -247,69 +245,69 @@ export const store = {
     },
     fetch: function() {
         let self = this
-        this.state.selectedLayer.after = this.state.dataTable.after.slice(-1)[0]
-        api.fetch(this.state.selectedLayer).then(function(response) {
-            self.state.dataTable.data = response.results
+        this.selectedLayer.after = this.dataTable.after.slice(-1)[0]
+        api.fetch(this.selectedLayer).then(function(response) {
+            self.dataTable.data = response.results
         })
     },
 	fetchChecklist: function() {
 		let self = this
-		this.state.selectedLayer.skip = this.state.checklistTable.skip
-		api.fetchChecklist(this.state.selectedLayer).then(function(response) {
-			self.state.checklistTable.data = response.results
+		this.selectedLayer.skip = this.checklistTable.skip
+		api.fetchChecklist(this.selectedLayer).then(function(response) {
+			self.checklistTable.data = response.results
 		})
 	},
 	fetchStatistics: function() {
 		let self = this
-		api.fetchStatistics(this.state.selectedLayer).then(function(response) {
-			self.state.statistics = response
+		api.fetchStatistics(this.selectedLayer).then(function(response) {
+			self.statistics = response
 		})
 	},
     fetchDatasets: function() {
         let self = this
-        this.state.selectedLayer.skip = this.state.datasetTable.skip // todo: better way?
-        api.fetchDatasets(this.state.selectedLayer).then(function(response) {
-            self.state.datasetTable.data = response.results
+        this.selectedLayer.skip = this.datasetTable.skip // todo: better way?
+        api.fetchDatasets(this.selectedLayer).then(function(response) {
+            self.datasetTable.data = response.results
         })
     },
     showMap: function() {
-		this.state.show = true
-        this.state.mapMode = true
+		this.show = true
+        this.mapMode = true
     },
 	// todo: combine pagination functionality
     nextPageData: function() {
-        this.state.dataTable.pageIndex += 1
-        this.state.dataTable.after.push(this.state.dataTable.data.slice(-1)[0].id)
+        this.dataTable.pageIndex += 1
+        this.dataTable.after.push(this.dataTable.data.slice(-1)[0].id)
         this.fetch()
     },
     previousPageData: function() {
-        this.state.dataTable.pageIndex -= 1
-        this.state.dataTable.after.pop()
+        this.dataTable.pageIndex -= 1
+        this.dataTable.after.pop()
         this.fetch()
     },
 	nextPageChecklist: function() {
-		this.state.checklistTable.pageIndex += 1
-		this.state.checklistTable.skip += config.checklistTable.pageSize
+		this.checklistTable.pageIndex += 1
+		this.checklistTable.skip += config.checklistTable.pageSize
 		this.fetchChecklist()
 	},
 	previousPageChecklist: function() {
-		this.state.checklistTable.pageIndex -= 1
-		this.state.checklistTable.skip -= config.checklistTable.pageSize
+		this.checklistTable.pageIndex -= 1
+		this.checklistTable.skip -= config.checklistTable.pageSize
 		this.fetchChecklist()
 	},
 	nextPageDataset: function() {
-		this.state.datasetTable.pageIndex += 1
-		this.state.datasetTable.skip += config.datasetTable.pageSize
+		this.datasetTable.pageIndex += 1
+		this.datasetTable.skip += config.datasetTable.pageSize
 		this.fetchDatasets()
 	},
 	previousPageDataset: function() {
-		this.state.datasetTable.pageIndex -= 1
-		this.state.datasetTable.skip -= config.datasetTable.pageSize
+		this.datasetTable.pageIndex -= 1
+		this.datasetTable.skip -= config.datasetTable.pageSize
 		this.fetchDatasets()
 	},
     updateBase: function() {
 	    this.baseGroup.clearLayers()
-        L.tileLayer(this.state.baseLayer).addTo(this.baseGroup)
+        L.tileLayer(this.baseLayer).addTo(this.baseGroup)
     },
     updateDownloadStatus(download, status){
         if (status.total) {
@@ -341,7 +339,7 @@ export const store = {
                 ready: false,
                 error: false
             }
-            self.state.downloads.push(download)
+            self.downloads.push(download)
 
             api.downloadStatus(hash).then(function(status) {
                 self.updateDownloadStatus(download, status)
@@ -360,7 +358,7 @@ export const store = {
 				}
             })
         })
-        this.state.currentView = "downloads-component"
+        this.currentView = "downloads-component"
 		util.toast("Download added")
 
 	}

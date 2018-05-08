@@ -2,11 +2,11 @@
 	<div>
 		<span class="sideheader">Layers</span>
 
-		<div v-if="sharedState.layers.length == 0" class="sidepanel">
+		<div v-if="store.layers.length == 0" class="sidepanel">
 			<div class="panelcontent"><p class="no-results">No layers.</p></div>
 		</div>
 
-		<div v-for="layer in sharedState.layers" class="sidelayer">
+		<div v-for="layer in store.layers" class="sidelayer">
             <div class="layericons">
 				<div class="layericon" v-on:click="togglePoints(layer)"><span class="oi oi-map-marker"></span></div>
 				<div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-justify-left"></span></div>
@@ -50,7 +50,7 @@ import { store } from "../store"
 export default {
 	data() {
 		return {
-			sharedState: store.state
+			store: store
 		}
 	},
 	methods: {
