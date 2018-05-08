@@ -46,7 +46,7 @@ module.exports = L.GridLayer.extend({
                     if (self._tiles[key]) {
                         for (var i = 0; i < res.coordinates.length; i++) {
                             res.coordinates[i] = res.coordinates[i].concat(self._transform(res.coordinates[i]));
-                        }
+						}
                         var g = d3.select("#map").select("svg").append("g").attr("class", "leaflet-zoom-hide");
                         self._tiles[key].el = g.selectAll("circle")
                             .data(res.coordinates)

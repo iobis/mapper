@@ -4,6 +4,22 @@ import util from "./util"
 import MultiPoint from "./multipoint"
 import config from "./config"
 
+let defaultCriteria = function() {
+    return {
+        taxa: [],
+        datasets: [],
+        areas: [],
+        timeValues: [ null, null ],
+        depthValues: [ null, null ],
+        selectedScale: "red",
+        startYear: 1900,
+        currentYear: (new Date()).getFullYear(),
+        customColor: "#cc3300",
+        opacity: 0.7,
+        wkt: null
+    }
+}
+
 export const store = {
 	state: {
 		layers: [],
@@ -23,9 +39,9 @@ export const store = {
 			pageIndex: 0,
 			skip: 0
 		},
+		criteria: defaultCriteria(),
 		selectedLayer: null,
 		editLayer: null,
-		wkt: null,
 		baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
 		show: true,
         downloads: [],
@@ -50,6 +66,9 @@ export const store = {
                 }
             })
         }
+    },
+    resetCriteria: function() {
+        Object.assign(this.state.criteria, defaultCriteria())
     },
 	addGridLayer: function(spec) {
 		let self = this
@@ -117,6 +136,24 @@ export const store = {
 			layer.pointsLayer.addTo(self.group)
 		}
 	},
+    addLayerTemp: function() {
+        let spec = {
+            taxa: JSON.parse(JSON.stringify(this.state.criteria.taxa)),
+            datasets: JSON.parse(JSON.stringify(this.state.criteria.datasets)),
+            areas: JSON.parse(JSON.stringify(this.state.criteria.areas)),
+            startyear: this.state.criteria.timeValues[0],
+            endyear: this.state.criteria.timeValues[1],
+            startdepth: this.state.criteria.depthValues[0],
+            enddepth: this.state.criteria.depthValues[1],
+            precision: 3,
+            geometry: this.state.criteria.wkt,
+            opacity: this.state.criteria.opacity,
+            scale: this.state.criteria.selectedScale,
+            customColor: this.state.criteria.customColor,
+            count: null
+        }
+        this.addLayer(spec)
+    },
 	addLayer: function(layer, navigate = false, edit = true) {
 		let self = this
         if (this.state.editLayer) {

@@ -55,7 +55,7 @@ export default {
 		this.map.addControl(drawControl)
 		this.map.on(L.Draw.Event.CREATED, function(e) {
 			let layer = e.layer
-			store.state.wkt = wkt(layer)
+			store.state.criteria.wkt = wkt(layer)
 			util.toast("Geometry set")
 		})
 		store.updateBase()

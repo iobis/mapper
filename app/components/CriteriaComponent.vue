@@ -29,10 +29,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-if="!taxa || taxa.length == 0">
+                    <tr v-if="!criteria.taxa || criteria.taxa.length == 0">
                         <td class="no-results">No taxa selected.</td><td></td>
                     </tr>
-                    <tr v-for="(taxon, index) in taxa" v-on:click="removeTaxon(index)" class="clickable">
+                    <tr v-for="(taxon, index) in criteria.taxa" v-on:click="removeTaxon(index)" class="clickable">
                         <td>{{ taxon.scientificName }} {{ taxon.scientificNameAuthorship }}</td>
                         <td>{{ taxon.acceptedNameUsageID }}</td>
                     </tr>
@@ -66,10 +66,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-if="!datasets || datasets.length == 0">
+                    <tr v-if="!criteria.datasets || criteria.datasets.length == 0">
                         <td class="no-results">No datasets selected.</td><td></td>
                     </tr>
-                    <tr v-for="(dataset, index) in datasets" v-on:click="removeDataset(index)" class="clickable">
+                    <tr v-for="(dataset, index) in criteria.datasets" v-on:click="removeDataset(index)" class="clickable">
                         <td>{{ dataset.resname }}</td>
                         <td>{{ dataset.id }}</td>
                     </tr>
@@ -103,10 +103,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-if="!areas || areas.length == 0">
+                    <tr v-if="!criteria.areas || criteria.areas.length == 0">
                         <td class="no-results">No areas selected.</td><td></td>
                     </tr>
-                    <tr v-for="(area, index) in areas" v-on:click="removeArea(index)" class="clickable">
+                    <tr v-for="(area, index) in criteria.areas" v-on:click="removeArea(index)" class="clickable">
                         <td>{{ area.name }}</td>
                         <td>{{ area.id }}</td>
                     </tr>
@@ -120,10 +120,10 @@
         <div class="sidepanel collapse defaultclosed" id="collapse4">
             <div class="panelcontent">
                 <div class="form-group">
-                    <div  v-if="sharedState.wkt != null">
-                        <p class="count clickable" v-on:click="sharedState.wkt = null">{{ sharedState.wkt }}</p>
+                    <div v-if="criteria.wkt != null">
+                        <p class="count clickable" v-on:click="criteria.wkt = null">{{ criteria.wkt }}</p>
                     </div>
-                    <p v-if="sharedState.wkt == null" class="no-results">No geometry selected.</p>
+                    <p v-if="criteria.wkt == null" class="no-results">No geometry selected.</p>
                 </div>
             </div>
         </div>
@@ -161,19 +161,19 @@
                     <span v-for="(scale, name) in scales">
                         <br/>
                         <label class="colorlabel">
-                        <input type="radio" name="scale" v-model="selectedScale" v-bind:value="name">
+                        <input type="radio" name="scale" v-model="criteria.selectedScale" v-bind:value="name">
                         <div class="colorsquares">
                             <span class="colorsquare" :style="{ 'background-color': color }" v-for="color in scale.colors"></span>
                         </div>
                         </label>
                     </span>
-                    <br><input type="radio" name="scale" v-model="selectedScale" value="custom" id="customcolor"><label class="radiolabel clickable" for="customcolor">custom color</label>
-                    <color-picker v-model="customColor" v-if="selectedScale == 'custom'" id="cp"></color-picker>
+                    <br><input type="radio" name="scale" v-model="criteria.selectedScale" value="custom" id="customcolor"><label class="radiolabel clickable" for="customcolor">custom color</label>
+                    <color-picker v-model="criteria.customColor" v-if="criteria.selectedScale == 'custom'" id="cp"></color-picker>
                 </div>
 
                 <div class="form-group">
                     <label>Opacity</label>
-                    <select class="form-control" v-model="opacity">
+                    <select class="form-control" v-model="criteria.opacity">
                         <option>1</option>
                         <option>0.9</option>
                         <option>0.8</option>
@@ -198,26 +198,11 @@ import ColorPicker from "./ColorPicker.vue"
 import { Typeahead } from "uiv"
 import Vue from "vue"
 
-let getDefaults = function() {
-    return {
-        taxa: [],
-        datasets: [],
-        areas: [],
-        timeValues: [ null, null ],
-        depthValues: [ null, null ],
-        selectedScale: "red",
-        startYear: 1900,
-        currentYear: (new Date()).getFullYear(),
-        customColor: "#cc3300",
-        opacity: 0.7
-    }
-}
-
 export default {
 	data() {
-	    let d = {
+	    return {
             scales: store.scales,
-            sharedState: store.state,
+            criteria: store.state.criteria,
             suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,
@@ -225,8 +210,6 @@ export default {
             timeSlider: null,
             depthSlider: null
         }
-        Object.assign(d, getDefaults())
-        return d
     },
     watch: {
 		selectedTaxon: function(taxon) {
@@ -261,17 +244,16 @@ export default {
     },
     computed: {
 	    disableAdd: function() {
-			return this.taxa.length == 0 && this.datasets.length == 0 && this.areas.length == 0 && !this.sharedState.wkt && this.timeValues.every(function(x) { return x == null }) && this.depthValues.every(function(x) { return x == null })
+			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.taxa, this.datasets, this.areas, this.timeValues, this.depthValues, this.selectedScale, this.customColor, this.opacity, this.sharedState.wkt ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
         }
     },
 	methods: {
         reset: function() {
-            Object.assign(this.$data, getDefaults())
+            store.resetCriteria()
             this.resetSliders()
-            this.sharedState.wkt = null
         },
         resetSliders: function() {
             this.timeSlider.reset()
@@ -282,10 +264,10 @@ export default {
             $("#slider").ionRangeSlider({
                 type: "double",
                 grid: false,
-                min: this.startYear,
-                max: this.currentYear,
-                from: this.startYear,
-                to: this.currentYear,
+                min: this.criteria.startYear,
+                max: this.criteria.currentYear,
+                from: this.criteria.startYear,
+                to: this.criteria.currentYear,
                 prettify_enabled: true,
                 prettify: function(num) {
                     return num
@@ -293,13 +275,13 @@ export default {
                 onFinish: function(e) {
                     let start = e.from_pretty
                     let end = e.to_pretty
-                    if (start == self.startYear) {
+                    if (start == self.criteria.startYear) {
                         start = null
                     }
-                    if (end == self.currentYear) {
+                    if (end == self.criteria.currentYear) {
                         end = null
                     }
-                    self.timeValues = [start, end]
+                    self.criteria.timeValues = [start, end]
                 }
             })
             this.timeSlider = $("#slider").data("ionRangeSlider")
@@ -322,7 +304,7 @@ export default {
                     if (end == 11000) {
                         end = null
                     }
-                    self.depthValues = [start, end]
+                    self.criteria.depthValues = [start, end]
                 }
             })
             this.depthSlider = $("#depthslider").data("ionRangeSlider")
@@ -343,7 +325,7 @@ export default {
 			})
 		},
 		select: function(taxon) {
-			this.taxa.push({
+			this.criteria.taxa.push({
 				"scientificName": taxon.scientificName,
 				"acceptedNameUsageID": taxon.acceptedNameUsageID,
 				"scientificNameAuthorship": taxon.scientificNameAuthorship
@@ -353,7 +335,7 @@ export default {
             })
 		},
 		selectDataset: function(dataset) {
-			this.datasets.push({
+			this.criteria.datasets.push({
 				"id": dataset.id,
 				"resname": dataset.resname
 			})
@@ -362,7 +344,7 @@ export default {
 			})
 		},
 		selectArea: function(area) {
-			this.areas.push({
+			this.criteria.areas.push({
 				"id": area.id,
 				"name": area.name
 			})
@@ -371,13 +353,13 @@ export default {
 			})
 		},
 		removeTaxon: function(index) {
-			this.taxa.splice(index, 1)
+			this.criteria.taxa.splice(index, 1)
 		},
 		removeDataset: function(index) {
-			this.datasets.splice(index, 1)
+			this.criteria.datasets.splice(index, 1)
 		},
 		removeArea: function(index) {
-			this.areas.splice(index, 1)
+			this.criteria.areas.splice(index, 1)
 		},
         saveLayer: function() {
             store.saveLayer()
@@ -388,21 +370,7 @@ export default {
             store.clearLayer()
         },
 		addLayer: function() {
-			store.addLayer({
-                taxa: JSON.parse(JSON.stringify(this.taxa)),
-                datasets: JSON.parse(JSON.stringify(this.datasets)),
-                areas: JSON.parse(JSON.stringify(this.areas)),
-                startyear: this.timeValues[0],
-                endyear: this.timeValues[1],
-                startdepth: this.depthValues[0],
-                enddepth: this.depthValues[1],
-                precision: 3,
-                geometry: this.sharedState.wkt,
-                opacity: this.opacity,
-                scale: this.selectedScale,
-                customColor: this.customColor,
-                count: null
-            })
+			store.addLayerTemp()
 		}
 	}
 }
