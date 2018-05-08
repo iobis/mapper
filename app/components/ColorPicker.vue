@@ -21,7 +21,8 @@ export default {
         }, 1000))
     },
     beforeDestroy: function() {
-        $(this.$el).colorpicker("hide").colorpicker("destroy")
+        $(this.$el).colorpicker("hide")
+        $(this.$el).colorpicker("destroy")
     }
 }
 </script>
