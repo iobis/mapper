@@ -10,6 +10,7 @@
             <div class="layericons">
 				<div class="layericon" v-on:click="togglePoints(layer)"><span class="oi oi-map-marker"></span></div>
 				<div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-justify-left"></span></div>
+				<div class="layericon" v-on:click="editData(layer)"><span class="oi oi-pencil"></span></div>
                 <div class="layericon" v-on:click="addDownload(layer)"><span class="oi oi-data-transfer-download"></span></div>
                 <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>
             </div>
@@ -59,6 +60,9 @@ export default {
 		},
 		viewData: function(layer) {
 			store.viewData(layer)
+		},
+		editData: function(layer) {
+			store.loadCriteria(layer)
 		},
 		togglePoints: function(layer) {
 			store.togglePoints(layer)

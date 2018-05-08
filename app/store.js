@@ -68,6 +68,12 @@ export const store = {
     resetCriteria: function() {
         Object.assign(this.criteria, defaultCriteria())
     },
+    loadCriteria: function(layer) {
+        this.criteria.taxa = layer.taxa
+        this.criteria.datasets = layer.datasets
+        this.criteria.areas = layer.datasets
+        this.editLayer = layer
+    },
 	addGridLayer: function(spec) {
 		let self = this
 		if (spec.pointsLayer) {
@@ -125,7 +131,7 @@ export const store = {
 					let [lng, lat] = e
 					let criteria = util.criteriaFromSpec(layer)
 					api.geoPoint(criteria, lng, lat, self.map.getZoom()).then(function(res) {
-						let popup = L.popup({
+						L.popup({
 							maxWidth: 500
 						}).setLatLng({ lat: lat, lng: lng}).setContent(util.generatePopup(res)).openOn(self.map)
 					})
