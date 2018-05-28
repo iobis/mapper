@@ -12,8 +12,6 @@ let defaultCriteria = function() {
         timeValues: [ null, null ],
         depthValues: [ null, null ],
         selectedScale: "red",
-        startYear: 1900,
-        currentYear: (new Date()).getFullYear(),
         customColor: "#cc3300",
         opacity: 0.7,
         wkt: null
@@ -39,6 +37,10 @@ export const store = {
         skip: 0
     },
     criteria: defaultCriteria(),
+    settings: {
+        startYear: 1900,
+        currentYear: (new Date()).getFullYear()
+    },
     selectedLayer: null,
     editLayer: null,
     baseLayer: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
@@ -69,10 +71,33 @@ export const store = {
         Object.assign(this.criteria, defaultCriteria())
     },
     loadCriteria: function(layer) {
+
+        console.log("loadCriteria")
+
         this.criteria.taxa = layer.taxa
         this.criteria.datasets = layer.datasets
         this.criteria.areas = layer.datasets
+        this.criteria.selectedScale = layer.scale
+        this.criteria.opacity = layer.opacity
+        this.criteria.customColor = layer.customColor
+        this.criteria.wkt = layer.geometry
+
+        /*
+        this.criteria.timeValues[0] = layer.startyear
+        this.criteria.timeValues[1] = layer.endyear
+        */
+
+        this.criteria.timeValues = [ layer.startyear, layer.endyear ]
+
+        console.log("timeValues updated to " + JSON.stringify(this.criteria.timeValues))
+
+        // todo: update sliders
+
+        //timeValues: [ null, null ], (zie settings: startYear, currentYear)
+        //depthValues: [ null, null ],
+
         this.editLayer = layer
+        this.currentView = "criteria-component"
     },
 	addGridLayer: function(spec) {
 		let self = this

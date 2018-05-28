@@ -203,6 +203,7 @@ export default {
 	    return {
             scales: store.scales,
             criteria: store.criteria,
+            settings: store.settings,
             suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,
@@ -212,6 +213,37 @@ export default {
         }
     },
     watch: {
+
+	    // todo: watch slider values and adapt sliders if necessary
+
+		"criteria.timeValues": function(timeValues) {
+
+            let start = timeValues[0]
+            let end = timeValues[1]
+
+            console.log(start)
+            console.log(end)
+            console.log(this.timeSlider.result.from)
+            console.log(this.timeSlider.result.to)
+
+			// check start value
+
+
+
+			/*
+            let start = e.from_pretty
+            let end = e.to_pretty
+            if (start == self.settings.startYear) {
+                start = null
+            }
+            if (end == self.settings.currentYear) {
+                end = null
+            }
+            self.criteria.timeValues = [start, end]
+			*/
+
+
+		},
 		selectedTaxon: function(taxon) {
 			if (taxon) {
 				this.select(taxon)
@@ -264,10 +296,10 @@ export default {
             $("#slider").ionRangeSlider({
                 type: "double",
                 grid: false,
-                min: this.criteria.startYear,
-                max: this.criteria.currentYear,
-                from: this.criteria.startYear,
-                to: this.criteria.currentYear,
+                min: this.settings.startYear,
+                max: this.settings.currentYear,
+                from: this.settings.startYear,
+                to: this.settings.currentYear,
                 prettify_enabled: true,
                 prettify: function(num) {
                     return num
@@ -275,10 +307,10 @@ export default {
                 onFinish: function(e) {
                     let start = e.from_pretty
                     let end = e.to_pretty
-                    if (start == self.criteria.startYear) {
+                    if (start == self.settings.startYear) {
                         start = null
                     }
-                    if (end == self.criteria.currentYear) {
+                    if (end == self.settings.currentYear) {
                         end = null
                     }
                     self.criteria.timeValues = [start, end]
