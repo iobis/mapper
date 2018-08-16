@@ -71,9 +71,6 @@ export const store = {
         Object.assign(this.criteria, defaultCriteria())
     },
     loadCriteria: function(layer) {
-
-        console.log("loadCriteria")
-
         this.criteria.taxa = layer.taxa
         this.criteria.datasets = layer.datasets
         this.criteria.areas = layer.datasets
@@ -81,20 +78,8 @@ export const store = {
         this.criteria.opacity = layer.opacity
         this.criteria.customColor = layer.customColor
         this.criteria.wkt = layer.geometry
-
-        /*
-        this.criteria.timeValues[0] = layer.startyear
-        this.criteria.timeValues[1] = layer.endyear
-        */
-
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
-
-        console.log("timeValues updated to " + JSON.stringify(this.criteria.timeValues))
-
-        // todo: update sliders
-
-        //timeValues: [ null, null ], (zie settings: startYear, currentYear)
-        //depthValues: [ null, null ],
+        this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
 
         this.editLayer = layer
         this.currentView = "criteria-component"

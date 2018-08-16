@@ -209,39 +209,65 @@ export default {
             selectedDataset: null,
             selectedArea: null,
             timeSlider: null,
-            depthSlider: null
+            depthSlider: null,
+			depths: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000]
         }
     },
     watch: {
-
-	    // todo: watch slider values and adapt sliders if necessary
-
-		"criteria.timeValues": function(timeValues) {
-
+        "criteria.timeValues": function(timeValues) {
             let start = timeValues[0]
             let end = timeValues[1]
-
-            console.log(start)
-            console.log(end)
-            console.log(this.timeSlider.result.from)
-            console.log(this.timeSlider.result.to)
-
-			// check start value
-
-
-
-			/*
-            let start = e.from_pretty
-            let end = e.to_pretty
-            if (start == self.settings.startYear) {
-                start = null
+            // check start value
+            if (start == null && this.timeSlider.result.from != this.settings.startYear) {
+                this.timeSlider.update({
+                    from: this.settings.startYear
+                })
+            } else if (start != null && start != this.timeSlider.result.from) {
+                this.timeSlider.update({
+                    from: start
+                })
             }
-            if (end == self.settings.currentYear) {
-                end = null
+            // check end value
+            if (end == null && this.timeSlider.result.to != this.settings.currentYear) {
+                this.timeSlider.update({
+                    to: this.settings.currentYear
+                })
+            } else if (end != null && end != this.timeSlider.result.to) {
+                this.timeSlider.update({
+                    to: end
+                })
             }
-            self.criteria.timeValues = [start, end]
-			*/
+        },
+        "criteria.depthValues": function(depthValues) {
+            let start = depthValues[0]
+            let end = depthValues[1]
 
+			console.log([start, end])
+            console.log([this.depthSlider.result.from_value, this.depthSlider.result.to_value])
+            console.log([this.depthSlider.result.from, this.depthSlider.result.to])
+
+			// todo: fix, use index of values in this.depths
+
+            // check start value
+            if (start == null && (this.depthSlider.result.from_value != null && this.depthSlider.result.from_value != 0)) {
+                this.depthSlider.update({
+                    from_value: 0
+                })
+            } else if (start != null && (this.depthSlider.result.from_value == null || start != this.depthSlider.result.from_value)) {
+                this.depthSlider.update({
+                    from_value: start
+                })
+            }
+            // check end value
+            if (end == null && (this.depthSlider.result.to != null && this.timeSlider.result.to_value != 11000)) {
+                this.depthSlider.update({
+                    to_value: 11000
+                })
+            } else if (end != null && (this.timeSlider.result.to_value == null || end != this.timeSlider.result.to_value)) {
+                this.depthSlider.update({
+                    to_value: end
+                })
+            }
 
 		},
 		selectedTaxon: function(taxon) {
@@ -322,7 +348,7 @@ export default {
                 grid: false,
                 from: 0,
                 to: 11000,
-                values: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000],
+                values: this.depths,
                 prettify_enabled: true,
                 prettify: function (num) {
                     return num
