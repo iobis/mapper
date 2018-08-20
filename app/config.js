@@ -8,6 +8,6 @@ module.exports = {
     datasetTable: {
         pageSize: 10
     },
-    api: "http://api.iobis.org/v2/",
+    api: "http://127.0.0.1:5000/", //"http://api.iobis.org/v2/",
     files: "http://download.iobis.org/files/"
 }

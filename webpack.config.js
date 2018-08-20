@@ -15,7 +15,7 @@ module.exports = env => {
       "jquery": "jQuery"
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.js$/,
           exclude: /node_modules/,
