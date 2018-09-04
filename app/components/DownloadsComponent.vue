@@ -2,11 +2,11 @@
     <div>
         <span class="sideheader">Downloads</span>
 
-        <div v-if="sharedState.downloads.length == 0" class="sidepanel">
+        <div v-if="downloads.length == 0" class="sidepanel">
             <div class="panelcontent"><p class="no-results">No downloads.</p></div>
         </div>
 
-        <div v-for="download in sharedState.downloads" class="sidelayer">
+        <div v-for="download in downloads" class="sidelayer">
             <p>
                 <span v-for="(taxon, index) in download.criteria.taxa">
                     {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
@@ -52,7 +52,7 @@
     export default {
         data() {
             return {
-                sharedState: store.state
+                downloads: store.downloads
             }
         },
         methods: {

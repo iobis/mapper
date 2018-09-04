@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"description": "",
 	"scripts": {
-		"dev": "webpack-dev-server --progress --colors --env.development --port 5001",
+		"dev": "webpack-dev-server --progress --colors --mode development --env.development --port 5001",
 		"bundle": "webpack --env.production"
 	},
 	"keywords": [],

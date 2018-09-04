@@ -241,13 +241,6 @@ export default {
         "criteria.depthValues": function(depthValues) {
             let start = depthValues[0]
             let end = depthValues[1]
-
-			console.log([start, end])
-            console.log([this.depthSlider.result.from_value, this.depthSlider.result.to_value])
-            console.log([this.depthSlider.result.from, this.depthSlider.result.to])
-
-			// todo: fix, use index of values in this.depths
-
             // check start value
             if (start == null && (this.depthSlider.result.from_value != null && this.depthSlider.result.from_value != 0)) {
                 this.depthSlider.update({
@@ -255,7 +248,7 @@ export default {
                 })
             } else if (start != null && (this.depthSlider.result.from_value == null || start != this.depthSlider.result.from_value)) {
                 this.depthSlider.update({
-                    from_value: start
+					from: this.depths.indexOf(parseInt(start))
                 })
             }
             // check end value
@@ -265,11 +258,10 @@ export default {
                 })
             } else if (end != null && (this.timeSlider.result.to_value == null || end != this.timeSlider.result.to_value)) {
                 this.depthSlider.update({
-                    to_value: end
+                    to: this.depths.indexOf(parseInt(end))
                 })
             }
-
-		},
+        },
 		selectedTaxon: function(taxon) {
 			if (taxon) {
 				this.select(taxon)
