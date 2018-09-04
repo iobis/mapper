@@ -323,6 +323,7 @@ export const store = {
 	},
     updateBase: function() {
 	    this.baseGroup.clearLayers()
+        console.log("Updating to: " + this.baseLayer)
         L.tileLayer(this.baseLayer).addTo(this.baseGroup)
     },
     updateDownloadStatus(download, status){

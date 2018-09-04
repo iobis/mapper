@@ -5,7 +5,7 @@
 
         <h3>Summary</h3>
 
-        <table class="table table-sm table-condensed table-nonfluid" v-if="sharedState.statistics">
+        <table class="table table-sm table-condensed table-nonfluid" v-if="store.statistics">
             <thead>
                 <tr>
                     <th>records</th>
@@ -16,10 +16,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ sharedState.statistics.records }}</td>
-                    <td>{{ sharedState.statistics.species }}</td>
-                    <td>{{ sharedState.statistics.taxa }}</td>
-                    <td>{{ sharedState.statistics.year_range[0] }} - {{ sharedState.statistics.year_range[1] }}</td>
+                    <td>{{ store.statistics.records }}</td>
+                    <td>{{ store.statistics.species }}</td>
+                    <td>{{ store.statistics.taxa }}</td>
+                    <td>{{ store.statistics.year_range[0] }} - {{ store.statistics.year_range[1] }}</td>
                 </tr>
             </tbody>
         </table>
@@ -27,11 +27,11 @@
         <h3>Occurrences</h3>
 
         <ul class="pagination">
-            <li v-bind:class="{ disabled: sharedState.dataTable.pageIndex == 0 }">
+            <li v-bind:class="{ disabled: store.dataTable.pageIndex == 0 }">
                 <span class="clickable" v-on:click="previousPageData()">&laquo;</span>
             </li>
-            <li><span>{{ sharedState.dataTable.pageIndex + 1 }}</span></li>
-            <li v-bind:class="{ disabled: sharedState.dataTable.data.length < config.dataTable.pageSize }">
+            <li><span>{{ store.dataTable.pageIndex + 1 }}</span></li>
+            <li v-bind:class="{ disabled: store.dataTable.data.length < config.dataTable.pageSize }">
                 <span class="clickable" v-on:click="nextPageData()">&raquo;</span>
             </li>
         </ul>
@@ -51,7 +51,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="record in sharedState.dataTable.data">
+            <tr v-for="record in store.dataTable.data">
                 <td>{{ record.id }}</td>
                 <td>{{ record.resource_id }}</td>
                 <td>{{ record.scientificName }}</td>
@@ -68,10 +68,10 @@
         <h3>Checklist</h3>
 
         <ul class="pagination pagination-sm">
-            <li v-bind:class="{ disabled: sharedState.checklistTable.pageIndex == 0 }">
+            <li v-bind:class="{ disabled: store.checklistTable.pageIndex == 0 }">
                 <span class="clickable" v-on:click="previousPageChecklist()">&laquo;</span>
             </li>
-            <li><span>{{ sharedState.checklistTable.pageIndex + 1 }}</span></li>
+            <li><span>{{ store.checklistTable.pageIndex + 1 }}</span></li>
             <!--
             // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
             <li v-bind:class="{ disabled: sharedState.checklistTable.data.length < config.checklistTable.pageSize }">
@@ -95,7 +95,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="record in sharedState.checklistTable.data">
+            <tr v-for="record in store.checklistTable.data">
                 <td>{{ record.taxonID }}</td>
                 <td>{{ record.scientificName }}</td>
                 <td>{{ record.records }}</td>
@@ -111,10 +111,10 @@
         <h3>Datasets</h3>
 
         <ul class="pagination pagination-sm">
-            <li v-bind:class="{ disabled: sharedState.datasetTable.pageIndex == 0 }">
+            <li v-bind:class="{ disabled: store.datasetTable.pageIndex == 0 }">
                 <span class="clickable" v-on:click="previousPageDataset()">&laquo;</span>
             </li>
-            <li><span>{{ sharedState.datasetTable.pageIndex + 1 }}</span></li>
+            <li><span>{{ store.datasetTable.pageIndex + 1 }}</span></li>
             <li>
                 <span class="clickable" v-on:click="nextPageDataset()">&raquo;</span>
             </li>
@@ -131,7 +131,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="record in sharedState.datasetTable.data">
+            <tr v-for="record in store.datasetTable.data">
                 <td>{{ record.id }}</td>
                 <td>{{ record.resname }}</td>
                 <td>{{ record.records }}</td>
@@ -152,7 +152,7 @@ let moment = require("moment")
 export default {
     data() {
         return {
-            sharedState: store.state,
+            store: store,
             config: config
         }
     },
@@ -163,12 +163,12 @@ export default {
             store.showMap()
         },
         nextPageData: function() {
-            if (store.state.dataTable.data.length == config.dataTable.pageSize) {
+            if (store.dataTable.data.length == config.dataTable.pageSize) {
                 store.nextPageData()
             }
         },
         previousPageData: function() {
-            if (store.state.dataTable.pageIndex > 0) {
+            if (store.dataTable.pageIndex > 0) {
                 store.previousPageData()
             }
         },
@@ -179,7 +179,7 @@ export default {
             // }
         },
         previousPageChecklist: function() {
-            if (store.state.checklistTable.pageIndex > 0) {
+            if (store.checklistTable.pageIndex > 0) {
                 store.previousPageChecklist()
             }
         },
@@ -187,7 +187,7 @@ export default {
             store.nextPageDataset()
         },
         previousPageDataset: function() {
-            if (store.state.datasetTable.pageIndex > 0) {
+            if (store.datasetTable.pageIndex > 0) {
                 store.previousPageDataset()
             }
         }
