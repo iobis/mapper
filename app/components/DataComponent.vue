@@ -19,7 +19,7 @@
                     <td>{{ store.statistics.records }}</td>
                     <td>{{ store.statistics.species }}</td>
                     <td>{{ store.statistics.taxa }}</td>
-                    <td>{{ store.statistics.year_range[0] }} - {{ store.statistics.year_range[1] }}</td>
+                    <td>{{ store.statistics.yearrange[0] }} - {{ store.statistics.yearrange[1] }}</td>
                 </tr>
             </tbody>
         </table>
