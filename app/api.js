@@ -83,13 +83,13 @@ export default {
 	},
 	download(criteria) {
 		let q = util.createQuery(criteria)
-		let url = config.api + "download/occurrence?" + q
+		let url = config.download + "occurrence?" + q
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
 	downloadStatus(hash) {
-		let url = config.api + "download/" + hash + "/status"
+		let url = config.download + hash + "/status"
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
