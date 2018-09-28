@@ -1,9 +1,11 @@
 const UglifyJS = require("uglifyjs-webpack-plugin")
+const path = require("path")
 
 module.exports = env => {
   let config = {
     entry: './app/main',
     output: {
+      path: path.resolve(__dirname),
       filename: 'bundle.js'
     },
     devServer: {
