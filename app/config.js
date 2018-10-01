@@ -9,8 +9,8 @@ module.exports = {
         pageSize: 10
     },
     //api: "http://127.0.0.1:5000/",
-    api: "http://api.iobis.org/v3/",
-    download: "http://api.iobis.org/v3/download/",
+    api: "https://api.obis.org/v3/",
+    download: "https://api.obis.org/v3/download/",
     //download: "http://127.0.0.1:5002/download/",
-    files: "http://download.obis.org/"
+    files: "https://download.obis.org/"
 }
