@@ -78,6 +78,43 @@
             </div>
         </div>
 
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse8" aria-expanded="true" aria-controls="collapse8">Nodes</div>
+
+        <div class="sidepanel collapse defaultclosed" id="collapse8">
+            <div class="panelcontent">
+                <div class="form-group">
+                    <input id="nodeInput" class="form-control" type="text" placeholder="Enter node name" ref="nodeInput">
+                    <typeahead v-model="selectedNode" target="#nodeInput" :async-function="completeNode" item-key="name" :force-select="true" :debounce="500">
+                        <template slot="item" scope="props">
+                            <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                                <a role="button" @click="props.select(item)">
+                                    {{ item.name }}
+                                    <br/><span class="smaller">Node ID: {{ item.id }}</span>
+                                </a>
+                            </li>
+                        </template>
+                    </typeahead>
+                </div>
+                <table class="table no-bottom-margin">
+                    <thead>
+                    <tr>
+                        <th>Node</th>
+                        <th>ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-if="!criteria.nodes || criteria.nodes.length == 0">
+                        <td class="no-results">No nodes selected.</td><td></td>
+                    </tr>
+                    <tr v-for="(node, index) in criteria.nodes" v-on:click="removeNode(index)" class="clickable">
+                        <td>{{ node.name }}</td>
+                        <td>{{ node.id }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse3" aria-expanded="true" aria-controls="collapse3">Area</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse3">
@@ -207,6 +244,7 @@ export default {
             suggestions: [],
             selectedTaxon: null,
             selectedDataset: null,
+            selectedNode: null,
             selectedArea: null,
             timeSlider: null,
             depthSlider: null,
@@ -267,11 +305,16 @@ export default {
 				this.select(taxon)
 			}
 		},
-		selectedDataset: function(dataset) {
-			if (dataset) {
-				this.selectDataset(dataset)
-			}
-		},
+        selectedDataset: function(dataset) {
+            if (dataset) {
+                this.selectDataset(dataset)
+            }
+        },
+        selectedNode: function(node) {
+            if (node) {
+                this.selectNode(node)
+            }
+        },
 		selectedArea: function(area) {
 			if (area) {
 				this.selectArea(area)
@@ -294,10 +337,10 @@ export default {
     },
     computed: {
 	    disableAdd: function() {
-			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
+			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
         }
     },
 	methods: {
@@ -364,11 +407,16 @@ export default {
 				done(res)
 			})
 		},
-		completeDataset: function(input, done) {
-			api.completeDataset(input).then(res => {
-				done(res)
-			})
-		},
+        completeDataset: function(input, done) {
+            api.completeDataset(input).then(res => {
+                done(res)
+            })
+        },
+        completeNode: function(input, done) {
+            api.completeNode(input).then(res => {
+                done(res)
+            })
+        },
 		completeArea: function(input, done) {
 			api.completeArea(input).then(res => {
 				done(res)
@@ -384,15 +432,24 @@ export default {
 				this.$refs.nameInput.value = ""
             })
 		},
-		selectDataset: function(dataset) {
-			this.criteria.datasets.push({
-				"id": dataset.id,
-				"resname": dataset.resname
-			})
-			this.$nextTick(function() {
-				this.$refs.datasetInput.value = ""
-			})
-		},
+        selectDataset: function(dataset) {
+            this.criteria.datasets.push({
+                "id": dataset.id,
+                "resname": dataset.resname
+            })
+            this.$nextTick(function() {
+                this.$refs.datasetInput.value = ""
+            })
+        },
+        selectNode: function(node) {
+            this.criteria.nodes.push({
+                "id": node.id,
+                "name": node.name
+            })
+            this.$nextTick(function() {
+                this.$refs.nodeInput.value = ""
+            })
+        },
 		selectArea: function(area) {
 			this.criteria.areas.push({
 				"id": area.id,
@@ -405,9 +462,12 @@ export default {
 		removeTaxon: function(index) {
 			this.criteria.taxa.splice(index, 1)
 		},
-		removeDataset: function(index) {
-			this.criteria.datasets.splice(index, 1)
-		},
+        removeDataset: function(index) {
+            this.criteria.datasets.splice(index, 1)
+        },
+        removeNode: function(index) {
+            this.criteria.nodes.splice(index, 1)
+        },
 		removeArea: function(index) {
 			this.criteria.areas.splice(index, 1)
 		},

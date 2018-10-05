@@ -20,6 +20,9 @@
 			<span v-for="(dataset, index) in layer.datasets">
 				dataset {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
 			</span>
+			<span v-for="(node, index) in layer.nodes">
+				node {{ node.id }} <span class="smaller">{{ node.name }}</span><br/>
+			</span>
 			<span v-for="(area, index) in layer.areas">
 				area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
 			</span>

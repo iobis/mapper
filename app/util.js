@@ -19,9 +19,12 @@ const createQuery = function(criteria) {
 	if (criteria.taxa && criteria.taxa.length > 0) {
 		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
-	if (criteria.datasets && criteria.datasets.length > 0) {
-		map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
-	}
+    if (criteria.datasets && criteria.datasets.length > 0) {
+        map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
+    }
+    if (criteria.nodes && criteria.nodes.length > 0) {
+        map.push(["nodeid", criteria.nodes.map(function(x) { return(x.id) }).join(",")])
+    }
 	if (criteria.areas && criteria.areas.length > 0) {
 		map.push(["areaid", criteria.areas.map(function(x) { return(x.id) }).join(",")])
 	}
@@ -123,9 +126,12 @@ const extractQuery = function(url) {
 				if (key == "taxonid") {
 					params[key] = params[key].split(",")
 				}
-				if (key == "datasetid") {
-					params[key] = params[key].split(",")
-				}
+                if (key == "datasetid") {
+                    params[key] = params[key].split(",")
+                }
+                if (key == "nodeid") {
+                    params[key] = params[key].split(",")
+                }
 				if (key == "areaid") {
 					params[key] = params[key].split(",")
 				}
@@ -139,7 +145,8 @@ const extractQuery = function(url) {
 const criteriaFromSpec = function(spec) {
     return {
 		taxa: spec.taxa,
-		datasets: spec.datasets,
+        datasets: spec.datasets,
+        nodes: spec.nodes,
 		areas: spec.areas,
         startyear: spec.startyear,
         endyear: spec.endyear,
@@ -163,7 +170,8 @@ const specFromQuery = function(query) {
         scale: "red",
         opacity: 0.7,
         taxa: [],
-		datasets: [],
+        datasets: [],
+        nodes: [],
 		areas: []
     }
 
@@ -174,14 +182,21 @@ const specFromQuery = function(query) {
 		}
 	}
 
-	let datasetPromises = []
-	if (query.datasetid && query.datasetid.length > 0) {
-		for (let datasetid of query.datasetid) {
-			datasetPromises.push(api.dataset(datasetid))
-		}
-	}
+    let datasetPromises = []
+    if (query.datasetid && query.datasetid.length > 0) {
+        for (let datasetid of query.datasetid) {
+            datasetPromises.push(api.dataset(datasetid))
+        }
+    }
 
-	let areaPromises = []
+    let nodePromises = []
+    if (query.nodeid && query.nodeid.length > 0) {
+        for (let nodeid of query.nodeid) {
+            nodePromises.push(api.node(nodeid))
+        }
+    }
+
+    let areaPromises = []
 	if (query.areaid && query.areaid.length > 0) {
 		for (let areaid of query.areaid) {
 			areaPromises.push(api.area(areaid))
@@ -190,13 +205,15 @@ const specFromQuery = function(query) {
 
 	let promises = []
 	promises.push(Promise.all(taxonPromises))
-	promises.push(Promise.all(datasetPromises))
+    promises.push(Promise.all(datasetPromises))
+    promises.push(Promise.all(nodePromises))
 	promises.push(Promise.all(areaPromises))
 
 	return Promise.all(promises).then(function(results) {
 		spec.taxa = results[0]
-		spec.datasets = results[1]
-		spec.areas = results[2]
+        spec.datasets = results[1]
+        spec.nodes = results[2]
+		spec.areas = results[3]
         return spec
     })
 
