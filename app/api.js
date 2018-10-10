@@ -89,7 +89,9 @@ export default {
 	},
 	download(criteria) {
 		let q = util.createQuery(criteria)
-		let url = config.download + "occurrence?" + q
+        let url = config.download + "occurrence?" + q
+        let metricsUrl = config.api + "metrics/logusage?" + q
+        axios.get(metricsUrl)
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
