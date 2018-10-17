@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="sideheader">Create layer
+        <div class="sideheader">Create layer <span class="smaller" v-if="store.editLayer">{{ store.editLayer.count }} records</span>
             <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="disableAdd" v-on:click="saveLayer">Save</button>
         </div>
 
@@ -248,6 +248,7 @@ export default {
             selectedArea: null,
             timeSlider: null,
             depthSlider: null,
+            store: store, // todo: only share store
 			depths: [0, 1, 2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000]
         }
     },
@@ -480,6 +481,7 @@ export default {
             store.clearLayer()
         },
 		addLayer: function() {
+            console.log(this.store)
 			store.addLayerTemp()
 		}
 	}
