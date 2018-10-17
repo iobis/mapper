@@ -8,8 +8,8 @@ module.exports = {
     datasetTable: {
         pageSize: 10
     },
-    api: "http://127.0.0.1:5003/",
-    //api: "https://api.obis.org/v3/",
+    //api: "http://127.0.0.1:5003/",
+    api: "https://api.obis.org/v3/",
     download: "https://api.obis.org/v3/download/",
     //download: "http://127.0.0.1:5002/download/",
     files: "https://download.obis.org/"
