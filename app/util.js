@@ -3,9 +3,6 @@ import Vue from "vue"
 const config = require("./config.js")
 
 const createQuery = function(criteria) {
-
-	console.log(criteria)
-
 	let map = []
     if (criteria.size) {
         map.push(["size", criteria.size])
