@@ -3,6 +3,9 @@ import Vue from "vue"
 const config = require("./config.js")
 
 const createQuery = function(criteria) {
+
+	console.log(criteria)
+
 	let map = []
     if (criteria.size) {
         map.push(["size", criteria.size])
@@ -17,7 +20,7 @@ const createQuery = function(criteria) {
 		map.push(["after", criteria.after])
 	}
 	if (criteria.taxa && criteria.taxa.length > 0) {
-		map.push(["taxonid", criteria.taxa.map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
+		map.push(["taxonid", criteria.taxa.filter(x => x).map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
     if (criteria.datasets && criteria.datasets.length > 0) {
         map.push(["datasetid", criteria.datasets.map(function(x) { return(x.id) }).join(",")])
