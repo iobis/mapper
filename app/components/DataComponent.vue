@@ -53,7 +53,7 @@
             <tbody>
             <tr v-for="record in store.dataTable.data">
                 <td>{{ record.id }}</td>
-                <td>{{ record.resource_id }}</td>
+                <td>{{ record.dataset_id }}</td>
                 <td>{{ record.scientificName }}</td>
                 <td>{{ record.eventDate | eventdate }}</td>
                 <td>{{ record.decimalLongitude | coordinate }}</td>

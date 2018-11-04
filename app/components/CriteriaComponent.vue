@@ -481,7 +481,6 @@ export default {
             store.clearLayer()
         },
 		addLayer: function() {
-            console.log(this.store)
 			store.addLayerTemp()
 		}
 	}
