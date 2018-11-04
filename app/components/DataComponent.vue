@@ -52,9 +52,9 @@
             </thead>
             <tbody>
             <tr v-for="record in store.dataTable.data">
-                <td>{{ record.id }}</td>
-                <td>{{ record.dataset_id }}</td>
-                <td>{{ record.scientificName }}</td>
+                <td v-html="$options.filters.occurrenceid(record.id)"></td>
+                <td v-html="$options.filters.datasetid(record.dataset_id)"></td>
+                <td v-html="$options.filters.aphia(record.scientificName, record.aphiaID)"></td>
                 <td>{{ record.eventDate | eventdate }}</td>
                 <td>{{ record.decimalLongitude | coordinate }}</td>
                 <td>{{ record.decimalLatitude | coordinate }}</td>
@@ -204,9 +204,26 @@ export default {
 			if (!value) {
 				return ""
 			} else {
-				return moment(value).format("YYYY-MM-DD")
+			    return value
+				//return moment(value).format("YYYY-MM-DD")
 			}
-		}
+		},
+        datasetid: function(id) {
+            let url = config.portal + "dataset/" + id
+            return "<a href=\"" + url + "\" target=\"_blank\">" + id + "</a>"
+        },
+        occurrenceid: function(id) {
+            let url = config.api + "occurrence/" + id
+            return "<a href=\"" + url + "\" target=\"_blank\">" + id + "</a>"
+        },
+        aphia: function(name, id) {
+		    if (id) {
+                let url = config.portal + "taxon/" + id
+                return "<a href=\"" + url + "\" target=\"_blank\">" + name + "</a>"
+            } else {
+		        return name
+            }
+        }
 	}
 }
 </script>
