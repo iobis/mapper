@@ -97,7 +97,7 @@
             <tbody>
             <tr v-for="record in store.checklistTable.data">
                 <td>{{ record.taxonID }}</td>
-                <td>{{ record.scientificName }}</td>
+                <td v-html="$options.filters.aphia(record.scientificName, record.taxonID)"></td>
                 <td>{{ record.records }}</td>
                 <td>{{ record.phylum }}</td>
                 <td>{{ record.class }}</td>
@@ -126,16 +126,14 @@
                 <th>ID</th>
                 <th>name</th>
                 <th>records</th>
-                <th>URL</th>
                 <th>abstract</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="record in store.datasetTable.data">
-                <td>{{ record.id }}</td>
-                <td>{{ record.resname }}</td>
+                <td v-html="$options.filters.datasetid(record.id)"></td>
+                <td>{{ record.title }}</td>
                 <td>{{ record.records }}</td>
-                <td><a v-bind:href="record.digirurl" target="_blank">{{ record.digirurl }}</a></td>
                 <td>{{ record.abstract }}</td>
             </tr>
             </tbody>
