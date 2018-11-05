@@ -6,13 +6,20 @@
 			<div class="panelcontent"><p class="no-results">No layers.</p></div>
 		</div>
 
-		<div v-for="layer in store.layers" class="sidelayer">
+        <div v-for="layer in store.layers" class="sidelayer">
             <div class="layericons">
-				<div class="layericon" v-on:click="togglePoints(layer)"><span class="oi oi-map-marker"></span></div>
-				<div class="layericon" v-on:click="viewData(layer)"><span class="oi oi-justify-left"></span></div>
-				<div class="layericon" v-on:click="editData(layer)"><span class="oi oi-pencil"></span></div>
-                <div class="layericon" v-on:click="addDownload(layer)"><span class="oi oi-data-transfer-download"></span></div>
-                <div class="layericon" v-on:click="removeLayer(layer)"><span class="oi oi-x"></span></div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-menu"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="#" v-on:click="togglePoints(layer)">Toggle points</a></li>
+                        <li><a href="#" v-on:click="viewData(layer)">View data</a></li>
+                        <li><a href="#" v-on:click="editData(layer)">Edit</a></li>
+                        <li><a href="#" v-on:click="addDownload(layer)">Download</a></li>
+                        <li><a href="#" v-on:click="removeLayer(layer)">Delete</a></li>
+                    </ul>
+                </div>
             </div>
 			<span v-for="(taxon, index) in layer.taxa">
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
