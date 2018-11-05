@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <div class="sideheader">Create layer <span class="smaller" v-if="store.editLayer">{{ store.editLayer.count }} records</span>
+        <div class="sideheader">Create layer <span class="smaller left-10" v-if="store.editLayer">{{ store.editLayer.count | number}} records</span>
             <button class="btn btn-success btn-sm clickable pull-right-vertical right-10" :disabled="disableAdd" v-on:click="saveLayer">Save</button>
         </div>
 

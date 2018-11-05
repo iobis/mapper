@@ -48,7 +48,7 @@
 			<span v-if="layer.geometry != null" class="smaller">
 				polygon filter set<br/>
 			</span>
-			<span class="smaller">{{ layer.count }} records</span><br/>
+			<span class="smaller">{{ layer.count | number }} records</span><br/>
 			<div class="layerlegend">
 				<span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
 				<span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>

@@ -6,6 +6,10 @@ html, body {
     font-size: 12px;
 }
 
+.left-10 {
+    margin-left: 10px;
+}
+
 #sidebar {
     right: 0px;
     overflow-y: auto;

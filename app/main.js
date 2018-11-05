@@ -1,6 +1,7 @@
 import Vue from "vue"
 import App from "./components/App.vue"
 import Toasted from "vue-toasted"
+import numeral from "numeral"
 
 Vue.use(Toasted)
 
@@ -18,3 +19,7 @@ $(document).ready(function() {
 		"delay": { show: 600, hide: 0 }
 	});
 });
+
+Vue.filter("number", function(value) {
+    return numeral(value).format("0,0")
+})

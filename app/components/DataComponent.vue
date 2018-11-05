@@ -15,9 +15,9 @@
             </thead>
             <tbody>
             <tr>
-                <td>{{ store.statistics.records }}</td>
-                <td>{{ store.statistics.species }}</td>
-                <td>{{ store.statistics.taxa }}</td>
+                <td>{{ store.statistics.records | number }}</td>
+                <td>{{ store.statistics.species | number }}</td>
+                <td>{{ store.statistics.taxa | number }}</td>
                 <td>{{ store.statistics.yearrange[0] }} - {{ store.statistics.yearrange[1] }}</td>
             </tr>
             </tbody>
@@ -97,7 +97,7 @@
             <tbody>
             <tr v-for="record in store.checklistTable.data">
                 <td v-html="$options.filters.aphia(record.scientificName, record.taxonID)"></td>
-                <td>{{ record.records }}</td>
+                <td>{{ record.records | number }}</td>
                 <td>{{ record.phylum }}</td>
                 <td>{{ record.class }}</td>
                 <td>{{ record.order }}</td>
@@ -130,7 +130,7 @@
             <tbody>
             <tr v-for="record in store.datasetTable.data">
                 <td v-html="$options.filters.datasetid(record.id, record.title)"></td>
-                <td>{{ record.records }}</td>
+                <td>{{ record.records | number }}</td>
                 <td>{{ record.abstract }}</td>
             </tr>
             </tbody>
