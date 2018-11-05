@@ -84,7 +84,6 @@
         <table class="table table-sm table-condensed">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>scientificName</th>
                 <th>records</th>
                 <th>phylum</th>
@@ -96,7 +95,6 @@
             </thead>
             <tbody>
             <tr v-for="record in store.checklistTable.data">
-                <td>{{ record.taxonID }}</td>
                 <td v-html="$options.filters.aphia(record.scientificName, record.taxonID)"></td>
                 <td>{{ record.records }}</td>
                 <td>{{ record.phylum }}</td>
@@ -123,16 +121,14 @@
         <table class="table table-sm table-condensed">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>name</th>
-                <th>records</th>
-                <th>abstract</th>
+                <th>Title</th>
+                <th>Records</th>
+                <th>Abstract</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="record in store.datasetTable.data">
-                <td v-html="$options.filters.datasetid(record.id)"></td>
-                <td>{{ record.title }}</td>
+                <td v-html="$options.filters.datasetid(record.id, record.title)"></td>
                 <td>{{ record.records }}</td>
                 <td>{{ record.abstract }}</td>
             </tr>
@@ -206,9 +202,13 @@ export default {
 				//return moment(value).format("YYYY-MM-DD")
 			}
 		},
-        datasetid: function(id) {
+        datasetid: function(id, title) {
             let url = config.portal + "dataset/" + id
-            return "<a href=\"" + url + "\" target=\"_blank\">" + id + "</a>"
+            if (title) {
+                return "<a href=\"" + url + "\" target=\"_blank\">" + title + "</a>"
+            } else {
+                return "<a href=\"" + url + "\" target=\"_blank\">" + id + "</a>"
+            }
         },
         occurrenceid: function(id) {
             let url = config.api + "occurrence/" + id
