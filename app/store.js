@@ -263,7 +263,8 @@ export const store = {
         this.fetch()
         this.fetchChecklist()
         this.fetchDatasets()
-		this.fetchStatistics()
+        this.fetchStatistics()
+        //this.fetchGraph()
     },
     fetch: function() {
         let self = this
@@ -279,12 +280,18 @@ export const store = {
 			self.checklistTable.data = response.results
 		})
 	},
-	fetchStatistics: function() {
-		let self = this
-		api.fetchStatistics(this.selectedLayer).then(function(response) {
-			self.statistics = response
-		})
-	},
+    fetchStatistics: function() {
+        let self = this
+        api.fetchStatistics(this.selectedLayer).then(function(response) {
+            self.statistics = response
+        })
+    },
+    fetchGraph: function() {
+        let self = this
+        return api.fetchGraph(this.selectedLayer).then(function(response) {
+            self.graph = response
+        })
+    },
     fetchDatasets: function() {
         let self = this
         this.selectedLayer.skip = this.datasetTable.skip // todo: better way?

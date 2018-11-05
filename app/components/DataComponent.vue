@@ -1,28 +1,29 @@
 <template>
     <div id="data">
-
         <p class="top-20"><a href="#" v-on:click="close()">Back</a></p>
 
         <h3>Summary</h3>
 
         <table class="table table-sm table-condensed table-nonfluid" v-if="store.statistics">
             <thead>
-                <tr>
-                    <th>records</th>
-                    <th>species</th>
-                    <th>taxa</th>
-                    <th>years</th>
-                </tr>
+            <tr>
+                <th>records</th>
+                <th>species</th>
+                <th>taxa</th>
+                <th>years</th>
+            </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{ store.statistics.records }}</td>
-                    <td>{{ store.statistics.species }}</td>
-                    <td>{{ store.statistics.taxa }}</td>
-                    <td>{{ store.statistics.yearrange[0] }} - {{ store.statistics.yearrange[1] }}</td>
-                </tr>
+            <tr>
+                <td>{{ store.statistics.records }}</td>
+                <td>{{ store.statistics.species }}</td>
+                <td>{{ store.statistics.taxa }}</td>
+                <td>{{ store.statistics.yearrange[0] }} - {{ store.statistics.yearrange[1] }}</td>
+            </tr>
             </tbody>
         </table>
+
+        <div id="timegraph"></div>
 
         <h3>Occurrences</h3>
 
@@ -150,12 +151,43 @@ export default {
             config: config
         }
     },
-    mounted() {
-    },
-    watch: {
-        "store.criteria": function(criteria) {
-            console.log(criteria)
-        }
+    mounted: function() {
+        store.fetchGraph().then(function() {
+            var years = store.graph.map(function(x) { return x.year });
+            var records = store.graph.map(function(x) { return x.records });
+            var data = [{
+                x: years,
+                y: records,
+                type: "bar",
+                marker: {
+                    color: "#cc3300",
+                    opacity: 1,
+                    line: {
+                        width: 0
+                    }
+                }
+            }];
+            var layout = {
+                showlegend: false,
+                xaxis: {
+                    tickangle: -45,
+                    range: [years[0] - 2, (new Date()).getFullYear()]
+                },
+                yaxis: {
+                    zeroline: false,
+                    gridwidth: 1
+                },
+                bargap: 0,
+                margin: {
+                    l: 50,
+                    r: 40,
+                    b: 40,
+                    t: 50
+                }
+            };
+            Plotly.newPlot("timegraph", data, layout);
+
+        })
     },
     methods: {
         close: function() {
