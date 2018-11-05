@@ -152,6 +152,11 @@ export default {
     },
     mounted() {
     },
+    watch: {
+        "store.criteria": function(criteria) {
+            console.log(criteria)
+        }
+    },
     methods: {
         close: function() {
             store.showMap()
@@ -167,10 +172,7 @@ export default {
             }
         },
         nextPageChecklist: function() {
-            // Temporary fix for https://github.com/iobis/elastic-populate/issues/10
-            // if (store.state.checklistTable.data.length == config.checklistTable.pageSize) {
             store.nextPageChecklist()
-            // }
         },
         previousPageChecklist: function() {
             if (store.checklistTable.pageIndex > 0) {
