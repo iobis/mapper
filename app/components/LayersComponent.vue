@@ -18,7 +18,7 @@
 				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
 			</span>
 			<span v-for="(dataset, index) in layer.datasets">
-				dataset {{ dataset.id }} <span class="smaller">{{ dataset.resname }}</span><br/>
+				dataset {{ dataset.id }} <span class="smaller">{{ dataset.title }}</span><br/>
 			</span>
 			<span v-for="(node, index) in layer.nodes">
 				node {{ node.id }} <span class="smaller">{{ node.name }}</span><br/>

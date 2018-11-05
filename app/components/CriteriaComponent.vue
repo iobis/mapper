@@ -47,11 +47,11 @@
             <div class="panelcontent">
                 <div class="form-group">
                     <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name" ref="datasetInput">
-                    <typeahead v-model="selectedDataset" target="#datasetInput" :async-function="completeDataset" item-key="resname" :force-select="true" :debounce="500">
+                    <typeahead v-model="selectedDataset" target="#datasetInput" :async-function="completeDataset" item-key="title" :force-select="true" :debounce="500">
                         <template slot="item" scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
-                                    {{ item.resname }}
+                                    {{ item.title }}
                                     <br/><span class="smaller">Dataset ID: {{ item.id }}</span>
                                 </a>
                             </li>
@@ -70,7 +70,7 @@
                         <td class="no-results">No datasets selected.</td><td></td>
                     </tr>
                     <tr v-for="(dataset, index) in criteria.datasets" v-on:click="removeDataset(index)" class="clickable">
-                        <td>{{ dataset.resname }}</td>
+                        <td>{{ dataset.title }}</td>
                         <td>{{ dataset.id }}</td>
                     </tr>
                     </tbody>
@@ -436,7 +436,7 @@ export default {
         selectDataset: function(dataset) {
             this.criteria.datasets.push({
                 "id": dataset.id,
-                "resname": dataset.resname
+                "title": dataset.title
             })
             this.$nextTick(function() {
                 this.$refs.datasetInput.value = ""
