@@ -245,7 +245,7 @@ export const store = {
     },
 	reset: function() {
         // todo: combine reset functionality
-		this.dataTable.after = [ -1 ]
+		this.dataTable.after = [ " " ]
         this.dataTable.pageIndex = 0
         this.checklistTable.pageIndex = 0
         this.checklistTable.skip = 0

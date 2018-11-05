@@ -13,7 +13,7 @@ const createQuery = function(criteria) {
     } else {
         //map.push(["skip", 0])
     }
-	if (criteria.after && criteria.after > -1) {
+	if (criteria.after && criteria.after > " ") {
 		map.push(["after", criteria.after])
 	}
 	if (criteria.taxa && criteria.taxa.length > 0) {
