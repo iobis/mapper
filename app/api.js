@@ -56,6 +56,12 @@ export default {
             .then((response) => Promise.resolve(response.data))
             .catch((error) => Promise.reject(error))
     },
+    completeInstitute(input) {
+        let url = config.api + "institute/complete/" + input
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error))
+    },
 	completeArea(input) {
 		let url = config.api + "area/complete/" + input
 		return axios.get(url)
@@ -122,6 +128,12 @@ export default {
     },
     node(id) {
         let url = config.api + "node/" + id
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data.results[0]))
+            .catch((error) => Promise.reject(error))
+    },
+    institute(id) {
+        let url = config.api + "institute/" + id
         return axios.get(url)
             .then((response) => Promise.resolve(response.data.results[0]))
             .catch((error) => Promise.reject(error))

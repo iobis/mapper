@@ -25,6 +25,9 @@ const createQuery = function(criteria) {
     if (criteria.nodes && criteria.nodes.length > 0) {
         map.push(["nodeid", criteria.nodes.map(function(x) { return(x.id) }).join(",")])
     }
+    if (criteria.institutes && criteria.institutes.length > 0) {
+        map.push(["instituteid", criteria.institutes.map(function(x) { return(x.id) }).join(",")])
+    }
 	if (criteria.areas && criteria.areas.length > 0) {
 		map.push(["areaid", criteria.areas.map(function(x) { return(x.id) }).join(",")])
 	}
@@ -129,6 +132,9 @@ const extractQuery = function(url) {
                 if (key == "datasetid") {
                     params[key] = params[key].split(",")
                 }
+                if (key == "instituteid") {
+                    params[key] = params[key].split(",")
+                }
                 if (key == "nodeid") {
                     params[key] = params[key].split(",")
                 }
@@ -147,6 +153,7 @@ const criteriaFromSpec = function(spec) {
 		taxa: spec.taxa,
         datasets: spec.datasets,
         nodes: spec.nodes,
+        institutes: spec.institutes,
 		areas: spec.areas,
         startyear: spec.startyear,
         endyear: spec.endyear,
@@ -172,6 +179,7 @@ const specFromQuery = function(query) {
         taxa: [],
         datasets: [],
         nodes: [],
+        institutes: [],
 		areas: []
     }
 
@@ -186,6 +194,13 @@ const specFromQuery = function(query) {
     if (query.datasetid && query.datasetid.length > 0) {
         for (let datasetid of query.datasetid) {
             datasetPromises.push(api.dataset(datasetid))
+        }
+    }
+
+    let institutePromises = []
+    if (query.instituteid && query.instituteid.length > 0) {
+        for (let instituteid of query.instituteid) {
+            institutePromises.push(api.institute(instituteid))
         }
     }
 
@@ -207,13 +222,15 @@ const specFromQuery = function(query) {
 	promises.push(Promise.all(taxonPromises))
     promises.push(Promise.all(datasetPromises))
     promises.push(Promise.all(nodePromises))
-	promises.push(Promise.all(areaPromises))
+    promises.push(Promise.all(areaPromises))
+    promises.push(Promise.all(institutePromises))
 
 	return Promise.all(promises).then(function(results) {
 		spec.taxa = results[0]
         spec.datasets = results[1]
         spec.nodes = results[2]
-		spec.areas = results[3]
+        spec.areas = results[3]
+        spec.institutes = results[4]
         return spec
     })
 

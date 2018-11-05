@@ -8,6 +8,7 @@ let defaultCriteria = function() {
     return {
         taxa: [],
         datasets: [],
+        institutes: [],
         nodes: [],
         areas: [],
         timeValues: [ null, null ],
@@ -75,6 +76,7 @@ export const store = {
         this.criteria.taxa = layer.taxa
         this.criteria.datasets = layer.datasets
         this.criteria.nodes = layer.nodes
+        this.criteria.institutes = layer.institutes
         this.criteria.areas = layer.areas
         this.criteria.selectedScale = layer.scale
         this.criteria.opacity = layer.opacity
@@ -157,6 +159,7 @@ export const store = {
             taxa: JSON.parse(JSON.stringify(this.criteria.taxa)),
             datasets: JSON.parse(JSON.stringify(this.criteria.datasets)),
             nodes: JSON.parse(JSON.stringify(this.criteria.nodes)),
+            institutes: JSON.parse(JSON.stringify(this.criteria.institutes)),
             areas: JSON.parse(JSON.stringify(this.criteria.areas)),
             startyear: this.criteria.timeValues[0],
             endyear: this.criteria.timeValues[1],

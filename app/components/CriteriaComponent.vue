@@ -115,7 +115,44 @@
             </div>
         </div>
 
-        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse3" aria-expanded="true" aria-controls="collapse3">Area</div>
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse9" aria-expanded="true" aria-controls="collapse9">Institutes</div>
+
+        <div class="sidepanel collapse defaultclosed" id="collapse9">
+            <div class="panelcontent">
+                <div class="form-group">
+                    <input id="instituteInput" class="form-control" type="text" placeholder="Enter institute name" ref="instituteInput">
+                    <typeahead v-model="selectedInstitute" target="#instituteInput" :async-function="completeInstitute" item-key="name" :force-select="true" :debounce="500">
+                        <template slot="item" scope="props">
+                            <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                                <a role="button" @click="props.select(item)">
+                                    {{ item.name }}
+                                    <br/><span class="smaller">Institute ID: {{ item.id }}</span>
+                                </a>
+                            </li>
+                        </template>
+                    </typeahead>
+                </div>
+                <table class="table no-bottom-margin">
+                    <thead>
+                    <tr>
+                        <th>Institute</th>
+                        <th>ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-if="!criteria.institutes || criteria.institutes.length == 0">
+                        <td class="no-results">No institutes selected.</td><td></td>
+                    </tr>
+                    <tr v-for="(institute, index) in criteria.institutes" v-on:click="removeInstitute(index)" class="clickable">
+                        <td>{{ institute.name }}</td>
+                        <td>{{ institute.id }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse3" aria-expanded="true" aria-controls="collapse3">Areas</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse3">
             <div class="panelcontent">
@@ -233,7 +270,6 @@ import api from "../api"
 import { store } from "../store"
 import ColorPicker from "./ColorPicker.vue"
 import { Typeahead } from "uiv"
-import Vue from "vue"
 
 export default {
 	data() {
@@ -245,6 +281,7 @@ export default {
             selectedTaxon: null,
             selectedDataset: null,
             selectedNode: null,
+            selectedInstitute: null,
             selectedArea: null,
             timeSlider: null,
             depthSlider: null,
@@ -316,6 +353,11 @@ export default {
                 this.selectNode(node)
             }
         },
+        selectedInstitute: function(institute) {
+            if (institute) {
+                this.selectInstitute(institute)
+            }
+        },
 		selectedArea: function(area) {
 			if (area) {
 				this.selectArea(area)
@@ -338,10 +380,10 @@ export default {
     },
     computed: {
 	    disableAdd: function() {
-			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
+			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
         }
     },
 	methods: {
@@ -418,6 +460,11 @@ export default {
                 done(res)
             })
         },
+        completeInstitute: function(input, done) {
+            api.completeInstitute(input).then(res => {
+                done(res)
+            })
+        },
 		completeArea: function(input, done) {
 			api.completeArea(input).then(res => {
 				done(res)
@@ -451,6 +498,15 @@ export default {
                 this.$refs.nodeInput.value = ""
             })
         },
+        selectInstitute: function(item) {
+            this.criteria.institutes.push({
+                "id": item.id,
+                "name": item.name
+            })
+            this.$nextTick(function() {
+                this.$refs.instituteInput.value = ""
+            })
+        },
 		selectArea: function(area) {
 			this.criteria.areas.push({
 				"id": area.id,
@@ -468,6 +524,9 @@ export default {
         },
         removeNode: function(index) {
             this.criteria.nodes.splice(index, 1)
+        },
+        removeInstitute: function(index) {
+            this.criteria.institutes.splice(index, 1)
         },
 		removeArea: function(index) {
 			this.criteria.areas.splice(index, 1)
