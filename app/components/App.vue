@@ -31,7 +31,6 @@
 	import DataComponent from "./DataComponent.vue"
 	import HelpComponent from "./HelpComponent.vue"
 	import { store } from "../store"
-	import util from "../util"
 
 	export default {
 		data() {

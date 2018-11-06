@@ -45,8 +45,11 @@
 			<span v-if="layer.startdepth || layer.enddepth" class="smaller">
 				{{ layer.startdepth }} &rarr; {{ layer.enddepth }}<br/>
 			</span>
-			<span v-if="layer.geometry != null" class="smaller">
+            <span v-if="layer.geometry != null" class="smaller">
 				polygon filter set<br/>
+			</span>
+            <span v-if="layer.dropped">
+				only dropped records<br/>
 			</span>
 			<span class="smaller">{{ layer.count | number }} records</span><br/>
 			<div class="layerlegend">

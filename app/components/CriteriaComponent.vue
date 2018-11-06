@@ -226,6 +226,16 @@
             </div>
         </div>
 
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse10" aria-expanded="true" aria-controls="collapse10">Options</div>
+
+        <div class="sidepanel collapse defaultclosed" id="collapse10">
+            <div class="panelcontent">
+                <label>
+                    <input type="checkbox" v-model="criteria.dropped"> Only dropped records
+                </label>
+            </div>
+        </div>
+
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse6" aria-expanded="true" aria-controls="collapse6">Styling</div>
 
         <div class="sidepanel collapse in" id="collapse6">
@@ -262,7 +272,8 @@
                 </div>
             </div>
         </div>
-	</div>
+
+    </div>
 </template>
 
 <script>
@@ -383,7 +394,7 @@ export default {
 			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped ]
         }
     },
 	methods: {

@@ -13,9 +13,12 @@ const createQuery = function(criteria) {
     } else {
         //map.push(["skip", 0])
     }
-	if (criteria.after && criteria.after > " ") {
-		map.push(["after", criteria.after])
-	}
+    if (criteria.after && criteria.after > " ") {
+        map.push(["after", criteria.after])
+    }
+    if (criteria.dropped) {
+        map.push(["dropped", true])
+    }
 	if (criteria.taxa && criteria.taxa.length > 0) {
 		map.push(["taxonid", criteria.taxa.filter(x => x).map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
@@ -161,7 +164,8 @@ const criteriaFromSpec = function(spec) {
 		enddate: spec.enddate,
 		startdepth: spec.startdepth,
 		enddepth: spec.enddepth,
-        geometry: spec.geometry
+        geometry: spec.geometry,
+        dropped: spec.dropped
     }
 }
 const specFromQuery = function(query) {
@@ -180,7 +184,8 @@ const specFromQuery = function(query) {
         datasets: [],
         nodes: [],
         institutes: [],
-		areas: []
+		areas: [],
+        dropped: query.dropped
     }
 
 	let taxonPromises = []

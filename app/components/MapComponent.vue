@@ -3,10 +3,8 @@
 </template>
 
 <script>
-import api from "../api"
 import L from "leaflet"
 import { store } from "../store"
-import Wkt from "wicket/wicket"
 import util from "../util"
 require("leaflet-draw")
 
