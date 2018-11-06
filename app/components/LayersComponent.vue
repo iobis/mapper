@@ -21,41 +21,43 @@
                     </ul>
                 </div>
             </div>
-			<span v-for="(taxon, index) in layer.taxa">
-				{{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
-			</span>
-			<span v-for="(dataset, index) in layer.datasets">
-				dataset {{ dataset.id }} <span class="smaller">{{ dataset.title }}</span><br/>
-			</span>
-            <span v-for="(node, index) in layer.nodes">
-				node {{ node.id }} <span class="smaller">{{ node.name }}</span><br/>
-			</span>
-            <span v-for="(institute, index) in layer.institutes">
-				institute {{ institute.id }} <span class="smaller">{{ institute.name }}</span><br/>
-			</span>
-			<span v-for="(area, index) in layer.areas">
-				area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
-			</span>
-            <span v-if="layer.startyear || layer.endyear" class="smaller">
-				{{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
-			</span>
-			<span v-if="layer.startdate || layer.enddate" class="smaller">
-				{{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
-			</span>
-			<span v-if="layer.startdepth || layer.enddepth" class="smaller">
-				{{ layer.startdepth }} &rarr; {{ layer.enddepth }}<br/>
-			</span>
-            <span v-if="layer.geometry != null" class="smaller">
-				polygon filter set<br/>
-			</span>
-            <span v-if="layer.dropped">
-				only dropped records<br/>
-			</span>
-			<span class="smaller">{{ layer.count | number }} records</span><br/>
-			<div class="layerlegend">
-				<span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
-				<span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
-			</div>
+            <div class="right-30">
+                <span v-for="(taxon, index) in layer.taxa">
+                    {{ taxon.scientificName }} <span class="smaller">{{ taxon.scientificNameAuthorship }}</span><br/>
+                </span>
+                <span v-for="(dataset, index) in layer.datasets">
+                    dataset {{ dataset.id }} <span class="smaller">{{ dataset.title }}</span><br/>
+                </span>
+                <span v-for="(node, index) in layer.nodes">
+                    node {{ node.id }} <span class="smaller">{{ node.name }}</span><br/>
+                </span>
+                <span v-for="(institute, index) in layer.institutes">
+                    institute {{ institute.id }} <span class="smaller">{{ institute.name }}</span><br/>
+                </span>
+                <span v-for="(area, index) in layer.areas">
+                    area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
+                </span>
+                <span v-if="layer.startyear || layer.endyear" class="smaller">
+                    {{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
+                </span>
+                <span v-if="layer.startdate || layer.enddate" class="smaller">
+                    {{ layer.startdate }} &rarr; {{ layer.enddate }}<br/>
+                </span>
+                <span v-if="layer.startdepth || layer.enddepth" class="smaller">
+                    {{ layer.startdepth }} &rarr; {{ layer.enddepth }}<br/>
+                </span>
+                <span v-if="layer.geometry != null" class="smaller">
+                    polygon filter set<br/>
+                </span>
+                <span v-if="layer.dropped">
+                    only dropped records<br/>
+                </span>
+                <span class="smaller">{{ layer.count | number }} records</span><br/>
+                <div class="layerlegend">
+                    <span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
+                    <span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
+                </div>
+            </div>
 		</div>
 
 	</div>
