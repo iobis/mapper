@@ -32,6 +32,9 @@
                 <span v-if="download.criteria.geometry != null" class="smaller">
                     polygon filter set<br/>
                 </span>
+                <span v-if="layer.dropped">
+                    only dropped records<br/>
+                </span>
             </p>
             <p>
                 <button class="btn btn-sm clickable" v-bind:class="{ 'btn-warning': !download.ready, 'btn-success': download.ready }" v-on:click="getFile(download)">
