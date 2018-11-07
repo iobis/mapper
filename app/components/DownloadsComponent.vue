@@ -32,7 +32,7 @@
                 <span v-if="download.criteria.geometry != null" class="smaller">
                     polygon filter set<br/>
                 </span>
-                <span v-if="layer.dropped">
+                <span v-if="download.criteria.dropped">
                     only dropped records<br/>
                 </span>
             </p>
