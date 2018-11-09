@@ -52,6 +52,9 @@
                 <span v-if="layer.dropped">
                     only dropped records<br/>
                 </span>
+                <span v-if="layer.redlist">
+                    only Red List species<br/>
+                </span>
                 <span class="smaller">{{ layer.count | number }} records</span><br/>
                 <div class="layerlegend">
                     <span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>

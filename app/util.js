@@ -19,6 +19,9 @@ const createQuery = function(criteria) {
     if (criteria.dropped) {
         map.push(["dropped", true])
     }
+    if (criteria.redlist) {
+        map.push(["redlist", true])
+    }
 	if (criteria.taxa && criteria.taxa.length > 0) {
 		map.push(["taxonid", criteria.taxa.filter(x => x).map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
@@ -165,7 +168,8 @@ const criteriaFromSpec = function(spec) {
 		startdepth: spec.startdepth,
 		enddepth: spec.enddepth,
         geometry: spec.geometry,
-        dropped: spec.dropped
+        dropped: spec.dropped,
+        redlist: spec.redlist
     }
 }
 const specFromQuery = function(query) {
@@ -185,7 +189,8 @@ const specFromQuery = function(query) {
         nodes: [],
         institutes: [],
 		areas: [],
-        dropped: query.dropped
+        dropped: query.dropped,
+        redlist: query.redlist
     }
 
 	let taxonPromises = []

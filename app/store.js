@@ -17,7 +17,8 @@ let defaultCriteria = function() {
         customColor: "#cc3300",
         opacity: 0.7,
         wkt: null,
-        dropped: false
+        dropped: false,
+        redlist: false
     }
 }
 
@@ -84,6 +85,7 @@ export const store = {
         this.criteria.customColor = layer.customColor
         this.criteria.wkt = layer.geometry
         this.criteria.dropped = layer.dropped
+        this.criteria.redlist = layer.redlist
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
         this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
 
@@ -170,6 +172,7 @@ export const store = {
             precision: 3,
             geometry: this.criteria.wkt,
             dropped: this.criteria.dropped,
+            redlist: this.criteria.redlist,
             opacity: this.criteria.opacity,
             scale: this.criteria.selectedScale,
             customColor: this.criteria.customColor,

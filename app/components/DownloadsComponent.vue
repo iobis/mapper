@@ -35,6 +35,9 @@
                 <span v-if="download.criteria.dropped">
                     only dropped records<br/>
                 </span>
+                <span v-if="download.criteria.redlist">
+                    only Red List species<br/>
+                </span>
             </p>
             <p>
                 <button class="btn btn-sm clickable" v-bind:class="{ 'btn-warning': !download.ready, 'btn-success': download.ready }" v-on:click="getFile(download)">

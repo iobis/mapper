@@ -231,7 +231,10 @@
         <div class="sidepanel collapse defaultclosed" id="collapse10">
             <div class="panelcontent">
                 <label>
-                    <input type="checkbox" v-model="criteria.dropped"> Only dropped records
+                    <input type="checkbox" v-model="criteria.dropped"> only dropped records
+                </label>
+                <br/><label>
+                    <input type="checkbox" v-model="criteria.redlist"> only Red List species
                 </label>
             </div>
         </div>
@@ -394,7 +397,7 @@ export default {
 			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped, this.criteria.redlist ]
         }
     },
 	methods: {
