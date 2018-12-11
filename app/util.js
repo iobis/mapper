@@ -257,11 +257,39 @@ const toast = function(message, options) {
 	Vue.toasted.show(message, defaultOptions)
 }
 
+const enhanceFields = function(record) {
+    if ("scientificName" in record && "aphiaID" in record) {
+        record["scientificName"] = "<a href=\"" + config.portal + "taxon/" + record["aphiaID"] + "\" target=\"_blank\"/>" + record["scientificName"] + "</a>"
+    }
+    if ("aphiaID" in record) {
+        record["aphiaID"] = "<a href=\"" + config.portal + "taxon/" + record["aphiaID"] + "\" target=\"_blank\"/>" + record["aphiaID"] + "</a>"
+    }
+    if ("dataset_id" in record) {
+        record["dataset_id"] = "<a href=\"" + config.portal + "dataset/" + record["dataset_id"] + "\" target=\"_blank\"/>" + record["dataset_id"] + "</a>"
+    }
+    if ("node_id" in record) {
+        record["node_id"] = "<a href=\"" + config.portal + "node/" + record["node_id"] + "\" target=\"_blank\"/>" + record["node_id"] + "</a>"
+    }
+}
+
+const orderFields = function(fields) {
+    let f = [ "collectionCode", "institutionCode", "maximumDepthInMeters", "minimumDepthInMeters", "decimalLatitude", "decimalLongitude", "date_year", "node_id", "dataset_id", "aphiaID", "scientificName" ]
+    fields.sort(function compare(a, b) {
+        let ia = f.indexOf(a[0])
+        let ib = f.indexOf(b[0])
+        return ia > ib ? -1 : 1
+    })
+
+}
+
 const generatePopup = function(res) {
 	let tables = res.results.map(function(record) {
 		let output = "<p><table class=\"table table-condensed\"><thead><tr><th colspan=\"2\">Record " + record.id + "</th></tr></thead><tbody>"
-		for (let [k, v] of Object.entries(record)) {
-			output = output + "<tr><td>" + k + "</td><td>" + v + "</td></tr>"
+		enhanceFields(record)
+        let fields = Object.entries(record)
+        orderFields(fields)
+        for (let [k, v] of fields) {
+		    output = output + "<tr><td>" + k + "</td><td>" + v + "</td></tr>"
 		}
 		output = output + "</tbody></table></p>"
 		return output
@@ -282,14 +310,15 @@ const tileUrl = function(criteria) {
 	let url = config.api + "occurrence/tile/{x}/{y}/{z}?" + q
 	return url
 }
+
 module.exports = {
-    createQuery: createQuery,
-    makeScales: makeScales,
-    getColor: getColor,
-    extractQuery: extractQuery,
-    specFromQuery: specFromQuery,
-    criteriaFromSpec: criteriaFromSpec,
-	toast: toast,
-	generatePopup: generatePopup,
-	tileUrl: tileUrl
+    createQuery,
+    makeScales,
+    getColor,
+    extractQuery,
+    specFromQuery,
+    criteriaFromSpec,
+	toast,
+	generatePopup,
+	tileUrl
 }
