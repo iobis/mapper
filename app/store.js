@@ -11,6 +11,7 @@ let defaultCriteria = function() {
         institutes: [],
         nodes: [],
         areas: [],
+        countries: [],
         timeValues: [ null, null ],
         depthValues: [ null, null ],
         selectedScale: "red",
@@ -80,6 +81,7 @@ export const store = {
         this.criteria.nodes = layer.nodes
         this.criteria.institutes = layer.institutes
         this.criteria.areas = layer.areas
+        this.criteria.countries = layer.countries
         this.criteria.selectedScale = layer.scale
         this.criteria.opacity = layer.opacity
         this.criteria.customColor = layer.customColor
@@ -165,6 +167,7 @@ export const store = {
             nodes: JSON.parse(JSON.stringify(this.criteria.nodes)),
             institutes: JSON.parse(JSON.stringify(this.criteria.institutes)),
             areas: JSON.parse(JSON.stringify(this.criteria.areas)),
+            countries: JSON.parse(JSON.stringify(this.criteria.countries)),
             startyear: this.criteria.timeValues[0],
             endyear: this.criteria.timeValues[1],
             startdepth: this.criteria.depthValues[0],

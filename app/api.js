@@ -69,12 +69,18 @@ export default {
             .then((response) => Promise.resolve(response.data))
             .catch((error) => Promise.reject(error))
     },
-	completeArea(input) {
-		let url = config.api + "area/complete/" + input
-		return axios.get(url)
-			.then((response) => Promise.resolve(response.data))
-			.catch((error) => Promise.reject(error))
-	},
+    completeArea(input) {
+        let url = config.api + "area/complete/" + input
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error))
+    },
+    completeCountry(input) {
+        let url = config.api + "country/complete/" + input
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data))
+            .catch((error) => Promise.reject(error))
+    },
 	geo(criteria, precision) {
 		let q = util.createQuery(criteria)
 		let url = config.api + "occurrence/grid/" + precision + "?" + q
@@ -121,12 +127,18 @@ export default {
 			.then((response) => Promise.resolve(response.data.results[0]))
 			.catch((error) => Promise.reject(error))
 	},
-	area(id) {
-		let url = config.api + "area/" + id
-		return axios.get(url)
-			.then((response) => Promise.resolve(response.data.results[0]))
-			.catch((error) => Promise.reject(error))
-	},
+    area(id) {
+        let url = config.api + "area/" + id
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data.results[0]))
+            .catch((error) => Promise.reject(error))
+    },
+    country(id) {
+        let url = config.api + "country/" + id
+        return axios.get(url)
+            .then((response) => Promise.resolve(response.data.results[0]))
+            .catch((error) => Promise.reject(error))
+    },
     dataset(id) {
         let url = config.api + "dataset/" + id
         return axios.get(url)

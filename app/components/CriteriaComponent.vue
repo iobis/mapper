@@ -189,6 +189,43 @@
             </div>
         </div>
 
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse15" aria-expanded="true" aria-controls="collapse15">Countries</div>
+
+        <div class="sidepanel collapse defaultclosed" id="collapse15">
+            <div class="panelcontent">
+                <div class="form-group">
+                    <input id="countryInput" class="form-control" type="text" placeholder="Enter country name" ref="countryInput">
+                    <typeahead v-model="selectedCountry" target="#countryInput" :async-function="completeCountry" item-key="country" :force-select="true" :debounce="500">
+                        <template slot="item" scope="props">
+                            <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
+                                <a role="button" @click="props.select(item)">
+                                    {{ item.country }}
+                                    <br/><span class="smaller">Country ID: {{ item.id }}</span>
+                                </a>
+                            </li>
+                        </template>
+                    </typeahead>
+                </div>
+                <table class="table no-bottom-margin">
+                    <thead>
+                    <tr>
+                        <th>Country</th>
+                        <th>ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-if="!criteria.countries || criteria.countries.length == 0">
+                        <td class="no-results">No countries selected.</td><td></td>
+                    </tr>
+                    <tr v-for="(country, index) in criteria.countries" v-on:click="removeCountry(index)" class="clickable">
+                        <td>{{ country.country }}</td>
+                        <td>{{ country.id }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse4" aria-expanded="true" aria-controls="collapse4">Geometry</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse4">
@@ -297,6 +334,7 @@ export default {
             selectedNode: null,
             selectedInstitute: null,
             selectedArea: null,
+            selectedCountry: null,
             timeSlider: null,
             depthSlider: null,
             store: store, // todo: only share store
@@ -372,11 +410,16 @@ export default {
                 this.selectInstitute(institute)
             }
         },
-		selectedArea: function(area) {
-			if (area) {
-				this.selectArea(area)
-			}
-		},
+        selectedArea: function(area) {
+            if (area) {
+                this.selectArea(area)
+            }
+        },
+        selectedCountry: function(country) {
+            if (country) {
+                this.selectCountry(country)
+            }
+        },
         filters: function() {
 			if (this.disableAdd) {
 				this.clearLayer()
@@ -394,10 +437,10 @@ export default {
     },
     computed: {
 	    disableAdd: function() {
-			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
+			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && this.criteria.countries.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped, this.criteria.redlist ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.countries, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped, this.criteria.redlist ]
         }
     },
 	methods: {
@@ -479,11 +522,16 @@ export default {
                 done(res)
             })
         },
-		completeArea: function(input, done) {
-			api.completeArea(input).then(res => {
-				done(res)
-			})
-		},
+        completeArea: function(input, done) {
+            api.completeArea(input).then(res => {
+                done(res)
+            })
+        },
+        completeCountry: function(input, done) {
+            api.completeCountry(input).then(res => {
+                done(res)
+            })
+        },
 		select: function(taxon) {
 			this.criteria.taxa.push({
 				"scientificName": taxon.scientificName,
@@ -521,15 +569,24 @@ export default {
                 this.$refs.instituteInput.value = ""
             })
         },
-		selectArea: function(area) {
-			this.criteria.areas.push({
-				"id": area.id,
-				"name": area.name
-			})
-			this.$nextTick(function() {
-				this.$refs.areaInput.value = ""
-			})
-		},
+        selectArea: function(area) {
+            this.criteria.areas.push({
+                "id": area.id,
+                "name": area.name
+            })
+            this.$nextTick(function() {
+                this.$refs.areaInput.value = ""
+            })
+        },
+        selectCountry: function(item) {
+            this.criteria.countries.push({
+                "id": item.id,
+                "country": item.country
+            })
+            this.$nextTick(function() {
+                this.$refs.countryInput.value = ""
+            })
+        },
 		removeTaxon: function(index) {
 			this.criteria.taxa.splice(index, 1)
 		},
@@ -542,9 +599,12 @@ export default {
         removeInstitute: function(index) {
             this.criteria.institutes.splice(index, 1)
         },
-		removeArea: function(index) {
-			this.criteria.areas.splice(index, 1)
-		},
+        removeArea: function(index) {
+            this.criteria.areas.splice(index, 1)
+        },
+        removeCountry: function(index) {
+            this.criteria.countries.splice(index, 1)
+        },
         saveLayer: function() {
             store.saveLayer()
             this.reset()

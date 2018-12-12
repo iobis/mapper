@@ -34,9 +34,12 @@ const createQuery = function(criteria) {
     if (criteria.institutes && criteria.institutes.length > 0) {
         map.push(["instituteid", criteria.institutes.map(function(x) { return(x.id) }).join(",")])
     }
-	if (criteria.areas && criteria.areas.length > 0) {
-		map.push(["areaid", criteria.areas.map(function(x) { return(x.id) }).join(",")])
-	}
+    if (criteria.areas && criteria.areas.length > 0) {
+        map.push(["areaid", criteria.areas.map(function(x) { return(x.id) }).join(",")])
+    }
+    if (criteria.countries && criteria.countries.length > 0) {
+        map.push(["countryid", criteria.countries.map(function(x) { return(x.id) }).join(",")])
+    }
     if (criteria.startyear) {
         map.push(["startdate", criteria.startyear + "-01-01"])
     }
@@ -144,9 +147,12 @@ const extractQuery = function(url) {
                 if (key == "nodeid") {
                     params[key] = params[key].split(",")
                 }
-				if (key == "areaid") {
-					params[key] = params[key].split(",")
-				}
+                if (key == "areaid") {
+                    params[key] = params[key].split(",")
+                }
+                if (key == "countryid") {
+                    params[key] = params[key].split(",")
+                }
                 return params
             }, {})
     } else {
@@ -160,7 +166,8 @@ const criteriaFromSpec = function(spec) {
         datasets: spec.datasets,
         nodes: spec.nodes,
         institutes: spec.institutes,
-		areas: spec.areas,
+        areas: spec.areas,
+        countries: spec.countries,
         startyear: spec.startyear,
         endyear: spec.endyear,
 		startdate: spec.startdate,
@@ -222,17 +229,25 @@ const specFromQuery = function(query) {
     }
 
     let areaPromises = []
-	if (query.areaid && query.areaid.length > 0) {
-		for (let areaid of query.areaid) {
-			areaPromises.push(api.area(areaid))
-		}
-	}
+    if (query.areaid && query.areaid.length > 0) {
+        for (let areaid of query.areaid) {
+            areaPromises.push(api.area(areaid))
+        }
+    }
 
-	let promises = []
+    let countryPromises = []
+    if (query.countryid && query.countryid.length > 0) {
+        for (let countryid of query.countryid) {
+            countryPromises.push(api.country(countryid))
+        }
+    }
+
+    let promises = []
 	promises.push(Promise.all(taxonPromises))
     promises.push(Promise.all(datasetPromises))
     promises.push(Promise.all(nodePromises))
     promises.push(Promise.all(areaPromises))
+    promises.push(Promise.all(countryPromises))
     promises.push(Promise.all(institutePromises))
 
 	return Promise.all(promises).then(function(results) {
@@ -240,7 +255,8 @@ const specFromQuery = function(query) {
         spec.datasets = results[1]
         spec.nodes = results[2]
         spec.areas = results[3]
-        spec.institutes = results[4]
+        spec.countries = results[4]
+        spec.institutes = results[5]
         return spec
     })
 

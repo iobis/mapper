@@ -37,6 +37,9 @@
                 <span v-for="(area, index) in layer.areas">
                     area {{ area.id }} <span class="smaller">{{ area.name }}</span><br/>
                 </span>
+                <span v-for="(item, index) in layer.countries">
+                    country {{ item.id }} <span class="smaller">{{ item.country }}</span><br/>
+                </span>
                 <span v-if="layer.startyear || layer.endyear" class="smaller">
                     {{ layer.startyear }} &rarr; {{ layer.endyear }}<br/>
                 </span>
