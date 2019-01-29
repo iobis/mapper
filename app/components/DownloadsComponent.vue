@@ -40,14 +40,19 @@
                 </span>
             </p>
             <p>
-                <button class="btn btn-sm clickable" v-bind:class="{ 'btn-warning': !download.ready, 'btn-success': download.ready }" v-on:click="getFile(download)">
-                    <span v-if="download.ready">
-                        {{ download.hash }}
-                    </span>
-                    <span v-if="!download.ready">
-                        Progress: {{ download.records }} / {{ download.total }}
-                    </span>
-                </button>
+                <span v-if="download.ready">
+                    <button class="btn btn-sm btn-success clickable" v-on:click="getFile(download)">
+                        Download ZIP file
+                    </button>
+                    <button class="btn btn-sm btn-success clickable" v-on:click="copyFile(download)">
+                        <span class="oi oi-clipboard"></span>
+                    </button>
+                </span>
+                <span v-if="!download.ready">
+                    <button class="btn btn-sm btn-warning">
+                        Preparing file <span v-if="download.records">({{ download.records }} / {{ download.total }})</span>
+                    </button>
+                </span>
             </p>
         </div>
 
@@ -57,6 +62,8 @@
 <script>
     import { store } from "../store"
     const config = require("../config.js")
+    const copy = require("clipboard-copy")
+    const util = require("../util")
 
     export default {
         data() {
@@ -67,8 +74,15 @@
         methods: {
             getFile: function(download) {
                 if (download.ready) {
-                    window.open(config["files"] + download.hash + ".zip");
+                    window.open(config["files"] + download.hash + ".zip")
                 }
+            },
+            copyFile: function(download) {
+                copy(config["files"] + download.hash + ".zip")
+                util.toast("File URL copied", {
+                    type: "success",
+                    duration: 2000
+                })
             }
         }
     }

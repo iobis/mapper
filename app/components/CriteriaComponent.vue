@@ -9,7 +9,7 @@
         <div class="sidepanel collapse in" id="collapse1">
             <div class="panelcontent">
                 <div class="form-group">
-                    <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name" ref="nameInput">
+                    <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name" ref="nameInput" autocomplete="off">
                     <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500">
                         <template slot="item" scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">

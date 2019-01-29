@@ -398,6 +398,5 @@ export const store = {
         })
         this.currentView = "downloads-component"
 		util.toast("Download added")
-
 	}
 }
