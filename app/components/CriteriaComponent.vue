@@ -372,7 +372,7 @@ export default {
             // check start value
             if (start == null && (this.depthSlider.result.from_value != null && this.depthSlider.result.from_value != 0)) {
                 this.depthSlider.update({
-                    from_value: 0
+                    from: 0
                 })
             } else if (start != null && (this.depthSlider.result.from_value == null || start != this.depthSlider.result.from_value)) {
                 this.depthSlider.update({
@@ -382,7 +382,7 @@ export default {
             // check end value
             if (end == null && (this.depthSlider.result.to != null && this.timeSlider.result.to_value != 11000)) {
                 this.depthSlider.update({
-                    to_value: 11000
+                    to: this.depths[this.depths.length - 1]
                 })
             } else if (end != null && (this.timeSlider.result.to_value == null || end != this.timeSlider.result.to_value)) {
                 this.depthSlider.update({
