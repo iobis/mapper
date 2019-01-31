@@ -363,17 +363,14 @@ export const store = {
         }
     },
     addDownload: function(layer) {
-
+        /*
         util.toast("Downloads temporarily unavailable, try again later", {
             type: "error",
             duration: 10000
         })
-
-
-        /*
+        */
         let self = this
         let criteria = util.criteriaFromSpec(layer)
-
         api.download(criteria).then(function(response) {
             let hash = response.hash
 
@@ -406,6 +403,5 @@ export const store = {
         })
         this.currentView = "downloads-component"
 		util.toast("Download added")
-		*/
 	}
 }
