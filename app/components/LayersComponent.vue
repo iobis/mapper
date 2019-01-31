@@ -78,7 +78,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
-                        <button type="button" class="btn btn-primary" v-on:click="confirmDownload()">Yes, proceed</button>
+                        <button type="button" class="btn btn-primary" v-on:click="confirmDownload()" data-dismiss="modal">Yes, proceed</button>
                     </div>
                 </div>
             </div>
