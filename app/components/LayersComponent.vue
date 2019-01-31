@@ -66,7 +66,26 @@
             </div>
 		</div>
 
+        <div id="downloadModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
+                        <button type="button" class="btn btn-primary" v-on:click="confirmDownload()">Yes, proceed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 	</div>
+
 </template>
 
 <script>
@@ -75,7 +94,9 @@ import { store } from "../store"
 export default {
 	data() {
 		return {
-			store: store
+			store: store,
+            downloadRecords: null,
+            downloadLayer: null
 		}
 	},
 	methods: {
@@ -92,7 +113,16 @@ export default {
 			store.togglePoints(layer)
 		},
         addDownload: function(layer) {
-		    store.addDownload(layer)
+		    if (layer.count && layer.count > 100000) {
+		        this.downloadRecords = layer.count
+                this.downloadLayer = layer
+                $("#downloadModal").modal("show");
+            } else {
+                store.addDownload(layer)
+            }
+        },
+        confirmDownload: function() {
+            store.addDownload(this.downloadLayer)
         }
 	}
 }
