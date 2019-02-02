@@ -263,6 +263,20 @@
             </div>
         </div>
 
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse16" aria-expanded="true" aria-controls="collapse16">Data quality</div>
+
+        <div class="sidepanel collapse defaultclosed" id="collapse16">
+            <div class="panelcontent">
+                <div class="form-group">
+                    <label>Bathymetry issue</label>
+                    <select class="form-control" v-model="criteria.flags.bath_issue">
+                        <option>include</option>
+                        <option>exclude</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse10" aria-expanded="true" aria-controls="collapse10">Options</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse10">
@@ -271,8 +285,8 @@
                     <input type="checkbox" v-model="criteria.dropped"> only dropped records
                 </label>
                 <br/><label>
-                    <input type="checkbox" v-model="criteria.redlist"> only Red List species
-                </label>
+                <input type="checkbox" v-model="criteria.redlist"> only Red List species
+            </label>
             </div>
         </div>
 
@@ -421,6 +435,9 @@ export default {
             }
         },
         filters: function() {
+
+            console.log("filters changed")
+
 			if (this.disableAdd) {
 				this.clearLayer()
             } else {
@@ -440,7 +457,7 @@ export default {
 			return this.criteria.taxa.length == 0 && this.criteria.datasets.length == 0 && this.criteria.nodes.length == 0 && this.criteria.institutes.length == 0 && this.criteria.areas.length == 0 && this.criteria.countries.length == 0 && !this.criteria.wkt && this.criteria.timeValues.every(function(x) { return x == null }) && this.criteria.depthValues.every(function(x) { return x == null })
         },
         filters: function() {
-            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.countries, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped, this.criteria.redlist ]
+            return [ this.criteria.taxa, this.criteria.datasets, this.criteria.nodes, this.criteria.institutes, this.criteria.areas, this.criteria.countries, this.criteria.timeValues, this.criteria.depthValues, this.criteria.selectedScale, this.criteria.customColor, this.criteria.opacity, this.criteria.wkt, this.criteria.dropped, this.criteria.redlist, this.criteria.flags.bath_issue ]
         }
     },
 	methods: {

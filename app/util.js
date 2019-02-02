@@ -61,6 +61,17 @@ const createQuery = function(criteria) {
     if (criteria.geometry) {
         map.push(["geometry", criteria.geometry])
     }
+    if (criteria.flags) {
+        let exclude = []
+        for (let flag in criteria.flags) {
+            if (criteria.flags[flag] == "exclude") {
+                exclude.push(flag)
+            }
+        }
+        if (exclude.length > 0) {
+            map.push(["exclude", exclude.join(",")])
+        }
+    }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")
@@ -176,7 +187,8 @@ const criteriaFromSpec = function(spec) {
 		enddepth: spec.enddepth,
         geometry: spec.geometry,
         dropped: spec.dropped,
-        redlist: spec.redlist
+        redlist: spec.redlist,
+        flags: spec.flags
     }
 }
 const specFromQuery = function(query) {
