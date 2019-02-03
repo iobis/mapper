@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <input id="nameInput" class="form-control" type="text" placeholder="Enter scientific name" ref="nameInput" autocomplete="off">
                     <typeahead v-model="selectedTaxon" target="#nameInput" :async-function="complete" item-key="scientificName" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.scientificName }} <span class="smaller">{{ item.scientificNameAuthorship }}</span>
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <input id="datasetInput" class="form-control" type="text" placeholder="Enter dataset name" ref="datasetInput">
                     <typeahead v-model="selectedDataset" target="#datasetInput" :async-function="completeDataset" item-key="title" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.title }}
@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <input id="nodeInput" class="form-control" type="text" placeholder="Enter node name" ref="nodeInput">
                     <typeahead v-model="selectedNode" target="#nodeInput" :async-function="completeNode" item-key="name" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.name }}
@@ -122,7 +122,7 @@
                 <div class="form-group">
                     <input id="instituteInput" class="form-control" type="text" placeholder="Enter institute name" ref="instituteInput">
                     <typeahead v-model="selectedInstitute" target="#instituteInput" :async-function="completeInstitute" item-key="name" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.name }}
@@ -159,7 +159,7 @@
                 <div class="form-group">
                     <input id="areaInput" class="form-control" type="text" placeholder="Enter area name" ref="areaInput">
                     <typeahead v-model="selectedArea" target="#areaInput" :async-function="completeArea" item-key="name" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.name }}
@@ -196,7 +196,7 @@
                 <div class="form-group">
                     <input id="countryInput" class="form-control" type="text" placeholder="Enter country name" ref="countryInput">
                     <typeahead v-model="selectedCountry" target="#countryInput" :async-function="completeCountry" item-key="country" :force-select="true" :debounce="500">
-                        <template slot="item" scope="props">
+                        <template slot="item" slot-scope="props">
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.country }}
@@ -435,9 +435,6 @@ export default {
             }
         },
         filters: function() {
-
-            console.log("filters changed")
-
 			if (this.disableAdd) {
 				this.clearLayer()
             } else {

@@ -8,6 +8,7 @@ module.exports = env => {
       path: path.resolve(__dirname),
       filename: 'bundle.js'
     },
+    devtool: 'source-map',
     devServer: {
       port: 5000,
       inline: true

@@ -38,7 +38,7 @@
                 <span v-if="download.criteria.redlist">
                     only Red List species<br/>
                 </span>
-                <span v-for="(value, key) in layer.flags">
+                <span v-for="(value, key) in download.criteria.flags">
                     <span v-if="value == 'exclude'">
                         excluded: {{ key }}<br/>
                     </span>
