@@ -191,6 +191,7 @@ const criteriaFromSpec = function(spec) {
         flags: spec.flags
     }
 }
+
 const specFromQuery = function(query) {
     let spec = {
 		startdate: query.startdate,
@@ -209,7 +210,10 @@ const specFromQuery = function(query) {
         institutes: [],
 		areas: [],
         dropped: query.dropped,
-        redlist: query.redlist
+        redlist: query.redlist,
+        flags: {
+            "bath_issue": "include"
+        }
     }
 
 	let taxonPromises = []

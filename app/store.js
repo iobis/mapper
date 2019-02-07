@@ -92,6 +92,11 @@ export const store = {
         this.criteria.dropped = layer.dropped
         this.criteria.redlist = layer.redlist
         this.criteria.flags = layer.flags
+
+
+        console.log(layer)
+
+
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
         this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
         this.editLayer = layer
