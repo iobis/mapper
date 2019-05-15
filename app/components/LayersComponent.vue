@@ -64,8 +64,8 @@
                     </span>
                 </span>
                 <span class="smaller">{{ layer.count | number }} records</span><br/>
-                <div class="layerlegend">
-                    <span v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="color in layer.colors"></span>
+                <div class="layer   legend">
+                    <span v-bind:title="getColorLabel(index)" v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="(color, index) in layer.colors"></span>
                     <span v-if="layer.colors.length == 1" class="colorsquarelong" :style="{ 'background-color': layer.colors[0] }"></span>
                 </div>
             </div>
@@ -95,6 +95,7 @@
 
 <script>
 import { store } from "../store"
+import util from "../util"
 
 export default {
 	data() {
@@ -105,6 +106,9 @@ export default {
 		}
 	},
 	methods: {
+	    getColorLabel(i) {
+	        return util.getColorLabels(i)
+        },
 		removeLayer: function(layer) {
 			store.removeLayer(layer)
 		},

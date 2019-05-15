@@ -112,6 +112,18 @@ const makeScales = function() {
 	}
 }
 
+const getColorLabels = function(i) {
+    if (i == 0) return "1-10";
+    if (i == 1) return "11-20";
+    if (i == 2) return "21-50";
+    if (i == 3) return "51-100";
+    if (i == 4) return "101-200";
+    if (i == 5) return "201-500";
+    if (i == 6) return "501-1000";
+    if (i == 7) return ">1000";
+    return ""
+}
+
 const getColor = function(d, colors) {
     if (colors.length == 1) {
         return colors[0]
@@ -352,5 +364,6 @@ module.exports = {
     criteriaFromSpec,
 	toast,
 	generatePopup,
-	tileUrl
+	tileUrl,
+    getColorLabels
 }
