@@ -22,6 +22,9 @@ const createQuery = function(criteria) {
     if (criteria.redlist) {
         map.push(["redlist", true])
     }
+    if (criteria.hab) {
+        map.push(["hab", true])
+    }
 	if (criteria.taxa && criteria.taxa.length > 0) {
 		map.push(["taxonid", criteria.taxa.filter(x => x).map(function(x) { return(x.acceptedNameUsageID) }).join(",")])
 	}
@@ -200,6 +203,7 @@ const criteriaFromSpec = function(spec) {
         geometry: spec.geometry,
         dropped: spec.dropped,
         redlist: spec.redlist,
+        hab: spec.hab,
         flags: spec.flags
     }
 }
@@ -223,6 +227,7 @@ const specFromQuery = function(query) {
 		areas: [],
         dropped: query.dropped,
         redlist: query.redlist,
+        hab: query.hab,
         flags: {
             "bath_issue": "include"
         }

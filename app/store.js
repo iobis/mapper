@@ -20,6 +20,7 @@ let defaultCriteria = function() {
         wkt: null,
         dropped: false,
         redlist: false,
+        hab: false,
         flags: {
             "bath_issue": "include"
         }
@@ -91,12 +92,8 @@ export const store = {
         this.criteria.wkt = layer.geometry
         this.criteria.dropped = layer.dropped
         this.criteria.redlist = layer.redlist
+        this.criteria.hab = layer.hab
         this.criteria.flags = layer.flags
-
-
-        console.log(layer)
-
-
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
         this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
         this.editLayer = layer
@@ -184,6 +181,7 @@ export const store = {
             geometry: this.criteria.wkt,
             dropped: this.criteria.dropped,
             redlist: this.criteria.redlist,
+            hab: this.criteria.hab,
             flags: this.criteria.flags,
             opacity: this.criteria.opacity,
             scale: this.criteria.selectedScale,
