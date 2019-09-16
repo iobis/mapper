@@ -109,7 +109,7 @@ export default {
 	download(criteria) {
 		let q = util.createQuery(criteria)
         let url = config.download + "occurrence?" + q
-        let metricsUrl = config.api + "metrics/logusage?" + q
+        let metricsUrl = config.api + "metrics/logusage?agent=mapper&" + q
         axios.get(metricsUrl)
 		return axios.get(url)
 			.then((response) => Promise.resolve(response.data))
