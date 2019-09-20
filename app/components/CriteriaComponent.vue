@@ -189,7 +189,7 @@
             </div>
         </div>
 
-        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse15" aria-expanded="true" aria-controls="collapse15">Countries</div>
+        <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse15" aria-expanded="true" aria-controls="collapse15">Publisher countries</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse15">
             <div class="panelcontent">
