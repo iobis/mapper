@@ -79,7 +79,7 @@
                         <h4 class="modal-title">Confirmation</h4>
                     </div>
                     <div class="modal-body">
-                        <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure?</p>
+                        <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please contact us at p.provoost@unesco.org for exports of the entire database or larger subsets.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
