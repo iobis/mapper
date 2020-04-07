@@ -79,11 +79,17 @@
                         <h4 class="modal-title">Confirmation</h4>
                     </div>
                     <div class="modal-body">
-                        <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please contact us at p.provoost@unesco.org for exports of the entire database or larger subsets.</p>
+                        <p>Please enter your e-mail address. You will receive an e-mail notification once your file is ready. Separate multiple e-mail addresses with a semicolon.</p>
+                        <p>
+                            <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
+                        </p>
+                        <div class="alert alert-danger" v-if="downloadRecords > 10000000">
+                            <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please contact us at p.provoost@unesco.org for exports of the entire database or larger subsets.</p>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
-                        <button type="button" class="btn btn-primary" v-on:click="confirmDownload()" data-dismiss="modal">Yes, proceed</button>
+                        <button type="button" class="btn btn-primary" :disabled="!validateEmail(store.email)" v-on:click="confirmDownload()" data-dismiss="modal">Yes, proceed</button>
                     </div>
                 </div>
             </div>
@@ -106,6 +112,18 @@ export default {
 		}
 	},
 	methods: {
+        validateEmail(email) {
+            if (!email) return false;
+            const emails = email.trim().split(/[,; ]+/);
+            if (emails.length < 1) return false;
+            for (let i = 0; i < emails.length; i++) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!re.test(emails[i])) {
+                    return false;
+                }
+            }
+            return true;
+        },
 	    getColorLabel(i) {
 	        return util.getColorLabels(i)
         },
@@ -122,16 +140,12 @@ export default {
 			store.togglePoints(layer)
 		},
         addDownload: function(layer) {
-		    if (layer.count && layer.count > 100000) {
-		        this.downloadRecords = layer.count
-                this.downloadLayer = layer
-                $("#downloadModal").modal("show");
-            } else {
-                store.addDownload(layer)
-            }
+            this.downloadRecords = layer.count;
+            this.downloadLayer = layer;
+            $("#downloadModal").modal("show");
         },
         confirmDownload: function() {
-            store.addDownload(this.downloadLayer)
+            store.addDownload(this.downloadLayer);
         }
 	}
 }

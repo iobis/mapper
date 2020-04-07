@@ -55,7 +55,7 @@
                 </span>
                 <span v-if="!download.ready">
                     <button class="btn btn-sm btn-warning">
-                        Preparing file <span v-if="download.records">({{ download.records }} / {{ download.total }})</span>
+                        Preparing file <span v-if="download.interval">({{ download.interval }})</span>
                     </button>
                 </span>
             </p>
@@ -79,14 +79,14 @@
         methods: {
             getFile: function(download) {
                 if (download.ready) {
-                    window.open(config["files"] + download.hash + ".zip")
+                    window.open(config["files"] + download.id + ".zip")
                 }
             },
             copyFile: function(download) {
-                copy(config["files"] + download.hash + ".zip")
+                copy(config["files"] + download.id + ".zip")
                 util.toast("File URL copied", {
                     type: "success",
-                    duration: 2000
+                    duration: 5000
                 })
             }
         }

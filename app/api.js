@@ -106,9 +106,9 @@ export default {
 			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error))
 	},
-	download(criteria) {
+	download(criteria, email) {
 		let q = util.createQuery(criteria)
-        let url = config.download + "occurrence?" + q
+        let url = config.download + "occurrence?email=" + email + "&" + q
         let metricsUrl = config.api + "metrics/logusage?agent=mapper&" + q
         axios.get(metricsUrl)
 		return axios.get(url)

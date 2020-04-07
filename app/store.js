@@ -23,7 +23,8 @@ let defaultCriteria = function() {
         hab: false,
         flags: {
             "bath_issue": "include"
-        }
+        },
+        email: null
     }
 }
 
@@ -354,20 +355,15 @@ export const store = {
 	    this.baseGroup.clearLayers()
         L.tileLayer(this.baseLayer).addTo(this.baseGroup)
     },
-    updateDownloadStatus(download, status){
-        if (status.total) {
-            download.total = status.total
-        }
-        if (status.records) {
-            download.records = status.records
-        }
-        if (status.status == "busy") {
-        } else if (status.status == "ready") {
+    updateDownloadStatus(download, status) {
+        console.log(status);
+        download.interval = status.interval;
+        if (status.finished) {
             download.ready = true
-        } else if (status == "unknown") {
+        }/* else if (status == "unknown") {
             download.ready = true
             download.error = true
-        }
+        }*/
     },
     addDownload: function(layer) {
         /*
@@ -378,24 +374,25 @@ export const store = {
         */
         let self = this
         let criteria = util.criteriaFromSpec(layer)
-        api.download(criteria).then(function(response) {
-            let hash = response.hash
+        api.download(criteria, this.email).then(function(response) {
+            let id = response.id;
 
             let download = {
                 criteria: criteria,
-                hash: hash,
+                id: id,
                 records: null,
                 total: null,
                 ready: false,
-                error: false
-            }
-            self.downloads.push(download)
+                error: false,
+                interval: null
+            };
+            self.downloads.push(download);
 
-            api.downloadStatus(hash).then(function(status) {
+            api.downloadStatus(id).then(function(status) {
                 self.updateDownloadStatus(download, status)
                 if (!download.ready) {
                     let iid = setInterval(function() {
-                        api.downloadStatus(hash).then(function(status) {
+                        api.downloadStatus(id).then(function(status) {
                             self.updateDownloadStatus(download, status)
                             if (download.ready) {
                                 clearInterval(iid)
