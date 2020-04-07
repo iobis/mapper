@@ -79,7 +79,7 @@
                         <h4 class="modal-title">Confirmation</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Please enter your e-mail address. You will receive an e-mail notification once your file is ready. Separate multiple e-mail addresses with a semicolon.</p>
+                        <p>Please enter your e-mail address. You will receive an e-mail notification once your file is ready. Make sure to check your spam folder. Separate multiple e-mail addresses with a semicolon.</p>
                         <p>
                             <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
                         </p>
