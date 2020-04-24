@@ -263,6 +263,7 @@
             </div>
         </div>
 
+        <!--
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse16" aria-expanded="true" aria-controls="collapse16">Data quality</div>
 
         <div class="sidepanel collapse defaultclosed" id="collapse16">
@@ -276,6 +277,7 @@
                 </div>
             </div>
         </div>
+        -->
 
         <div class="sidesubheader clickable" data-toggle="collapse" href="#collapse10" aria-expanded="true" aria-controls="collapse10">Options</div>
 
