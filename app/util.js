@@ -17,7 +17,10 @@ const createQuery = function(criteria) {
         map.push(["after", criteria.after])
     }
     if (criteria.dropped) {
-        map.push(["dropped", true])
+        map.push(["dropped", criteria.dropped])
+    }
+    if (criteria.absence) {
+        map.push(["absence", criteria.absence])
     }
     if (criteria.redlist) {
         map.push(["redlist", true])
@@ -65,15 +68,7 @@ const createQuery = function(criteria) {
         map.push(["geometry", criteria.geometry])
     }
     if (criteria.flags) {
-        let exclude = []
-        for (let flag in criteria.flags) {
-            if (criteria.flags[flag] == "exclude") {
-                exclude.push(flag)
-            }
-        }
-        if (exclude.length > 0) {
-            map.push(["exclude", exclude.join(",")])
-        }
+        map.push(["flags", criteria.flags])
     }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
@@ -202,6 +197,7 @@ const criteriaFromSpec = function(spec) {
 		enddepth: spec.enddepth,
         geometry: spec.geometry,
         dropped: spec.dropped,
+        absence: spec.absence,
         redlist: spec.redlist,
         hab: spec.hab,
         flags: spec.flags
@@ -226,11 +222,10 @@ const specFromQuery = function(query) {
         institutes: [],
 		areas: [],
         dropped: query.dropped,
+        absence: query.absence,
         redlist: query.redlist,
         hab: query.hab,
-        flags: {
-            "bath_issue": "include"
-        }
+        flags: query.flags
     }
 
 	let taxonPromises = []

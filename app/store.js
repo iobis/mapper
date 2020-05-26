@@ -19,11 +19,10 @@ let defaultCriteria = function() {
         opacity: 0.7,
         wkt: null,
         dropped: false,
+        absence: false,
         redlist: false,
         hab: false,
-        flags: {
-            "bath_issue": "include"
-        },
+        flags: null,
         email: null
     }
 }
@@ -92,6 +91,7 @@ export const store = {
         this.criteria.customColor = layer.customColor
         this.criteria.wkt = layer.geometry
         this.criteria.dropped = layer.dropped
+        this.criteria.absence = layer.absence
         this.criteria.redlist = layer.redlist
         this.criteria.hab = layer.hab
         this.criteria.flags = layer.flags
@@ -181,6 +181,7 @@ export const store = {
             precision: 3,
             geometry: this.criteria.wkt,
             dropped: this.criteria.dropped,
+            absence: this.criteria.absence,
             redlist: this.criteria.redlist,
             hab: this.criteria.hab,
             flags: this.criteria.flags,

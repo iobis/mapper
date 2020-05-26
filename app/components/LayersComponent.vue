@@ -52,16 +52,23 @@
                 <span v-if="layer.geometry != null" class="smaller">
                     polygon filter set<br/>
                 </span>
-                <span v-if="layer.dropped">
+                <span v-if="layer.dropped == 'true'">
                     only dropped records<br/>
+                </span>
+                <span v-if="layer.dropped == 'include'">
+                    dropped records included<br/>
+                </span>
+                <span v-if="layer.absence == 'true'">
+                    only absence records<br/>
+                </span>
+                <span v-if="layer.absence == 'include'">
+                    absence records included<br/>
                 </span>
                 <span v-if="layer.redlist">
                     only Red List species<br/>
                 </span>
-                <span v-for="(value, key) in layer.flags">
-                    <span v-if="value == 'exclude'">
-                        excluded: {{ key }}<br/>
-                    </span>
+                <span v-if="layer.flags">
+                    flags: {{ layer.flags }}<br/>
                 </span>
                 <span class="smaller">{{ layer.count | number }} records</span><br/>
                 <div class="layer   legend">

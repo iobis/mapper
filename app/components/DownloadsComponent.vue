@@ -32,16 +32,23 @@
                 <span v-if="download.criteria.geometry != null" class="smaller">
                     polygon filter set<br/>
                 </span>
-                <span v-if="download.criteria.dropped">
+                <span v-if="download.criteria.dropped == 'true'">
                     only dropped records<br/>
+                </span>
+                <span v-if="download.criteria.dropped == 'include'">
+                    dropped records included<br/>
+                </span>
+                <span v-if="download.criteria.absence == 'true'">
+                    only absence records<br/>
+                </span>
+                <span v-if="download.criteria.absence == 'include'">
+                    absence records included<br/>
                 </span>
                 <span v-if="download.criteria.redlist">
                     only Red List species<br/>
                 </span>
-                <span v-for="(value, key) in download.criteria.flags">
-                    <span v-if="value == 'exclude'">
-                        excluded: {{ key }}<br/>
-                    </span>
+                <span v-if="download.criteria.flags">
+                    flags: {{ download.criteria.flags }}<br/>
                 </span>
             </p>
             <p>
