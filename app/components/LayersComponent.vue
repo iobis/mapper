@@ -90,8 +90,8 @@
                         <p>
                             <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
                         </p>
-                        <div class="alert alert-danger" v-if="downloadRecords > 10000000">
-                            <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please contact us at p.provoost@unesco.org for exports of the entire database or larger subsets.</p>
+                        <div class="alert alert-danger" v-if="downloadRecords > 2000000">
+                            <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please go to <a href="https://obis.org/manual/access/" target="_blank">https://obis.org/manual/access/</a> for a faster download of the entire OBIS dataset.</p>
                         </div>
                     </div>
                     <div class="modal-footer">
