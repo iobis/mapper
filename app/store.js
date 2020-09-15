@@ -23,6 +23,7 @@ let defaultCriteria = function() {
         redlist: false,
         hab: false,
         flags: null,
+        exclude: null,
         email: null
     }
 }
@@ -95,6 +96,7 @@ export const store = {
         this.criteria.redlist = layer.redlist
         this.criteria.hab = layer.hab
         this.criteria.flags = layer.flags
+        this.criteria.exclude = layer.exclude
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
         this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
         this.editLayer = layer
@@ -185,6 +187,7 @@ export const store = {
             redlist: this.criteria.redlist,
             hab: this.criteria.hab,
             flags: this.criteria.flags,
+            exclude: this.criteria.exclude,
             opacity: this.criteria.opacity,
             scale: this.criteria.selectedScale,
             customColor: this.criteria.customColor,

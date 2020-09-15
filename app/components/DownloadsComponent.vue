@@ -50,6 +50,9 @@
                 <span v-if="download.criteria.flags">
                     flags: {{ download.criteria.flags }}<br/>
                 </span>
+                <span v-if="download.criteria.exclude">
+                    exclude: {{ download.criteria.exclude }}<br/>
+                </span>
             </p>
             <p>
                 <span v-if="download.ready">

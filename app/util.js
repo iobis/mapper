@@ -70,6 +70,9 @@ const createQuery = function(criteria) {
     if (criteria.flags) {
         map.push(["flags", criteria.flags])
     }
+    if (criteria.exclude) {
+        map.push(["exclude", criteria.exclude])
+    }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")
@@ -200,7 +203,8 @@ const criteriaFromSpec = function(spec) {
         absence: spec.absence,
         redlist: spec.redlist,
         hab: spec.hab,
-        flags: spec.flags
+        flags: spec.flags,
+        exclude: spec.exclude
     }
 }
 
@@ -225,7 +229,8 @@ const specFromQuery = function(query) {
         absence: query.absence,
         redlist: query.redlist,
         hab: query.hab,
-        flags: query.flags
+        flags: query.flags,
+        exclude: query.exclude
     }
 
 	let taxonPromises = []

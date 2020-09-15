@@ -70,6 +70,9 @@
                 <span v-if="layer.flags">
                     flags: {{ layer.flags }}<br/>
                 </span>
+                <span v-if="layer.exclude">
+                    exclude: {{ layer.exclude }}<br/>
+                </span>
                 <span class="smaller">{{ layer.count | number }} records</span><br/>
                 <div class="layer   legend">
                     <span v-bind:title="getColorLabel(index)" v-if="layer.colors.length > 1" class="colorsquare" :style="{ 'background-color': color }" v-for="(color, index) in layer.colors"></span>
