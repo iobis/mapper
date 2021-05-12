@@ -1,5 +1,25 @@
 <template>
     <div>
+
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">System maintenance 13/05/2021</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>The OBIS system is undergoing maintenance on 13/05/2021. Downloads can take a while to be processed. Full exports of the database are still available from <a href="https://obis.org/manual/access/">https://obis.org/manual/access/</a>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="sidebar" v-bind:class="{ slidein: store.show, slideout: !store.show }">
             <div id="menubar">
                 <div class="menuicon" v-if="store.show" v-on:click="store.show = false"><span class="oi oi-chevron-right"></span></div>
@@ -31,6 +51,10 @@
 	import DataComponent from "./DataComponent.vue"
 	import HelpComponent from "./HelpComponent.vue"
 	import { store } from "../store"
+
+    $(document).ready(function() {
+        $(".modal").modal();
+    });
 
 	export default {
 		data() {
