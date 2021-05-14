@@ -1,6 +1,7 @@
 <template>
     <div>
 
+        <!--
         <div class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -19,6 +20,7 @@
                 </div>
             </div>
         </div>
+        -->
 
         <div id="sidebar" v-bind:class="{ slidein: store.show, slideout: !store.show }">
             <div id="menubar">
@@ -52,9 +54,9 @@
 	import HelpComponent from "./HelpComponent.vue"
 	import { store } from "../store"
 
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         $(".modal").modal();
-    });
+    });*/
 
 	export default {
 		data() {
