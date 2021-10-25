@@ -89,11 +89,19 @@
         methods: {
             getFile: function(download) {
                 if (download.ready) {
-                    window.open(config["files"] + download.id + ".zip")
+                    if (download.s3path) {
+                        window.open(config["s3"] + download.s3path)
+                    } else {
+                        window.open(config["files"] + download.id + ".zip")
+                    }
                 }
             },
             copyFile: function(download) {
-                copy(config["files"] + download.id + ".zip")
+                if (download.s3path) {
+                    copy(config["s3"] + download.s3path)
+                } else {
+                    copy(config["files"] + download.id + ".zip")
+                }
                 util.toast("File URL copied", {
                     type: "success",
                     duration: 5000

@@ -12,5 +12,6 @@ module.exports = {
     api: "https://api.obis.org/v3/",
     download: "https://api.obis.org/download2/",
     files: "https://download.obis.org/",
+    s3: "https://datasets.obis.org/",
     portal: "https://obis.org/"
 }

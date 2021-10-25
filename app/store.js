@@ -364,6 +364,7 @@ export const store = {
         download.interval = status.interval;
         if (status.finished) {
             download.ready = true
+            download.s3path = status.s3path
         }/* else if (status == "unknown") {
             download.ready = true
             download.error = true
