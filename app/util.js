@@ -73,6 +73,9 @@ const createQuery = function(criteria) {
     if (criteria.exclude) {
         map.push(["exclude", criteria.exclude])
     }
+    if (criteria.extensions) {
+        map.push(["extensions", criteria.extensions])
+    }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
 	}).join("&")

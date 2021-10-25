@@ -24,7 +24,9 @@ let defaultCriteria = function() {
         hab: false,
         flags: null,
         exclude: null,
-        email: null
+        email: null,
+        MeasurementOrFact: null,
+        DNADerivedData: null
     }
 }
 
@@ -50,6 +52,10 @@ export const store = {
     settings: {
         startYear: 1900,
         currentYear: (new Date()).getFullYear()
+    },
+    extensions: {
+        MeasurementOrFact: null,
+        DNADerivedData: null
     },
     selectedLayer: null,
     editLayer: null,
@@ -377,8 +383,14 @@ export const store = {
             duration: 10000
         })
         */
-        let self = this
-        let criteria = util.criteriaFromSpec(layer)
+        let self = this;
+        let criteria = util.criteriaFromSpec(layer);
+        
+        let extensions = [];
+        if (this.MeasurementOrFact) extensions.push("MeasurementOrFact");
+        if (this.DNADerivedData) extensions.push("DNADerivedData");
+        if (extensions.length) criteria.extensions = extensions.join(",");
+        
         api.download(criteria, this.email).then(function(response) {
             let id = response.id;
 

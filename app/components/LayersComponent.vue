@@ -89,9 +89,16 @@
                         <h4 class="modal-title">Confirmation</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Please enter your e-mail address. You will receive an e-mail notification once your file is ready. Make sure to check your spam folder. Separate multiple e-mail addresses with a semicolon.</p>
+                        <p>Please enter your email address. You will receive an e-mail notification once your file is ready. Make sure to check your spam folder. Separate multiple e-mail addresses with a semicolon.</p>
                         <p>
                             <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
+                        </p>
+                        <p>Select extensions to include:
+                        <br/>
+                        <form>
+                        <label class="checkbox-inline"><input v-model="store.MeasurementOrFact" type="checkbox" id="mof" name="mof">(Extended)MeasurementOrFact</label>
+                        <label class="checkbox-inline"><input v-model="store.DNADerivedData" type="checkbox" id="dna" name="dna">DNADerivedData</label>
+                        </form>
                         </p>
                         <div class="alert alert-danger" v-if="downloadRecords > 2000000">
                             <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please go to <a href="https://obis.org/manual/access/" target="_blank">https://obis.org/manual/access/</a> for a faster download of the entire OBIS dataset.</p>
