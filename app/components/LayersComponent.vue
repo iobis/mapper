@@ -31,6 +31,12 @@
                 <span v-for="(node, index) in layer.nodes">
                     node {{ node.id }} <span class="smaller">{{ node.name }}</span><br/>
                 </span>
+                <span v-if="layer.hasextensions && layer.hasextensions.MeasurementOrFact">
+                    extension MeasurementOrFact<br/>
+                </span>
+                <span v-if="layer.hasextensions && layer.hasextensions.DNADerivedData">
+                    extension DNADerivedData<br/>
+                </span>
                 <span v-for="(institute, index) in layer.institutes">
                     institute {{ institute.id }} <span class="smaller">{{ institute.name }}</span><br/>
                 </span>

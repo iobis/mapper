@@ -25,6 +25,7 @@ let defaultCriteria = function() {
         flags: null,
         exclude: null,
         email: null,
+        hasextensions: {DNADerivedData: null, MeasurementOrFact: null},
         MeasurementOrFact: null,
         DNADerivedData: null
     }
@@ -105,6 +106,7 @@ export const store = {
         this.criteria.exclude = layer.exclude
         this.criteria.timeValues = [ layer.startyear, layer.endyear ]
         this.criteria.depthValues = [ layer.startdepth, layer.enddepth ]
+        this.criteria.hasextensions = layer.hasextensions ? layer.hasextensions : {DNADerivedData: null, MeasurementOrFact: null}
         this.editLayer = layer
         this.currentView = "criteria-component"
     },
@@ -182,6 +184,7 @@ export const store = {
             institutes: JSON.parse(JSON.stringify(this.criteria.institutes)),
             areas: JSON.parse(JSON.stringify(this.criteria.areas)),
             countries: JSON.parse(JSON.stringify(this.criteria.countries)),
+            hasextensions: this.criteria.hasextensions,
             startyear: this.criteria.timeValues[0],
             endyear: this.criteria.timeValues[1],
             startdepth: this.criteria.depthValues[0],

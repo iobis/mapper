@@ -3,6 +3,7 @@ import Vue from "vue"
 const config = require("./config.js")
 
 const createQuery = function(criteria) {
+    //console.log(JSON.stringify(criteria))
 	let map = []
     if (criteria.size) {
         map.push(["size", criteria.size])
@@ -75,6 +76,17 @@ const createQuery = function(criteria) {
     }
     if (criteria.extensions) {
         map.push(["extensions", criteria.extensions])
+    }
+    if (criteria.hasextensions) {
+        let ext = [];
+        Object.keys(criteria.hasextensions).forEach(key => {
+            if (criteria.hasextensions[key]) {
+                ext.push(key);
+            }
+        });
+        if (ext.length > 0) {
+            map.push(["hasextensions", ext.join(",")])
+        }
     }
 	let q = map.map(c => {
 		return c[0] + "=" + c[1]
@@ -155,33 +167,44 @@ const getColor = function(d, colors) {
 const extractQuery = function(url) {
     let parts = url.split("?")
     if (parts.length == 2 && parts[1].length > 0) {
-        return parts[1].split("&")
-            .reduce((params, param) => {
-                let [ key, value ] = param.split("=");
-                params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : ""
+        let result = parts[1].split("&").reduce((params, param) => {
+            let [ key, value ] = param.split("=");
+            params[key] = value ? decodeURIComponent(value.replace(/\+/g, " ")) : ""
 
-				// todo: shorter
+            // todo: shorter
 
-				if (key == "taxonid") {
-					params[key] = params[key].split(",")
-				}
-                if (key == "datasetid") {
-                    params[key] = params[key].split(",")
+            if (key == "taxonid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "datasetid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "instituteid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "nodeid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "areaid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "countryid") {
+                params[key] = params[key].split(",")
+            }
+            if (key == "hasextensions") {
+                let o = {
+                    MeasurementOrFact: null,
+                    DNADerivedData: null
                 }
-                if (key == "instituteid") {
-                    params[key] = params[key].split(",")
-                }
-                if (key == "nodeid") {
-                    params[key] = params[key].split(",")
-                }
-                if (key == "areaid") {
-                    params[key] = params[key].split(",")
-                }
-                if (key == "countryid") {
-                    params[key] = params[key].split(",")
-                }
-                return params
-            }, {})
+                let extensions = params[key].split(",");
+                extensions.forEach(extension => {
+                    o[extension] = true;
+                });
+                params[key] = o;
+            }
+            return params
+        }, {});
+        return result;
     } else {
         return null
     }
@@ -207,7 +230,8 @@ const criteriaFromSpec = function(spec) {
         redlist: spec.redlist,
         hab: spec.hab,
         flags: spec.flags,
-        exclude: spec.exclude
+        exclude: spec.exclude,
+        hasextensions: spec.hasextensions
     }
 }
 
@@ -233,7 +257,8 @@ const specFromQuery = function(query) {
         redlist: query.redlist,
         hab: query.hab,
         flags: query.flags,
-        exclude: query.exclude
+        exclude: query.exclude,
+        hasextensions: query.hasextensions
     }
 
 	let taxonPromises = []
