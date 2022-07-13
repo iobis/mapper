@@ -99,7 +99,8 @@
                         <p>
                             <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
                         </p>
-                        <p>Select extensions to include:
+                        <br/>
+                        <p>Select extensions to include. Note that including extensions will cause your download to take more time.
                         <br/>
                         <form>
                         <label class="checkbox-inline"><input v-model="store.MeasurementOrFact" type="checkbox" id="mof" name="mof">(Extended)MeasurementOrFact</label>
