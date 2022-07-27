@@ -107,9 +107,21 @@
                         <label class="checkbox-inline"><input v-model="store.DNADerivedData" type="checkbox" id="dna" name="dna">DNADerivedData</label>
                         </form>
                         </p>
-                        <div class="alert alert-danger" v-if="downloadRecords > 2000000">
-                            <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please go to <a href="https://obis.org/manual/access/" target="_blank">https://obis.org/manual/access/</a> for a faster download of the entire OBIS dataset.</p>
+                        <br/>
+                        
+                        <div>
+                            <div class="alert alert-danger" v-if="downloadRecords > 2000000">
+                                <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please go to <a href="https://obis.org/manual/access/" target="_blank">https://obis.org/manual/access/</a> for a faster download of the entire OBIS dataset.</p>
+                            </div>
+                            <br/>
+                    </div>
+
+                        <div class="alert alert-warning mt-3">
+                            <p style="font-size: 1.5em;">We want to hear from you!</p>
+                            <p>Help us improve your experience by taking our survey on data quality control in OBIS. The survey consists of 28 questions and shows a progress bar for your convenience (max. 10 minutes).</p>
+                            <p><a href="https://www.surveymonkey.com/r/F8QPMCK" target="_blank">Open the survey</a></p>
                         </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
