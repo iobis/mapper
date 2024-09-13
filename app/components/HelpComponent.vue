@@ -17,6 +17,7 @@
 					<div v-if="result != null" class="alert alert-success">{{ result }}</div>
 					<button type="button" class="btn btn-primary" v-on:click="send()">Send</button>
 				</form>
+				<p>For a video demonstration of how to use this tool see: <https://youtu.be/9PSPEtqgjUI?si=dFX77T4cb8uKNqhX> </p>
 			</div>
 		</div>
 	</div>
