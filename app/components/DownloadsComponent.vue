@@ -92,7 +92,7 @@
                     if (download.s3path) {
                         window.open(config["s3"] + download.s3path)
                     } else {
-                        window.open(config["files"] + download.id + ".zip")
+                        window.open(config["s3"] + "downloads/" + download.id + ".zip")
                     }
                 }
             },
@@ -100,7 +100,7 @@
                 if (download.s3path) {
                     copy(config["s3"] + download.s3path)
                 } else {
-                    copy(config["files"] + download.id + ".zip")
+                    copy(config["s3"] + "downloads/" + download.id + ".zip")
                 }
                 util.toast("File URL copied", {
                     type: "success",
