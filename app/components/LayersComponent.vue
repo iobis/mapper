@@ -97,28 +97,28 @@
                     <div class="modal-body">
                         <p>Please enter your email address. You will receive an e-mail notification once your file is ready. Make sure to check your spam folder. Separate multiple e-mail addresses with a semicolon.</p>
                         <p>
-                            <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email">
+                            <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email" :disabled="downloadRecords > maxDownloadRecords">
                         </p>
                         <br/>
                         <p>Select extensions to include. <b>Note that including extensions will cause your download to take more time.</b>
                         <br/>
                         <form>
-                        <label class="checkbox-inline"><input v-model="store.MeasurementOrFact" type="checkbox" id="mof" name="mof">(Extended)MeasurementOrFact</label>
-                        <label class="checkbox-inline"><input v-model="store.DNADerivedData" type="checkbox" id="dna" name="dna">DNADerivedData</label>
+                        <label class="checkbox-inline"><input v-model="store.MeasurementOrFact" type="checkbox" id="mof" name="mof" :disabled="downloadRecords > maxDownloadRecords">(Extended)MeasurementOrFact</label>
+                        <label class="checkbox-inline"><input v-model="store.DNADerivedData" type="checkbox" id="dna" name="dna" :disabled="downloadRecords > maxDownloadRecords">DNADerivedData</label>
                         </form>
                         </p>
                         <br/>
                         
                         <div>
-                            <div class="alert alert-danger" v-if="downloadRecords > 2000000">
-                                <p>You are about to download {{ downloadRecords | number }} records, which can take a while. Are you sure? Please go to <a href="https://obis.org/manual/access/" target="_blank">https://obis.org/manual/access/</a> for a faster download of the entire OBIS dataset.</p>
+                            <div class="alert alert-danger" v-if="downloadRecords > maxDownloadRecords">
+                                <p>You requested a download of {{ downloadRecords | number }} occurrence records, which exceeds the maximum allowed download size of {{ maxDownloadRecords | number }} records from the mapper. Please go to <a href="https://obis.org/data/access/" target="_blank">https://obis.org/data/access/</a> for other options, including a download of the entire OBIS database as parquet.</p>
                             </div>
                             <br/>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">No, thanks</button>
-                        <button type="button" class="btn btn-primary" :disabled="!validateEmail(store.email)" v-on:click="confirmDownload()" data-dismiss="modal">Yes, proceed</button>
+                        <button type="button" class="btn btn-primary" :disabled="!validateEmail(store.email) || downloadRecords > maxDownloadRecords" v-on:click="confirmDownload()" data-dismiss="modal">Yes, proceed</button>
                     </div>
                 </div>
             </div>
@@ -131,13 +131,15 @@
 <script>
 import { store } from "../store"
 import util from "../util"
+import config from "../config"
 
 export default {
 	data() {
 		return {
 			store: store,
             downloadRecords: null,
-            downloadLayer: null
+            downloadLayer: null,
+            maxDownloadRecords: config.maxDownloadRecords
 		}
 	},
 	methods: {

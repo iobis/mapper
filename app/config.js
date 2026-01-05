@@ -13,5 +13,6 @@ module.exports = {
     download: "https://api.obis.org/download2/",
     files: "https://download.obis.org/",
     s3: "https://obis-datasets.ams3.digitaloceanspaces.com/",
-    portal: "https://obis.org/"
+    portal: "https://obis.org/",
+    maxDownloadRecords: 20000000
 }
