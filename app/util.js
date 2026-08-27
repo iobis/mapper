@@ -388,6 +388,20 @@ const tileUrl = function(criteria) {
 	return url
 }
 
+const areaTypeLabels = {
+    iho: "IHO",
+    lme: "LME",
+    ebsa: "EBSA",
+    mwhs: "World Heritage"
+}
+
+const areaTypeLabel = function(type) {
+    if (!type) {
+        return ""
+    }
+    return areaTypeLabels[String(type).toLowerCase()] || ""
+}
+
 module.exports = {
     createQuery,
     makeScales,
@@ -398,5 +412,6 @@ module.exports = {
 	toast,
 	generatePopup,
 	tileUrl,
-    getColorLabels
+    getColorLabels,
+    areaTypeLabel
 }

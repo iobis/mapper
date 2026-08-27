@@ -163,7 +163,7 @@
                             <li v-for="(item, index) in props.items" :class="{active:props.activeIndex===index}">
                                 <a role="button" @click="props.select(item)">
                                     {{ item.name }}
-                                    <br/><span class="smaller">Area ID: {{ item.id }}</span>
+                                    <br/><span class="smaller">Area ID: {{ item.id }}<span v-if="areaTypeLabel(item.type)"> ({{ areaTypeLabel(item.type) }})</span></span>
                                 </a>
                             </li>
                         </template>
@@ -182,7 +182,7 @@
                     </tr>
                     <tr v-for="(area, index) in criteria.areas" v-on:click="removeArea(index)" class="clickable">
                         <td>{{ area.name }}</td>
-                        <td>{{ area.id }}</td>
+                        <td>{{ area.id }}<span v-if="areaTypeLabel(area.type)"> ({{ areaTypeLabel(area.type) }})</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -351,6 +351,7 @@
 
 <script>
 import api from "../api"
+import util from "../util"
 import { store } from "../store"
 import ColorPicker from "./ColorPicker.vue"
 import { Typeahead } from "uiv"
@@ -561,6 +562,9 @@ export default {
                 done(res)
             })
         },
+        areaTypeLabel: function(type) {
+            return util.areaTypeLabel(type)
+        },
         completeCountry: function(input, done) {
             api.completeCountry(input).then(res => {
                 done(res)
@@ -606,7 +610,8 @@ export default {
         selectArea: function(area) {
             this.criteria.areas.push({
                 "id": area.id,
-                "name": area.name
+                "name": area.name,
+                "type": area.type
             })
             this.$nextTick(function() {
                 this.$refs.areaInput.value = ""

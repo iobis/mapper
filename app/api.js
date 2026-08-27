@@ -2,6 +2,8 @@ const axios = require("axios")
 const util = require("./util.js")
 const config = require("./config.js")
 
+let areasPromise = null
+
 export default {
     fetch(criteria) {
         let q = util.createQuery(criteria)
@@ -69,10 +71,34 @@ export default {
             .then((response) => Promise.resolve(response.data))
             .catch((error) => Promise.reject(error))
     },
+    getAreas() {
+        if (!areasPromise) {
+            areasPromise = axios.get(config.api + "area")
+                .then((response) => Promise.resolve(response.data.results))
+                .catch((error) => {
+                    areasPromise = null
+                    return Promise.reject(error)
+                })
+        }
+        return areasPromise
+    },
     completeArea(input) {
         let url = config.api + "area/complete/" + input
-        return axios.get(url)
-            .then((response) => Promise.resolve(response.data))
+        return Promise.all([
+            axios.get(url),
+            this.getAreas()
+        ])
+            .then(([response, areas]) => {
+                let typeById = {}
+                areas.forEach(function(area) {
+                    typeById[String(area.id)] = area.type
+                })
+                return response.data.map(function(item) {
+                    return Object.assign({}, item, {
+                        type: typeById[String(item.id)]
+                    })
+                })
+            })
             .catch((error) => Promise.reject(error))
     },
     completeCountry(input) {
