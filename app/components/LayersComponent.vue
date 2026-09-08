@@ -99,9 +99,11 @@
                         <p>
                             <input type="email" class="form-control" placeholder="E-mail address" v-model="store.email" :disabled="downloadRecords > maxDownloadRecords">
                         </p>
+                        <!--
                         <div class="alert alert-warning">
                             Email notification is currently not operational. Keep this window open to see the download status and a download link.
                         </div>
+                        -->
                         <br/>
                         <p>Select extensions to include. <b>Note that including extensions will cause your download to take more time.</b>
                         <br/>
